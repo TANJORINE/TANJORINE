@@ -11,9 +11,15 @@ const router = createRouter({
       component: HomeView
     },
     {
+<<<<<<< HEAD
       path: '/exchangerate',
       name: 'exchangerate',
       component: ExchangeRateView
+=======
+      path: '/signup',
+      name: 'SignUpview',
+
+>>>>>>> ff71531451f33ab80d80359ab43507eded7d6430
     }
     
   ]
