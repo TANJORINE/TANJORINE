@@ -8,7 +8,10 @@
                     </div>
                 </option>
             </select>
-            <input @change="changeCost1" @input="changeCost1" 
+            <!-- <input @change="changeCost1(inputcost1*cost1.deal_bas_r.replace(',', '')/cost2.deal_bas_r.replace(',', '')/(cost1.cur_unit.includes('(')!==-1?100:1))" 
+            type="text" v-model.number="inputcost1"> -->
+            <!-- <input @change="changeCost1(inputcost1*cost1.deal_bas_r.replace(',', '')/cost2.deal_bas_r.replace(',', '')*(cost1.cur_unit.includes('(')!==-1?1:100))"  -->
+            <input @change="changeCost1" 
             type="text" v-model.number="inputcost1">
             <div v-if="cost1">
                 <div v-if="cost1 === cost2">
@@ -31,7 +34,8 @@
                     </div>
                 </option>
             </select>
-            <input @change="changeCost2" @input="changeCost1" 
+            <!-- <input @change="changeCost2(inputcost2*cost2.deal_bas_r.replace(',', '')/cost1.deal_bas_r.replace(',', '')*(cost2.cur_unit.includes('(')!==-1?1:100))" -->
+            <input @change="changeCost2" 
             type="text" v-model.number="inputcost2">
             <div v-if="cost2">
                 <div v-if="cost1 === cost2">
@@ -59,23 +63,28 @@ const inputcost1 = ref(0)
 const inputcost2 = ref(0)
 
 const changeCost1 = function() {
-    // inputcost2.value = inputcost1.value*cost1.value.deal_bas_r.replace(',', '')/cost2.value.deal_bas_r.replace(',', '')*(cost1.value.cur_unit.includes('(')?1:100)
-    if ((cost1.value.cur_unit.includes('(') === false) && cost2.value.cur_unit.includes('(') === true ) {  // 일본, 인도네시아 x
-        inputcost2.value = inputcost1.value*cost1.value.deal_bas_r.replace(',', '')/cost2.value.deal_bas_r.replace(',', '')*100
-    } else {
-        inputcost2.value = inputcost1.value*cost1.value.deal_bas_r.replace(',', '')/cost2.value.deal_bas_r.replace(',', '')
-    }
-    inputcost2.value = Math.round(inputcost2.value * 100) / 100
+    // console.log(cost1.value.deal_bas_r)
+    // inputcost2.value = inputcost1*cost1.deal_bas_r.replace(',', '')/cost2.deal_bas_r.replace(',', '')*(cost1.cur_unit.includes('(')!==-1?1:100)
+    inputcost2.value = inputcost1.value*cost1.value.deal_bas_r.replace(',', '')/cost2.value.deal_bas_r.replace(',', '')*(cost1.value.cur_unit.includes('(')?1:100)
+
+    // if ((cost1.value.cur_unit.includes('(') === false) && cost2.value.cur_unit.includes('(') === true ) {  // 일본, 인도네시아 x
+    //     inputcost2.value = inputcost1.value*cost1.value.deal_bas_r.replace(',', '')/cost2.value.deal_bas_r.replace(',', '')*100
+    //     console.log(100)
+    // } else {
+    //     inputcost2.value = inputcost1.value*cost1.value.deal_bas_r.replace(',', '')/cost2.value.deal_bas_r.replace(',', '')
+    //     console.log(cost2.value.cur_unit.includes('('))
+    //     console.log(cost1.value.cur_unit.includes('('))
+    //     console.log(cost2.value.cur_unit)
+    //     console.log(200)
+    // }
+
+    // inputcost2.value = value
 }
 
 const changeCost2 = function(value) {
-    // inputcost1.value = inputcost2.value*cost2.value.deal_bas_r.replace(',', '')/cost1.value.deal_bas_r.replace(',', '')*(cost2.value.cur_unit.includes('(')?1:100)
-    if ((cost2.value.cur_unit.includes('(') === false) && cost1.value.cur_unit.includes('(') === true ) {  // 일본, 인도네시아 x
-        inputcost1.value = inputcost1.value*cost2.value.deal_bas_r.replace(',', '')/cost1.value.deal_bas_r.replace(',', '')*100
-    } else {
-        inputcost1.value = inputcost1.value*cost2.value.deal_bas_r.replace(',', '')/cost1.value.deal_bas_r.replace(',', '')
-    }
-    inputcost1.value = Math.round(inputcost1.value * 100) / 100
+    inputcost1.value = inputcost2.value*cost2.value.deal_bas_r.replace(',', '')/cost1.value.deal_bas_r.replace(',', '')*(cost2.value.cur_unit.includes('(')?1:100)
+    // inputcost1.value = value
+    console.log(2)
 }
 
 const currencyUnit1 = computed(() => (cur_nm) => {
@@ -87,21 +96,15 @@ const currencyUnit2 = computed(() => (cur_nm) => {
 })
 
 watch([cost1, cost2], ([newCost1, newCost2]) => {
+    // console.log(cost1.value === null)
+    // console.log(cost2)
     if (cost1.value !== null && cost2.value !== null && inputcost1.value === 0 && inputcost2.value === 0) {
-        inputcost1.value = 1
-        changeCost1()
-    }
-})
 
-watch(cost1, (newCost1) => {
-    if (cost1.value !== null && cost2.value !== null && inputcost1.value !== 0 && inputcost2.value !== 0) {
-        changeCost1()
-    }
-})
-
-watch(cost2, (newCost2) => {
-    if (cost1.value !== null && cost2.value !== null && inputcost1.value !== 0 && inputcost2.value !== 0) {
-        changeCost1()
+        // inputcost1.value = 1
+        // inputcost2.value = changeCost2(inputcost2*cost2.deal_bas_r.replace(',', '')/cost1.deal_bas_r.replace(',', '')/(cost2.cur_unit.includes('(')!==-1?100:1))
+        // console.log(cost2)
+        // console.log(cost2.deal_bas_r)
+        // console.log(cost2.value.deal_bas_r)
     }
 })
 

@@ -20,7 +20,8 @@ def index(request):
         today = str(int(today) - 2)
 
     APIKEY = settings.EXCHANGE_RATE_API_KEY
-    DATE=today # YYYYMMDD
+    # DATE=today # YYYYMMDD
+    DATE = '20231116'
     TYPE='AP01'  # AP01: 환율 / AP02: 대출금리 / AP03: 국제금리
     url = f'https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey={APIKEY}&searchdate={DATE}&data={TYPE}'
 
