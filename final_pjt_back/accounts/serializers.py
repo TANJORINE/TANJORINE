@@ -9,7 +9,7 @@ from django.contrib.auth import get_user_model
 class CustomRegisterSerializer(RegisterSerializer):
     # 추가할 필드들을 정의합니다.
     # User 이름
-    age = serializers.IntegerField(required=False)
+    birth = serializers.DateField(required=False)
     phone = serializers.CharField(max_length=20)
     address = serializers.CharField(max_length=100)
     products = serializers.ListField(child=serializers.CharField(), required=False)
@@ -24,7 +24,7 @@ class CustomRegisterSerializer(RegisterSerializer):
             'email': self.validated_data.get('email', ''),
             'username': self.validated_data.get('username', ''),
             'password1': self.validated_data.get('password1', ''),
-            'age': self.validated_data.get('age', ''),
+            'birth': self.validated_data.get('birth', ''),
             'phone': self.validated_data.get('phone',''),
             'address': self.validated_data.get('address',''),
             'money': self.validated_data.get('money', ''),
@@ -46,5 +46,5 @@ class CustomRegisterSerializer(RegisterSerializer):
 class CustomUserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ('username', 'age', 'phone', 'address', 'products', 'money', 'salary', 'married', 'main_bank', 'save_type')
+        fields = ('username', 'birth', 'phone', 'address', 'products', 'money', 'salary', 'married', 'main_bank', 'save_type')
         read_only_fields = ('username',)

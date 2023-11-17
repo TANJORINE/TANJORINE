@@ -6,7 +6,7 @@ class UserAdmin(admin.ModelAdmin):
 
     list_display = (
         'username',
-        'age',
+        'birth',
         'phone',
         'email',
         'address',
@@ -20,7 +20,7 @@ class UserAdmin(admin.ModelAdmin):
 
     list_display_links = (
         'username',
-        'age',
+        'birth',
         'phone',
         'email',
         'address',

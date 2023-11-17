@@ -1,9 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
 import HomeView from '@/views/HomeView.vue'
+
 import ExchangeRateView from '@/views/ExchangeRateView.vue'
-import SignUpView from '@/views/SignUpView.vue'
 import BankMapView from '@/views/BankMapView.vue'
-import LoginView from '@/views/LoginView.vue'
+
+// 계정 정보관련 View
+import SignUpView from '@/views/accounts/SignUpView.vue'
+import LoginView from '@/views/accounts/LoginView.vue'
+import ProfileView from '@/views/accounts/ProfileView.vue'
+import ShowView from '@/views/products/ShowView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -31,8 +37,17 @@ const router = createRouter({
       path: '/login',
       name: 'LoginView',
       component: LoginView
+    },
+    {
+      path: '/profile',
+      name: 'ProfileView',
+      component: ProfileView
+    },
+    {
+      path: '/show',
+      name: 'show',
+      component: ShowView
     }
-    
   ]
 })
 

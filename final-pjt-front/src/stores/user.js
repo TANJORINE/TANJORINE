@@ -18,6 +18,7 @@ export const useUserStore = defineStore('user', () => {
     url: `http://127.0.0.1:8000/accounts/registration/`,
     data: userData
   }).then(res => {
+    console.log(1)
     const email = userData.email
     const password = userData.password1
     logIn({ email, password })

@@ -19,8 +19,8 @@
                 <input type="text" id="username" v-model="username">
             </div>
             <div>
-                <label for="age">나이 : </label>
-                <input type="number" id="age" v-model="age">
+                <label for="birth">나이 : </label>
+                <input type="date" id="birth" v-model="birth">
             </div>
             <div>
                 <label for="phone">휴대폰 : </label>
@@ -74,7 +74,7 @@ const email = ref(null)
 const password1 = ref(null)
 const password2 = ref(null)
 const username = ref(null)
-const age = ref(null)
+const birth = ref(null)
 const phone = ref(null)
 const address = ref(null)
 const products = ref([])
@@ -89,7 +89,7 @@ const signUp = function () {
         "password1" : password1.value,
         "password2" : password2.value,
         "username"  : username.value,
-        "age"       : age.value,
+        "birth"     : birth.value,
         "phone"     : phone.value,
         "address"   : address.value,
         "products"  : products.value,

@@ -42,7 +42,7 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         data = form.cleaned_data
         email = data.get("email")
         username = data.get("username")
-        age = data.get("age")
+        birth = data.get("birth")
         money = data.get("money")
         salary = data.get("salary")
         product = data.get("products")
@@ -57,8 +57,8 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             user.phone = phone
         if address:
             user.address = address
-        if age:
-            user.age = age
+        if birth:
+            user.birth = birth
         if money:
             user.money = money
         if salary:
@@ -91,7 +91,7 @@ class CustomAccountAdapter(DefaultAccountAdapter):
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)        # Email
     username = models.CharField(max_length=30)         # 이름
-    age = models.IntegerField(blank=True, null=True)                        # 나이
+    birth = models.DateField(blank=True, null=True)                        # 나이
     phone = models.CharField(max_length=20)                                 # 전화번호
     address = models.CharField(max_length=100)                              # 주소
     products = models.TextField(blank=True, null=True)                      # 가입상품
