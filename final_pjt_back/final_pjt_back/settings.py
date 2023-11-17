@@ -70,18 +70,26 @@ SITE_ID = 1
 
 # 사용자 수정
 AUTH_USER_MODEL = 'accounts.User'
-ACCOUNT_EMAIL_REQUIRED = False
+# 이메일 로그인
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# 이메일 필수사항
+ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = None
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
+    'DEFAULT_PERMISSIONS_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    
 }
 
 # REST-AUTH 회원가입 기본 Serailizer 재정의
 REST_AUTH = {
 'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
+'USER_DETAILS_SERIALIZER': 'accounts.serializers.CustomUserDetailsSerializer',
 }
 
 ACCOUNT_ADAPTER = 'accounts.models.CustomAccountAdapter'
@@ -166,7 +174,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 

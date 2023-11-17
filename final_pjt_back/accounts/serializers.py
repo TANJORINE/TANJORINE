@@ -1,10 +1,11 @@
 from rest_framework import serializers
 from allauth.account import app_settings as allauth_settings
-from allauth.utils import get_username_max_length
 from allauth.account.adapter import get_adapter
 from .models import User
 from dj_rest_auth.registration.serializers import RegisterSerializer
+from django.contrib.auth import get_user_model
 
+# User Regist 시리얼라이져 (기본 allauth 시리얼라이져 참조)
 class CustomRegisterSerializer(RegisterSerializer):
     # 추가할 필드들을 정의합니다.
     # User 이름
@@ -40,3 +41,10 @@ class CustomRegisterSerializer(RegisterSerializer):
         adapter.save_user(request, user, self)
         self.custom_signup(request, user)
         return user
+
+# User Detail 시리얼라이져
+class CustomUserDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ('username', 'age', 'phone', 'address', 'products', 'money', 'salary', 'married', 'main_bank', 'save_type')
+        read_only_fields = ('username',)
