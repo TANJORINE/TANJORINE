@@ -12,7 +12,7 @@
             type="text" v-model.number="inputCost1">
             <div v-if="country1">
                 <div v-if="country1 === country2">
-                    <p>1 {{ currencyUnit1(country1.cur_nm) }}</p>
+                    <p>{{ inputCost1 }} {{ currencyUnit1(country1.cur_nm) }}</p>
                 </div>
                 <div v-else>
                     <p>{{ Math.round(inputCost1 * 100) / 100 }} {{ currencyUnit1(country1.cur_nm) }}</p>
@@ -35,7 +35,7 @@
             type="text" v-model.number="inputCost2">
             <div v-if="country2">
                 <div v-if="country1 === country2">
-                    <p>1 {{ currencyUnit2(country2.cur_nm) }}</p>
+                    <p>{{ inputCost1 }} {{ currencyUnit2(country2.cur_nm) }}</p>
                 </div>
                 <div v-else>
                     <p>{{ Math.round(inputCost2 * 100) / 100 }} {{ currencyUnit2(country2.cur_nm) }}</p>
@@ -77,6 +77,10 @@ const changeCost2 = function() {
     } else {
         inputCost1.value = inputCost1.value*country2.value.deal_bas_r.replace(',', '')/country1.value.deal_bas_r.replace(',', '')
     }
+    // 국가1 = 국가2 -> 국가1의 inputCost1 출력되도록 & inputCost2 값 변경되면 inputCost1 변경
+    if ((country1.value === country2.value) && (inputCost1.value !== inputCost2.value)) {
+        inputCost1.value = inputCost2.value
+    }
     inputCost1.value = Math.round(inputCost1.value * 100) / 100
 }
 
@@ -90,6 +94,12 @@ const currencyUnit2 = computed(() => (cur_nm) => {
     return cur_nm.split(' ')[1]?cur_nm.split(' ')[1]:cur_nm
 })
 
+// const sameValue = function() {
+//     watch(inputCost2, (newInputCost2) => {
+//         inputCost1.value = inputCost2.value
+//         console.log('samevalue-watch')
+//     })
+// }
 
 // 초기화면(국가, 금액 설정 x)에서 국가 두개 선택시 [국가1, 금액:1], [국가2, 금액:계산된금액] 뜨도록
 watch([country1, country2], ([newCountry1, newCountry2]) => {
