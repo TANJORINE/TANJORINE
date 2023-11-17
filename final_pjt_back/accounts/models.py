@@ -30,6 +30,7 @@ class UserManager(BaseUserManager):
         ex.setdefault('is_superuser', True)   
         return self._create_user(username, email, password, **ex)
     
+
 class CustomAccountAdapter(DefaultAccountAdapter):
     def save_user(self, request, user, form, commit=True):
         """
