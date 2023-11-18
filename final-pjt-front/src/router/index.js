@@ -2,8 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import HomeView from '@/views/HomeView.vue'
 
-import ExchangeRateView from '@/views/ExchangeRateView.vue'
-import BankMapView from '@/views/BankMapView.vue'
+import ExchangeRateView from '@/views/exchange_rate/ExchangeRateView.vue'
+import BankMapView from '@/views/maps/BankMapView.vue'
 
 // 계정 정보관련 View
 import SignUpView from '@/views/accounts/SignUpView.vue'
@@ -19,7 +19,7 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/exchangerate',
+      path: '/exchange_rate',
       name: 'exchangeRate',
       component: ExchangeRateView
     },

@@ -1,35 +1,22 @@
 <template>
-    <!-- <input v-model="keyword" @keyup.enter="search" placeholder="검색어를 입력하세요" /> -->
-    <select v-model="siDo" @change="changeSido" name="sido" id="sido">
-        <!-- <option selected>시/도</option> -->
-        <option v-for="sido in store.siDo" :value="sido">
-            <p>{{ sido.name }}</p>
-        </option>
-    </select>
-    
-    <!-- {{ store.siGunGu }} -->
-    <select v-model="siGunGu" name="sigungu" id="sigungu">
-    <!-- <select name="sigungu" id="sigungu"> -->
-        <!-- <div v-if="sidoCode !== null"> -->
-            <!-- <option v-for="sigungu in storeSiGunGu" :value="sigungu"> -->
-            <option v-for="sigungu in store.siGunGu" :value="sigungu">
-                <!-- <p>{{ sigungu.name.split(' ')[1] }}</p> -->
-                <p>{{ sigungu }}</p>
-            </option>
-        <!-- </div> -->
-        <!-- <div v-else> -->
-            <!-- <option value=""> -->
-            <!-- </option> -->
-        <!-- </div> -->
-    </select>
-    <select name="bank" id="bank">
-        <!-- <option v-for="" :value=""> -->
-
-        <!-- </option> -->
-    </select>
-    <!-- <button @click="search( siGunGu.name.split(' ')[1] + ' ' + '은행')">검색</button> -->
-    <button @click="search(siDo.name + ' ' + siGunGu + ' ' + '은행')">검색</button>
-    <div id="map"></div>
+  <select v-model="siDo" @change="changeSido" name="sido" id="sido">
+    <option v-for="sido in store.siDo" :value="sido">
+      <p>{{ sido.name }}</p>
+    </option>
+  </select>
+  
+  <select v-model="siGunGu" name="sigungu" id="sigungu">
+    <option v-for="sigungu in store.siGunGu" :value="sigungu">
+      <p>{{ sigungu }}</p>
+    </option>
+  </select>
+  <select v-model="bank" name="bank" id="bank">
+      <option v-for="bank in store.banks" :value="bank">
+        <p>{{ bank }}</p>
+      </option>
+  </select>
+  <button @click="search(siDo.name + ' ' + siGunGu + ' ' + bank)">검색</button>
+  <div id="map"></div>
 </template>
 
 <script>
@@ -43,24 +30,21 @@ export default {
     };
   },
 
-
   mounted() {
     // 카카오맵 초기화
     if (window.kakao && window.kakao.maps) {
         this.loadMap()
-        
     } else {
         this.loadScript()
     }
   },
 
-
   methods: {
     loadMap() {
         const container = document.getElementById("map");
         const options = {
-        center: new window.kakao.maps.LatLng(37.5665, 126.9780), // 서울시청 좌표
-        level: 5,
+          center: new window.kakao.maps.LatLng(37.5665, 126.9780), // 서울시청 좌표
+          level: 7,
         };
         this.map = new window.kakao.maps.Map(container, options);
         this.infowindow = new kakao.maps.InfoWindow({ zIndex: 1 })
@@ -84,7 +68,6 @@ export default {
 
       // 키워드 검색
       const ps = new kakao.maps.services.Places();
-    //   const keyword = siGunGu.value.name
       ps.keywordSearch(keyword, this.placesSearchCB);
       console.log(keyword)
     },
@@ -126,25 +109,19 @@ export default {
 </script>
 <script setup>
 import { useBankMapStore } from '@/stores/bankMap'
-import { computed } from '@vue/reactivity';
 import { ref, onMounted } from 'vue'
 
-// import { onMounted } from 'vue';
 const store = useBankMapStore()
 const siDo = ref(null)
-// const siGunGu = ref(null)
 
 const changeSido = function() {
-    // console.log(sidoCode)
     store.getSiGunGu(siDo.value.code.slice(0, 2))
-    // store.dispatch('getSiGunGu', sidoCode.value)
 }
-
-
 
 onMounted(() => {
     store.getSiDo()
     store.resetSiGunGu()
+    store.getBank()
 })
 </script>
 
@@ -153,5 +130,8 @@ onMounted(() => {
 #map {
   width: 100%;
   height: 400px;
+}
+select{
+  width: 200px;
 }
 </style>

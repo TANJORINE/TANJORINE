@@ -19,8 +19,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('exchangerate/', include('exchange_rate.urls')),  # 환율
-    path('maps/', include('maps.urls')),  # 환율
+    path('exchange_rate/', include('exchange_rate.urls')),  # 환율
+    path('maps/', include('maps.urls')),  # 지도
     path('accounts/', include('dj_rest_auth.urls')),
     path('accounts/registration/', include('dj_rest_auth.registration.urls')),
     path('products/', include('products.urls'))

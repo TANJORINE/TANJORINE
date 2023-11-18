@@ -5,11 +5,9 @@ import data from '@/assets/data.json'
 
 
 export const useBankMapStore = defineStore('bankMap', () => {
-    const API_URL = import.meta.env.VITE_API_URL
-
     const siDo = ref([])
     const siGunGu = ref([])
-    const bank = ref([])
+    const banks = ref([])
 
     const resetSiGunGu = function() {
         siGunGu.value = []
@@ -37,7 +35,7 @@ export const useBankMapStore = defineStore('bankMap', () => {
         .then((res) => {
             siGunGu.value = []
             const siGunGuData = res.data.regcodes
-            console.log(siGunGuData)
+            // console.log(siGunGuData)
             for (let data of siGunGuData) {
                 // console.log(data.name)
                 const sgg = data.name.split(' ')[1]
@@ -46,24 +44,26 @@ export const useBankMapStore = defineStore('bankMap', () => {
                     siGunGu.value.push(sgg);
                 }
             }
-            console.log(siGunGu.value)
+            // console.log(siGunGu.value)
         })
         .catch((err) => {
             console.log(err)
         })
     }
 
-    // const getBank = function() {
+    const getBank = function() {
+        const bankList = data
+        for (let bk of bankList) {
+            const bank_nm = bk.fields.kor_co_nm
+            if (!banks.value.includes(bank_nm) && bank_nm !== undefined) {
+                banks.value.push(bank_nm);
+            }
+        }
+    }
 
-        // axios({
-        //     method: 'GET',
-        //     url: ``
-        // })
-    // }
+    
 
-    const bankList = data
-    console.log(bankList)
 
-    return { siDo, getSiDo, siGunGu, getSiGunGu, bankList, resetSiGunGu }
+    return { siDo, getSiDo, siGunGu, getSiGunGu, resetSiGunGu, banks, getBank }
 
 }, { persist: true })
