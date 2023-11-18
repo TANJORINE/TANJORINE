@@ -43,6 +43,18 @@ export const useUserStore = defineStore('user', () => {
       console.log(err)
     })
   }
+  // 로그아웃
+  const logOut = function (loginData) {
+    axios({
+      method: 'post',
+      url: `http://127.0.0.1:8000/accounts/logout/`,
+    }).then(() => {
+      token.value = null
+      router.push({ name: 'home' })
+    }).catch(err => {
+      console.log(err)
+    })
+  }
 
-  return { signUp, logIn, token, isLogin }
+  return { signUp, logIn, logOut, token, isLogin }
 }, { persist: true })

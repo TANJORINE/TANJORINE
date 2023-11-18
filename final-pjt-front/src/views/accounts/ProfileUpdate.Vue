@@ -19,7 +19,7 @@ import { ref, onMounted } from 'vue';
 import { useUserStore } from '@/stores/user'
 import axios from 'axios';
 const store = useUserStore()
-const info = ref(null)
+
 const username = ref(null)
 const birth = ref(null)
 const phone = ref(null)
@@ -29,29 +29,7 @@ const salary = ref(null)
 const married = ref(false)
 const main_bank = ref(null)
 const save_type = ref(null)
-onMounted(() => {
-    axios({
-      method: 'get',
-      url: `http://127.0.0.1:8000/accounts/user/`,
-      headers: {
-          Authorization: `Token ${store.token}`
-      }
-    }).then((res) => {
-        // 프로필 수정 전송용
-        info.value = res.data
-        // 프로필 화면 표시용
-        username.value  = info.value.username
-        birth.value     = info.value.birth
-        phone.value     = info.value.phone
-        address.value   = info.value.address
-        money.value     = info.value.money
-        salary.value    = info.value.salary
-        married.value   = info.value.married
-        main_bank.value = info.value.main_bank
-        save_type.value = info.value.save_type
-    })
 
-})
 
 </script>
 

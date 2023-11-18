@@ -11,7 +11,7 @@
       </div>
       <div :class="{ checkLogin : !store.isLogin }">
         <RouterLink :to="{ name: 'ProfileView' }" >프로필</RouterLink>
-        <RouterLink :to="{ name: 'SignUpView' }" >로그아웃</RouterLink>
+        <Button class="btn" @click="store.logOut">로그아웃</Button>
         <RouterLink :to="{ name: 'show'}">금융상품정보</RouterLink>
       </div>
     </nav>
@@ -23,6 +23,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 const store = useUserStore()
+
 </script>
 
 <style scoped>
