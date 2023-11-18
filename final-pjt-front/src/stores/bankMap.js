@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { defineStore } from 'pinia'
+import data from '@/assets/data.json'
 
 
 export const useBankMapStore = defineStore('bankMap', () => {
@@ -9,6 +10,10 @@ export const useBankMapStore = defineStore('bankMap', () => {
     const siDo = ref([])
     const siGunGu = ref([])
     const bank = ref([])
+
+    const resetSiGunGu = function() {
+        siGunGu.value = []
+    }
 
     const getSiDo = function() {
         axios({
@@ -30,20 +35,35 @@ export const useBankMapStore = defineStore('bankMap', () => {
             url: `https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=${code}*00000`
         })
         .then((res) => {
-            siGunGu.value = res.data.regcodes
+            siGunGu.value = []
+            const siGunGuData = res.data.regcodes
+            console.log(siGunGuData)
+            for (let data of siGunGuData) {
+                // console.log(data.name)
+                const sgg = data.name.split(' ')[1]
+                // console.log(sgg!==undefined)
+                if (!siGunGu.value.includes(sgg) && sgg!==undefined) {
+                    siGunGu.value.push(sgg);
+                }
+            }
+            console.log(siGunGu.value)
         })
         .catch((err) => {
             console.log(err)
         })
     }
 
-    const getBank = function() {
-        axios({
-            method: 'GET',
-            url: ``
-        })
-    }
+    // const getBank = function() {
 
-    return { siDo, getSiDo, siGunGu, getSiGunGu }
+        // axios({
+        //     method: 'GET',
+        //     url: ``
+        // })
+    // }
+
+    const bankList = data
+    console.log(bankList)
+
+    return { siDo, getSiDo, siGunGu, getSiGunGu, bankList, resetSiGunGu }
 
 }, { persist: true })

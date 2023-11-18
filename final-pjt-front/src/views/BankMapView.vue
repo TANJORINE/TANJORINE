@@ -1,18 +1,34 @@
 <template>
-    <input v-model="keyword" @keyup.enter="search" placeholder="검색어를 입력하세요" />
-    <select v-model="sidoCode" @change="changeSido" name="sido" id="sido">
-        <option v-for="sido in store.siDo" :value="sido.code.slice(0, 2)">
-        <p>{{ sido.name }}</p>
+    <!-- <input v-model="keyword" @keyup.enter="search" placeholder="검색어를 입력하세요" /> -->
+    <select v-model="siDo" @change="changeSido" name="sido" id="sido">
+        <!-- <option selected>시/도</option> -->
+        <option v-for="sido in store.siDo" :value="sido">
+            <p>{{ sido.name }}</p>
         </option>
     </select>
     
-    <select name="sigungu" id="sigungu">
-        <option v-for="sido in store.siDo" :value="sido.code.slice(0, 2)">
-        <p>{{ sido.name }}</p>
-        </option>
+    <!-- {{ store.siGunGu }} -->
+    <select v-model="siGunGu" name="sigungu" id="sigungu">
+    <!-- <select name="sigungu" id="sigungu"> -->
+        <!-- <div v-if="sidoCode !== null"> -->
+            <!-- <option v-for="sigungu in storeSiGunGu" :value="sigungu"> -->
+            <option v-for="sigungu in store.siGunGu" :value="sigungu">
+                <!-- <p>{{ sigungu.name.split(' ')[1] }}</p> -->
+                <p>{{ sigungu }}</p>
+            </option>
+        <!-- </div> -->
+        <!-- <div v-else> -->
+            <!-- <option value=""> -->
+            <!-- </option> -->
+        <!-- </div> -->
     </select>
-    <select name="bank" id="bank"></select>
-    <button @click="search">검색</button>
+    <select name="bank" id="bank">
+        <!-- <option v-for="" :value=""> -->
+
+        <!-- </option> -->
+    </select>
+    <!-- <button @click="search( siGunGu.name.split(' ')[1] + ' ' + '은행')">검색</button> -->
+    <button @click="search(siDo.name + ' ' + siGunGu + ' ' + '은행')">검색</button>
     <div id="map"></div>
 </template>
 
@@ -58,7 +74,7 @@ export default {
         document.head.appendChild(scriptTag)   
     },
 
-    search() {
+    search(keyword) {
       // 기존 마커 제거
       this.markers.forEach((marker) => {
         marker.setMap(null);
@@ -68,7 +84,9 @@ export default {
 
       // 키워드 검색
       const ps = new kakao.maps.services.Places();
-      ps.keywordSearch(this.keyword, this.placesSearchCB);
+    //   const keyword = siGunGu.value.name
+      ps.keywordSearch(keyword, this.placesSearchCB);
+      console.log(keyword)
     },
 
     placesSearchCB(data, status, pagination) {
@@ -108,17 +126,25 @@ export default {
 </script>
 <script setup>
 import { useBankMapStore } from '@/stores/bankMap'
+import { computed } from '@vue/reactivity';
 import { ref, onMounted } from 'vue'
+
 // import { onMounted } from 'vue';
 const store = useBankMapStore()
-const sidoCode = ref(null)
+const siDo = ref(null)
+// const siGunGu = ref(null)
 
 const changeSido = function() {
-    store.dispatch('getSiGunGu', sidoCode.value)
+    // console.log(sidoCode)
+    store.getSiGunGu(siDo.value.code.slice(0, 2))
+    // store.dispatch('getSiGunGu', sidoCode.value)
 }
+
+
 
 onMounted(() => {
     store.getSiDo()
+    store.resetSiGunGu()
 })
 </script>
 
