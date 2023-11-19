@@ -6,10 +6,13 @@ import ExchangeRateView from '@/views/ExchangeRateView.vue'
 import BankMapView from '@/views/BankMapView.vue'
 
 // 계정 정보관련 View
-import SignUpView from '@/views/accounts/SignUpView.vue'
-import LoginView from '@/views/accounts/LoginView.vue'
-import ProfileView from '@/views/accounts/ProfileView.vue'
-import ShowView from '@/views/products/ShowView.vue'
+import SignUpView from '@/views/accounts/SignUpView.vue';
+import LoginView from '@/views/accounts/LoginView.vue';
+import ProfileView from '@/views/accounts/ProfileView.vue';
+import ProfileUpdateView from '@/views/accounts/ProfileUpdateView.vue';
+
+// 금융 상품관련
+import ShowView from '@/views/products/ShowView.vue';
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -42,6 +45,11 @@ const router = createRouter({
       path: '/profile',
       name: 'ProfileView',
       component: ProfileView
+    },
+    {
+      path: '/profileUpdate',
+      name: 'ProfileUpdate',
+      component: ProfileUpdateView,
     },
     {
       path: '/show',

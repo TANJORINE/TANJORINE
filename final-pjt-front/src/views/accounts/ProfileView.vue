@@ -10,16 +10,18 @@
         <p>결혼 :{{ married }}</p>
         <p>주거래은행 : {{ main_bank }}</p>
         <p>저축 성향 : {{ save_type }}</p>
-        <button class="btn btn-warning">개인 정보 수정</button>
+        <RouterLink :to="{ name: 'ProfileUpdate', props:data}">수정</RouterLink>
     </div>  
 </template>
 
 <script setup>
+import { RouterLink } from 'vue-router'
 import { ref, onMounted } from 'vue';
 import { useUserStore } from '@/stores/user'
 import axios from 'axios';
+
 const store = useUserStore()
-const info = ref(null)
+const data = ref(null)
 const username = ref(null)
 const birth = ref(null)
 const phone = ref(null)
@@ -37,22 +39,20 @@ onMounted(() => {
           Authorization: `Token ${store.token}`
       }
     }).then((res) => {
-        // 프로필 수정 전송용
-        info.value = res.data
         // 프로필 화면 표시용
-        username.value  = info.value.username
-        birth.value     = info.value.birth
-        phone.value     = info.value.phone
-        address.value   = info.value.address
-        money.value     = info.value.money
-        salary.value    = info.value.salary
-        married.value   = info.value.married
-        main_bank.value = info.value.main_bank
-        save_type.value = info.value.save_type
+        data.value = res.data
+        username.value  = res.data.username
+        birth.value     = res.data.birth
+        phone.value     = res.data.phone
+        address.value   = res.data.address
+        money.value     = res.data.money
+        salary.value    = res.data.salary
+        married.value   = res.data.married
+        main_bank.value = res.data.main_bank
+        save_type.value = res.data.save_type
     })
 
 })
-
 </script>
 
 <style scoped>
@@ -63,5 +63,9 @@ onMounted(() => {
     }
     .line {
         display: flex;
+    }
+    .btn-box {
+        text-decoration: none;
+        color: black;
     }
 </style>

@@ -44,7 +44,7 @@ export const useUserStore = defineStore('user', () => {
     })
   }
   // 로그아웃
-  const logOut = function (loginData) {
+  const logOut = function () {
     axios({
       method: 'post',
       url: `http://127.0.0.1:8000/accounts/logout/`,

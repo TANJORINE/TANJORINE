@@ -1,19 +1,7 @@
 <template>
     <div>   
-        <h1>회원가입</h1>
-        <form @submit.prevent="signUp">
-            <div>
-                <label for="email">이메일 : </label>
-                <input type="email" id="email" v-model="email">
-            </div>
-            <div>
-                <label for="password1">비밀번호 : </label>
-                <input type="password" id="password1" v-model="password1">
-            </div>
-            <div>
-                <label for="password2">비밀번호 재확인 : </label>
-                <input type="password" id="password2" v-model="password2">
-            </div>
+        <h1>회원 정보 수정</h1>
+        <form @submit.prevent="Update">
             <div>
                 <label for="username">이름 : </label>
                 <input type="text" id="username" v-model="username">
@@ -29,10 +17,6 @@
             <div>
                 <label for="address">주소 : </label>
                 <input type="text" id="address" v-model="address">
-            </div>
-            <div>
-                <label for="products">상품가입 : </label>
-                <input type="text" id="products" v-model="products">
             </div>
             <div>
                 <label for="money">자산 : </label>
@@ -60,47 +44,72 @@
                 <label for="save_type">저축성향 : </label>
                 <input type="number" id="save_type" v-model="save_type">
             </div>
-            <input type="submit" value="SignUp">
+            <input type="submit" value="수정">
         </form>
     </div>  
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useUserStore } from '@/stores/user'
-const store = useUserStore()
+import { useRouter } from 'vue-router';
+import axios from 'axios';
 
-const email = ref(null)
-const password1 = ref(null)
-const password2 = ref(null)
-const username = ref(null)
-const birth = ref(null)
-const phone = ref(null)
-const address = ref(null)
-const products = ref([])
-const money = ref(null)
-const salary = ref(null)
-const married = ref(false)
-const main_bank = ref(null)
-const save_type = ref(null)
-const signUp = function () {
+const store = useUserStore()
+const router = useRouter()
+const username = ref('')
+const birth = ref('')
+const phone = ref('')
+const address = ref('')
+const money = ref('')
+const salary = ref('')
+const married = ref('')
+const main_bank = ref('')
+const save_type = ref('')
+onMounted(() => {
+    axios({
+      method: 'get',
+      url: `http://127.0.0.1:8000/accounts/user/`,
+      headers: {
+          Authorization: `Token ${store.token}`
+      }
+    }).then((res) => {
+        // 프로필 화면 표시용
+        username.value  = res.data.username
+        birth.value     = res.data.birth
+        phone.value     = res.data.phone
+        address.value   = res.data.address
+        money.value     = res.data.money
+        salary.value    = res.data.salary
+        married.value   = res.data.married
+        main_bank.value = res.data.main_bank
+        save_type.value = res.data.save_type
+    })
+})
+
+const Update = function() {
     const userData = {
-        "email"     : email.value,
-        "password1" : password1.value,
-        "password2" : password2.value,
         "username"  : username.value,
         "birth"     : birth.value,
         "phone"     : phone.value,
         "address"   : address.value,
-        "products"  : products.value,
         "money"     : money.value,
         "salary"    : salary.value,
         "married"   : married.value,
         "main_bank" : main_bank.value,
         "save_type" : save_type.value,
     }
-    console.log(userData)
-    store.signUp(userData)
+    axios({
+      method: 'put',
+      url: `http://127.0.0.1:8000/accounts/user/`,
+      headers: {
+          Authorization: `Token ${store.token}`
+      },
+      data: userData
+    }).then((res) => {
+        // 프로필 화면 표시용
+        router.push({ name: 'ProfileView' })
+    })
 }
 </script>
 
