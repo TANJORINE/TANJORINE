@@ -1,16 +1,19 @@
 import { ref } from 'vue'
-import axios from 'axios'
 import { defineStore } from 'pinia'
+import axios from 'axios'
 import data from '@/assets/data.json'
 
 
 export const useBankMapStore = defineStore('bankMap', () => {
+    const API_URL = import.meta.env.VITE_API_URL
+
     const siDo = ref([])
     const siGunGu = ref([])
     const banks = ref([])
 
     const resetSiGunGu = function() {
         siGunGu.value = []
+        banks.value = []
     }
 
     const getSiDo = function() {
@@ -20,7 +23,6 @@ export const useBankMapStore = defineStore('bankMap', () => {
         })
         .then((res) => {
             siDo.value = res.data.regcodes
-            // console.log(res)
         })
         .catch((err) => {
             console.log(err)
@@ -35,16 +37,12 @@ export const useBankMapStore = defineStore('bankMap', () => {
         .then((res) => {
             siGunGu.value = []
             const siGunGuData = res.data.regcodes
-            // console.log(siGunGuData)
             for (let data of siGunGuData) {
-                // console.log(data.name)
                 const sgg = data.name.split(' ')[1]
-                // console.log(sgg!==undefined)
                 if (!siGunGu.value.includes(sgg) && sgg!==undefined) {
                     siGunGu.value.push(sgg);
                 }
             }
-            // console.log(siGunGu.value)
         })
         .catch((err) => {
             console.log(err)
@@ -52,17 +50,34 @@ export const useBankMapStore = defineStore('bankMap', () => {
     }
 
     const getBank = function() {
-        const bankList = data
-        for (let bk of bankList) {
-            const bank_nm = bk.fields.kor_co_nm
-            if (!banks.value.includes(bank_nm) && bank_nm !== undefined) {
-                banks.value.push(bank_nm);
+        /* data.json */
+        // const bankList = data
+        // for (let bk of bankList) {
+        //     const bank_nm = bk.fields.kor_co_nm
+        //     if (!banks.value.includes(bank_nm) && bank_nm !== undefined) {
+        //         banks.value.push(bank_nm);
+        //     }
+        // }
+
+        /* API KEY */
+        axios({
+            method: 'GET',
+            url: `${API_URL}/maps/bank/`
+        })
+        .then((res) => {
+            const bankList = res.data.result.baseList
+            for (let bk of bankList) {
+                const bank_nm = bk.kor_co_nm
+                if (!banks.value.includes(bank_nm) && bank_nm !== undefined) {
+                    banks.value.push(bank_nm);
+                }
             }
-        }
+            console.log(banks.value)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
     }
-
-    
-
 
     return { siDo, getSiDo, siGunGu, getSiGunGu, resetSiGunGu, banks, getBank }
 

@@ -10,6 +10,11 @@ import SignUpView from '@/views/accounts/SignUpView.vue'
 import LoginView from '@/views/accounts/LoginView.vue'
 import ProfileView from '@/views/accounts/ProfileView.vue'
 import ShowView from '@/views/products/ShowView.vue'
+
+// 게시판
+import ArticleView from '@/views/community/ArticleView.vue'
+
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -47,7 +52,22 @@ const router = createRouter({
       path: '/show',
       name: 'show',
       component: ShowView
-    }
+    },
+    {
+      path: '/articles',
+      name: 'articles',
+      component: ArticleView
+    },
+    {
+      path: '/articles/:id',
+      name: 'DetailView',
+      component: DetailView
+    },
+    {
+      path: '/create',
+      name: 'CreateView',
+      component: CreateView
+    },
   ]
 })
 
