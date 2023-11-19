@@ -50,7 +50,7 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
-import { useExchangeRateStore } from '@/stores/exchangerate'
+import { useExchangeRateStore } from '@/stores/exchangeRate'
 
 const store = useExchangeRateStore()
 const country1 = ref(null)
@@ -69,6 +69,7 @@ const changeCost1 = function() {
     inputCost2.value = Math.round(inputCost2.value * 100) / 100
 
 }
+
 
 // 국가1 입력금액 변경
 const changeCost2 = function() {
@@ -94,12 +95,6 @@ const currencyUnit2 = computed(() => (cur_nm) => {
     return cur_nm.split(' ')[1]?cur_nm.split(' ')[1]:cur_nm
 })
 
-// const sameValue = function() {
-//     watch(inputCost2, (newInputCost2) => {
-//         inputCost1.value = inputCost2.value
-//         console.log('samevalue-watch')
-//     })
-// }
 
 // 초기화면(국가, 금액 설정 x)에서 국가 두개 선택시 [국가1, 금액:1], [국가2, 금액:계산된금액] 뜨도록
 watch([country1, country2], ([newCountry1, newCountry2]) => {
@@ -109,12 +104,14 @@ watch([country1, country2], ([newCountry1, newCountry2]) => {
     }
 })
 
+
 // 국가1 변경 -> 국가2 금액 변경
 watch(country1, (newCountry1) => {
     if (country1.value !== null && country2.value !== null && inputCost1.value !== 0) {
         changeCost1()
     }
 })
+
 
 // 국가2 변경 -> 국가2 금액 변경
 watch(country2, (newCountry1) => {
