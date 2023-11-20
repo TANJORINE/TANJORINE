@@ -17,13 +17,6 @@
   </select>
   <button @click="search(siDo.name + ' ' + siGunGu + ' ' + bank)">검색</button>
   <div id="map"></div>
-  <div id="bankList">
-    <ul>
-      <li v-for="(place, index) in searchBank" :key="index" @click="selectPlace(place)">
-        <!-- {{ place.place_name }} - {{ place.address_name }} -->
-      </li>
-    </ul>
-  </div>
 </template>
 
 <script>
@@ -34,7 +27,6 @@ export default {
       map: null,
       markers: [],
       infowindow: null,
-      searchBank: [],
     };
   },
 
@@ -69,83 +61,47 @@ export default {
     search(keyword) {
       // 기존 마커 제거
       this.markers.forEach((marker) => {
-        marker.setMap(null)
-      })
-      this.markers = []
-      this.infowindow.close()
-      this.searchBank = []
+        marker.setMap(null);
+      });
+      this.markers = [];
+      this.infowindow.close();
 
       // 키워드 검색
-      const ps = new kakao.maps.services.Places()
-      ps.keywordSearch(keyword, this.placesSearchCB)
-      // console.log(keyword)
+      const ps = new kakao.maps.services.Places();
+      ps.keywordSearch(keyword, this.placesSearchCB);
+      console.log(keyword)
     },
 
     placesSearchCB(data, status, pagination) {
       if (status === kakao.maps.services.Status.OK) {
-        this.searchBank = data
-        this.displayBanks()
-        // for (let i = 0; i < data.length; i++) {
-        //   this.displayMarker(data[i]);
-        // }
+        for (let i = 0; i < data.length; i++) {
+          this.displayMarker(data[i]);
+        }
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         alert("검색 결과가 없습니다.");
       } else if (status === kakao.maps.services.Status.ERROR) {
-        alert("오류가 발생했습니다.");
+        alert("검색 결과 중 오류가 발생했습니다.");
       }
     },
 
-    displayBanks() {
-      // 기존 목록 제거
-      const bankList = document.getElementById("bankList")
-      while (bankList.firstChild) {
-        bankList.removeChild(bankList.firstChild)
-      }
-
-      // 새로운 목록 추가
-      this.searchBank.forEach((place, index) => {
-        const liTag = document.createElement("li")
-        liTag.textContent = place.place_name
-        liTag.addEventListener("click", () => this.selectPlace(place))
-        bankList.appendChild(liTag)
-      })
-    },
-    selectPlace(place) {
-
-      
+    displayMarker(place) {
       const marker = new kakao.maps.Marker({
-        // map: this.map,
+        map: this.map,
         position: new kakao.maps.LatLng(place.y, place.x),
       });
-
-      // 기존 마커 제거
-      this.markers.forEach((marker) => marker.setMap(null));
-      this.markers = [];
-      this.infowindow.close();
-
-      // 새로운 마커 표시
-      marker.setMap(this.map);
       this.markers.push(marker);
 
-      // 정보창 열기
-      this.infowindow.setContent(`<div style="padding:5px;font-size:12px;">${place.place_name}</div>`);
-      this.infowindow.open(this.map, marker);
+      // 마커에 마우스 이벤트 등록
+      kakao.maps.event.addListener(marker, "mouseover", () => {
+        this.infowindow.setContent(`<div style="padding:5px;font-size:12px;">${place.place_name}</div>`);
+        this.infowindow.open(this.map, marker);
+      });
 
-      // 지도 이동
+      kakao.maps.event.addListener(marker, "mouseout", () => {
+        this.infowindow.close();
+      });
+
       this.map.panTo(new kakao.maps.LatLng(place.y, place.x));
-
-      
-      // // 마커에 마우스 이벤트 등록
-      // kakao.maps.event.addListener(marker, "mouseover", () => {
-      //   this.infowindow.setContent(`<div style="padding:5px;font-size:12px;">${place.place_name}</div>`);
-      //   this.infowindow.open(this.map, marker);
-      // });
-      
-      // kakao.maps.event.addListener(marker, "mouseout", () => {
-      //   this.infowindow.close();
-      // });
-      
-      // this.map.panTo(new kakao.maps.LatLng(place.y, place.x));
     },
   },
 };
@@ -161,8 +117,6 @@ const siDo = ref(null)
 const changeSido = function() {
     store.getSiGunGu(siDo.value.code.slice(0, 2))
 }
-
-console.log(store.banks)
 
 onMounted(() => {
     store.getSiDo()

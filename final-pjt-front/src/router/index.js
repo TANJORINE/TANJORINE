@@ -16,6 +16,9 @@ import ShowView from '@/views/products/ShowView.vue';
 
 // 게시판
 import ArticleView from '@/views/community/ArticleView.vue'
+import DetailView from '@/views/community/DetailView.vue'
+import CreateView from '@/views/community/CreateView.vue'
+import UpdateArticleView from '@/views/community/UpdateArticleView.vue'
 
 
 const router = createRouter({
@@ -66,16 +69,21 @@ const router = createRouter({
       name: 'articles',
       component: ArticleView
     },
-    // {
-    //   path: '/articles/:id',
-    //   name: 'DetailView',
-    //   component: DetailView
-    // },
-    // {
-    //   path: '/create',
-    //   name: 'CreateView',
-    //   component: CreateView
-    // },
+    {
+      path: '/articles/:id',
+      name: 'detail',
+      component: DetailView
+    },
+    {
+      path: '/create',
+      name: 'create',
+      component: CreateView
+    },
+    {
+      path: '/update/:id',
+      name: 'update',
+      component: UpdateArticleView
+    },
   ]
 })
 

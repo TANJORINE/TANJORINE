@@ -10,10 +10,11 @@ export const useCommunityStore = defineStore('community', () => {
   const getArticles = function() {
     axios({
       method: 'GET',
-      url: `${API_URL}/community/articles/`
+      url: `${API_URL}/community/articles/`,
     })
     .then((res) => {
       articles.value = res.data
+      console.log(articles)
     })
     .catch((err) => {
       console.log(err)
@@ -26,6 +27,7 @@ export const useCommunityStore = defineStore('community', () => {
       url: `${API_URL}/community/comments/`
     })
     .then((res) => {
+      // console.log(res)
       comments.value = res.data
     })
     .catch((err) => {
@@ -33,5 +35,12 @@ export const useCommunityStore = defineStore('community', () => {
     })
   }
 
-  return { articles, getArticles, comments, getComments }
+//   const updateComment = function() {
+//     axios({
+//         method: 'PUT',
+//         url: `comments/<int:comment_pk>/`
+//     })
+// }
+
+  return { API_URL, articles, getArticles, comments, getComments }
 }, { persist: true })

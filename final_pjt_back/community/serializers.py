@@ -9,14 +9,14 @@ class CommentSerializer(serializers.ModelSerializer):
     class UserSerializer(serializers.ModelSerializer):
         class Meta:
             model = User
-            fields = ('username')
+            fields = ('username',)
     
     user = UserSerializer(read_only=True)
 
     class ArticleSerializer(serializers.ModelSerializer):
         class Meta:
             model = Article
-            fields = ('title',)
+            fields = ('title', 'pk')
 
     article = ArticleSerializer(read_only=True)
 
@@ -30,31 +30,31 @@ class ArticleSerializer(serializers.ModelSerializer):
     class UserSerializer(serializers.ModelSerializer):
         class Meta:
             model = User
-            fields = ('username')
+            fields = ('username',)
     
     user = UserSerializer(read_only=True)
     comments = CommentSerializer(many=True, read_only=True)
-    # comment_count = serializers.IntegerField(source='comment_set.count', read_only=True)
+    comment_count = serializers.IntegerField(source='comments.count', read_only=True)
 
     class Meta:
         model = Article
-        fields = ('id', 'user', 'title', 'content', 'comments')
-        # fields = '__all__'
+        # fields = ('pk', 'user', 'title', 'content', 'comments')
+        fields = '__all__'
 
 
 class ArticleListSerializer(serializers.ModelSerializer):
     class UserSerializer(serializers.ModelSerializer):
         class Meta:
             model = User
-            fields = ('username')
+            fields = ('username',)
     
     user = UserSerializer(read_only=True)
-    # comment_count = serializers.IntegerField()
+    # comment_count = serializers.IntegerField(source='comments.count', read_only=True)
     # like_count = serializers.IntegerField()
     
     class Meta:
         model = Article
         # fields = ('id', 'title', 'user', 'comment_count', 'like_count', 'created_at',)
-        fields = ('id', 'title', 'user', 'created_at',)
+        fields = ('id', 'title', 'content', 'user', 'created_at',)
 
     
