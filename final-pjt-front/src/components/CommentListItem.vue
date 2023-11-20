@@ -11,20 +11,20 @@
 
     <div v-if="showContent">
       <p>내용 : {{ comment.content }}</p>
+      <button @click="clickUpdate">수정</button>
+      <button @click="deleteComment(comment.id)">삭제</button>
     </div>
     <div v-else>
       <form @submit.prevent="updateComment(comment.id)">
         <div>
-            <label for="content">내용:</label>
-            <textarea v-model.trim="content" id="content"></textarea>
-            <input type="submit">
+          <label for="content">내용:</label>
+          <textarea v-model.trim="content" id="content"></textarea>
         </div>
+        <input type="submit" value="수정">
       </form>
       <!-- <UpdateComment/> -->
     </div>
 
-    <button @click="clickUpdate">수정</button>
-    <button @click="deleteComment(comment.id)">삭제</button>
     <hr>
   </div>
 </template>

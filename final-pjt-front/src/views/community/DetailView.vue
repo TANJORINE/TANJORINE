@@ -1,6 +1,8 @@
 <template>
   <div>
     <h1>게시글 상세</h1>
+    <p>{{ user }}</p>
+
     <div v-if="article">
       <p>제목 : {{ article.title }}</p>
       <p>내용 : {{ article.content }}</p>
