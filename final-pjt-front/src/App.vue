@@ -10,6 +10,7 @@
         <RouterLink :to="{ name: 'LoginView' }">로그인</RouterLink>
       </div>
       <div :class="{ checkLogin : !store.isLogin }">
+        <RouterLink :to="{ name: 'articles' }">게시판</RouterLink>
         <RouterLink :to="{ name: 'ProfileView' }" >프로필</RouterLink>
         <Button class="btn" @click="store.logOut">로그아웃</Button>
         <RouterLink :to="{ name: 'show'}">금융상품정보</RouterLink>
