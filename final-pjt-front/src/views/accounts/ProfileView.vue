@@ -51,7 +51,6 @@ onMounted(() => {
         main_bank.value = res.data.main_bank
         save_type.value = res.data.save_type
     })
-
 })
 </script>
 

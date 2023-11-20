@@ -16,7 +16,9 @@
       </div>
     </nav>
   </header>
-  <RouterView />
+  <div class="viewSpace">
+    <RouterView />
+  </div>
 </template>
 
 <script setup>
@@ -35,6 +37,10 @@ const store = useUserStore()
   margin: 5px;
   color: black;
 }
+.viewSpace   {
+  width: 100%;
+  min-height: 100%;
+}
 </style>
 
 <style>
@@ -42,5 +48,8 @@ body, html {
   width: 100%;
   height: 100%;
 }
-
+#app {
+  width: 100%;
+  height: 100%;
+}
 </style>

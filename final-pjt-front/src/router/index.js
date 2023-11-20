@@ -66,16 +66,16 @@ const router = createRouter({
       name: 'articles',
       component: ArticleView
     },
-    {
-      path: '/articles/:id',
-      name: 'DetailView',
-      component: DetailView
-    },
-    {
-      path: '/create',
-      name: 'CreateView',
-      component: CreateView
-    },
+    // {
+    //   path: '/articles/:id',
+    //   name: 'DetailView',
+    //   component: DetailView
+    // },
+    // {
+    //   path: '/create',
+    //   name: 'CreateView',
+    //   component: CreateView
+    // },
   ]
 })
 
