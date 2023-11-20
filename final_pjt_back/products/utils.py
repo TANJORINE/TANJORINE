@@ -119,9 +119,9 @@ def allofSaving():
         freesingleOptions = product.option.filter(intr_rate_type ='S', rsrv_type ='F')
         freemultiOptions = product.option.filter(intr_rate_type ='M', rsrv_type ='F')
         data[product.pk] = {
-            'SS': DepositOptionSerializer(setsingleOptions, many=True).data,
-            'SM': DepositOptionSerializer(setmultiOptions, many=True).data,
-            'FS': DepositOptionSerializer(freesingleOptions, many=True).data,
-            'FM': DepositOptionSerializer(freemultiOptions, many=True).data,
+            'SS': SavingOptionSerializer(setsingleOptions, many=True).data,
+            'SM': SavingOptionSerializer(setmultiOptions, many=True).data,
+            'FS': SavingOptionSerializer(freesingleOptions, many=True).data,
+            'FM': SavingOptionSerializer(freemultiOptions, many=True).data,
         }
     return data

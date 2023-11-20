@@ -2,7 +2,10 @@
     <div>
         <vue-good-table
             :columns="columns"
-            :rows="rows"/>
+            :rows="rows"
+            :sort-options="{
+                enabled: true,
+            }"/>
     </div>
 </template>
 
@@ -19,7 +22,7 @@ onMounted(() => {
         url: `http://127.0.0.1:8000/products/deposite/`,
     })
     .then((res) => {
-        console.log(res.data.depositeData)
+        
         datasetMakeRow(res.data.depositeData)
     })
 })
@@ -44,35 +47,29 @@ const rows = ref([])
 const datasetMakeRow = function(data) {
     let data_set = []
 
-    let row_data = {
-        dcls_month: null,
-        kor_co_nm: null,
-        fin_prdt_nm: null,
-        intr_rate_type_nm: null,
-        m6intr_rate: null,
-        m6intr_rate_max: null,
-        m12intr_rate: null,
-        m12intr_rate_max: null,
-        m24intr_rate: null,
-        m24intr_rate_max: null,
-        m36intr_rate: null,
-        m36intr_rate_max: null,
-    }
-
     for (let i = 0; i < data.productsdata.length; i++ ) {
-
         const prodid = data.productsdata[i].id
-
+        let row_data = {
+            dcls_month: null,
+            kor_co_nm: null,
+            fin_prdt_nm: null,
+            intr_rate_type_nm: null,
+            m6intr_rate: null,
+            m6intr_rate_max: null,
+            m12intr_rate: null,
+            m12intr_rate_max: null,
+            m24intr_rate: null,
+            m24intr_rate_max: null,
+            m36intr_rate: null,
+            m36intr_rate_max: null,
+        }
         row_data.dcls_month = data.productsdata[i].dcls_month
         row_data.kor_co_nm = data.productsdata[i].kor_co_nm
         row_data.fin_prdt_nm = data.productsdata[i].fin_prdt_nm
         for(const k in data.optionsdata[prodid]) {
             if (data.optionsdata[prodid][k].length != 0){
-                console.log(row_data)
                 row_data = datasetAppendSingleRow(row_data, data.optionsdata[prodid][k])
-                console.log(row_data)
-                // data_set.push(row_data)
-                // console.log(data_set)
+                data_set.push(row_data)
             }
         }
     }
@@ -80,7 +77,7 @@ const datasetMakeRow = function(data) {
 }
 const datasetAppendSingleRow = function(row, datas){
     row.intr_rate_type_nm = datas[0].intr_rate_type_nm
-    for (const data in datas){
+    for (const data of datas) {
         if (data.save_trm === '6') {
             row.m6intr_rate = data.intr_rate
             row.m6intr_rate_max = data.intr_rate2
