@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'products',
     'exchange_rate',
     'maps',
+    'articles',
     'corsheaders',
     # DRF
     'rest_framework',
