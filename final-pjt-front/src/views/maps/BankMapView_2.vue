@@ -10,12 +10,12 @@
       <p>{{ sigungu }}</p>
     </option>
   </select>
-  <select v-model="bank" name="bank" id="bank">
+  <select v-model="selectBank" name="selectBank" id="selectBank">
       <option v-for="bank in store.banks" :value="bank">
         <p>{{ bank }}</p>
       </option>
   </select>
-  <button @click="search(siDo.name + ' ' + siGunGu + ' ' + bank)">검색</button>
+  <button @click="search(siDo.name + ' ' + siGunGu + ' ' + selectBank)">검색</button>
   <div id="map"></div>
   <div id="bankList">
     <ul>
@@ -107,10 +107,30 @@ export default {
 
       // 새로운 목록 추가
       this.searchBank.forEach((place, index) => {
-        const liTag = document.createElement("li")
-        liTag.textContent = place.place_name
-        liTag.addEventListener("click", () => this.selectPlace(place))
-        bankList.appendChild(liTag)
+        const bank = ref({})
+        bank.value = {name: place.place_name, address: place.address_name}
+
+
+        // 속도 느려짐 ...
+        // const bankInfo = document.createElement("div")
+        // bankInfo.textContent = '은행: ' + place.place_name + ' / 위치: ' + place.address_name
+        // // bankInfo.innerHTML = `<p>이름: ${bank.value.name}</p><p>주소: ${bank.value.address}</p>`;
+        // bankList.addEventListener("click", () => this.selectPlace(place))
+        // bankList.appendChild(bankInfo)
+
+        // const liTag = document.createElement("li")
+        // // liTag.textContent = '은행: ' + place.place_name + ' / 위치: ' + place.address_name
+        // liTag.innerHTML = `<p>이름: ${bank.value.name}</p><p>주소: ${bank.value.address}</p>`;
+
+        // liTag.addEventListener("click", () => this.selectPlace(place))
+        // bankList.appendChild(liTag)
+
+        const pTag = document.createElement("p")
+        // liTag.textContent = '은행: ' + place.place_name + ' / 위치: ' + place.address_name
+        pTag.innerHTML = `<p>이름: ${bank.value.name}</p><p>주소: ${bank.value.address}</p><hr>`;
+
+        pTag.addEventListener("click", () => this.selectPlace(place))
+        bankList.appendChild(pTag)
       })
     },
     displayMarkers() {
@@ -143,15 +163,17 @@ export default {
 
 
       // 정보창 열기
-      this.infowindow.setContent(`<div style="padding:5px;font-size:12px;">${place.place_name} - ${place.address_name}</div>`);
+      this.infowindow.setContent(`<div style="padding:5px;font-size:12px;">${place.place_name}</div>`);
       this.infowindow.open(this.map, this.markers[0]);
       // for (let i = 0; i < data.length; i++) {
       //   this.displayMarker(data[i]);
       // }
 
       // 지도 이동
+      // this.map.setLevel(3);
       this.map.panTo(new kakao.maps.LatLng(place.y, place.x));
-
+      // this.map.panTo(new kakao.maps.LatLng(place.y, place.x), 3);
+      // this.map.setLevel(3, { anchor: new kakao.maps.LatLng(place.y, place.x) });
       
       
       // kakao.maps.event.addListener(marker, "mouseout", () => {

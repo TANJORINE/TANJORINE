@@ -9,5 +9,4 @@ urlpatterns = [
     path('comments/<int:comment_pk>/', views.comment_detail),
     path('articles/<int:article_pk>/comments/', views.comment_create),
     path('category/', views.category_list),
-    path('is_admin/', views.is_admin),
 ]

@@ -40,6 +40,7 @@ onMounted(() => {
       }
     }).then((res) => {
         // 프로필 화면 표시용
+        console.log(res)
         data.value = res.data
         username.value  = res.data.username
         birth.value     = res.data.birth
