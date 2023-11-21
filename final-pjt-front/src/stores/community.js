@@ -6,6 +6,32 @@ export const useCommunityStore = defineStore('community', () => {
   const API_URL = import.meta.env.VITE_API_URL
   const articles = ref([])
   const comments = ref([])
+  const categories = ref([])
+  const isAdmin = ref(null)
+
+  const checkAdmin = function() {
+    axios({
+      method: 'GET',
+      url: `${API_URL}/community/is_admin/`
+    })
+    .then((res) => {
+      console.log(res)
+      isAdmin.value = res.data.admin
+    })
+  }
+
+  const getCategories = function() {
+    axios({
+      method: 'GET',
+      url: `${API_URL}/community/category/`
+    })
+    .then((res) => {
+      categories.value = res.data
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
 
   const getArticles = function() {
     axios({
@@ -34,5 +60,5 @@ export const useCommunityStore = defineStore('community', () => {
       console.log(err)
     })
   }
-  return { API_URL, articles, getArticles, comments, getComments }
+  return { API_URL, articles, getArticles, comments, getComments, categories, getCategories, isAdmin, checkAdmin }
 })

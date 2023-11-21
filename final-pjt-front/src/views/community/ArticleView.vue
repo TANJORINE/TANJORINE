@@ -1,8 +1,15 @@
 <template>
   <div>
     <h1>게시글 조회</h1>
+    <!-- 관리자만 카테고리 생성 -->
+    {{ store.isAdmin }}
+    <div v-if="store.isAdmin === 'Y'">
+      <div>
+        <RouterLink :to="{ name: 'createCategory' }">[카테고리 생성]</RouterLink>
+      </div>
+    </div>
     <div v-if="loginUser">
-      <RouterLink :to="{ name: 'create' }">[CREATE]</RouterLink>
+      <RouterLink :to="{ name: 'create' }">[글 작성]</RouterLink>
     </div>
     <ArticleList/>
   </div>
@@ -16,14 +23,15 @@ import { useUserStore } from '@/stores/user'
 import { RouterLink } from 'vue-router';
 import ArticleList from '@/components/ArticleList.vue';
 
+
 const store = useCommunityStore()
 const userStore = useUserStore()
 
 const loginUser = ref(null)
 
-
 onMounted(() => {
   store.getArticles()
+  store.checkAdmin()
 
   axios({
     method: 'GET',
