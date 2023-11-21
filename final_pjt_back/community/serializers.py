@@ -4,12 +4,11 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-
 class CommentSerializer(serializers.ModelSerializer):
     class UserSerializer(serializers.ModelSerializer):
         class Meta:
             model = User
-            fields = ('username',)
+            fields = ('pk', 'username', 'email')
     
     user = UserSerializer(read_only=True)
 
@@ -30,7 +29,7 @@ class ArticleSerializer(serializers.ModelSerializer):
     class UserSerializer(serializers.ModelSerializer):
         class Meta:
             model = User
-            fields = ('username',)
+            fields = ('pk', 'username', 'email')
     
     user = UserSerializer(read_only=True)
     comments = CommentSerializer(many=True, read_only=True)

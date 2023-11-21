@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 # from rest_framework.permissions import IsAuthenticated, IsAuthorOrReadOnly
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.authentication import TokenAuthentication
 from django.shortcuts import get_object_or_404, get_list_or_404
 from .models import Article, Comment
 from .serializers import CommentSerializer, ArticleSerializer, ArticleListSerializer
@@ -11,6 +12,8 @@ from rest_framework import status
 
 # Create your views here.
 @api_view(['GET', 'POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticatedOrReadOnly])
 def article_list(request):
     if request.method == 'GET':
         articles = get_list_or_404(Article)
@@ -24,8 +27,8 @@ def article_list(request):
         
 
 @api_view(['GET', 'DELETE', 'PUT'])
-# @permission_classes([IsAuthenticated])
-# @permission_classes([IsAuthorOrReadOnly])
+# @authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticatedOrReadOnly])
 def article_detail(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
 
@@ -43,6 +46,8 @@ def article_detail(request, article_pk):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticatedOrReadOnly])
+# @authentication_classes([TokenAuthentication])
 def comment_list(request):
     comments = get_list_or_404(Comment)
     serializer = CommentSerializer(comments, many=True)
@@ -50,8 +55,8 @@ def comment_list(request):
 
 
 @api_view(['GET', 'DELETE', 'PUT'])
-# @permission_classes([IsAuthorOrReadOnly])
-# @permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticatedOrReadOnly])
 def comment_detail(request, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
 
@@ -69,6 +74,8 @@ def comment_detail(request, comment_pk):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticatedOrReadOnly])
+# @authentication_classes([TokenAuthentication])
 def comment_create(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     serializer = CommentSerializer(data=request.data)

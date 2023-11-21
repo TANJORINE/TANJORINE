@@ -34,13 +34,5 @@ export const useCommunityStore = defineStore('community', () => {
       console.log(err)
     })
   }
-
-//   const updateComment = function() {
-//     axios({
-//         method: 'PUT',
-//         url: `comments/<int:comment_pk>/`
-//     })
-// }
-
   return { API_URL, articles, getArticles, comments, getComments }
-}, { persist: true })
+})
