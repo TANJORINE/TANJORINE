@@ -1,16 +1,23 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 # from rest_framework.permissions import IsAuthenticated, IsAuthorOrReadOnly
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminOrReadOnly
 from rest_framework.authentication import TokenAuthentication
 from django.shortcuts import get_object_or_404, get_list_or_404
-from .models import Article, Comment
-from .serializers import CommentSerializer, ArticleSerializer, ArticleListSerializer
+from .models import Article, Comment, Category
+from .serializers import CommentSerializer, ArticleSerializer, ArticleListSerializer, CategorySerializer
 from rest_framework.response import Response
 from rest_framework import status
 
 
 # Create your views here.
+@api_view(['GET'])
+def is_admin(request):
+    if request.user.is_staff:
+        return Response({'admin': 'Y'})
+    else:
+        return Response({'admin': 'N'})
+
 @api_view(['GET', 'POST'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticatedOrReadOnly])
@@ -20,9 +27,10 @@ def article_list(request):
         serializer = ArticleListSerializer(articles, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
+        category = Category.objects.get(pk=request.data.get('category'))
         serializer = ArticleSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save(user=request.user)
+            serializer.save(user=request.user, category=category)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
 
@@ -82,3 +90,20 @@ def comment_create(request, article_pk):
     if serializer.is_valid(raise_exception=True):
         serializer.save(user=request.user, article=article)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAdminOrReadOnly])
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def category_list(request):
+    if request.method == 'GET':
+        categories = Category.objects.all()
+        serializer = CategorySerializer(categories, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = CategorySerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+    # elif request.method == 'PUT':
+    # elif request.method == 'DELETE':

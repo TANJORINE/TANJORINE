@@ -19,6 +19,7 @@ import ArticleView from '@/views/community/ArticleView.vue'
 import DetailView from '@/views/community/DetailView.vue'
 import CreateView from '@/views/community/CreateView.vue'
 import UpdateArticleView from '@/views/community/UpdateArticleView.vue'
+import CreateCategoryView from '@/views/community/CreateCategoryView.vue'
 
 
 const router = createRouter({
@@ -83,6 +84,11 @@ const router = createRouter({
       path: '/update/:id',
       name: 'update',
       component: UpdateArticleView
+    },
+    {
+      path: '/articleCate',
+      name: 'createCategory',
+      component: CreateCategoryView
     },
   ]
 })

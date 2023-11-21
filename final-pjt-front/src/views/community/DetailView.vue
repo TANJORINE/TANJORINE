@@ -1,9 +1,13 @@
 <template>
   <div>
     <h1>게시글 상세</h1>
+    <RouterLink :to="{ name: 'articles' }">
+        <p>게시글 목록</p>
+      </RouterLink>
     <!-- <p>{{ user }}</p> -->
 
     <div v-if="article">
+      <p>[ 카테고리 : {{ article.category.name }} ]</p>
       <p>제목 : {{ article.title }}</p>
       <p>내용 : {{ article.content }}</p>
       <p>작성자 : {{ article.user.username }}</p>
