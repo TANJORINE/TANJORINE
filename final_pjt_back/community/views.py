@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 # from rest_framework.permissions import IsAuthenticated, IsAuthorOrReadOnly
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.authentication import TokenAuthentication
 from django.shortcuts import get_object_or_404, get_list_or_404
 from .models import Article, Comment, Category
@@ -93,7 +93,7 @@ def comment_create(request, article_pk):
 
 
 @authentication_classes([TokenAuthentication])
-@permission_classes([IsAdminOrReadOnly])
+# @permission_classes([IsAdminOrReadOnly])
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def category_list(request):
     if request.method == 'GET':

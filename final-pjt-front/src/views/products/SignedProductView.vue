@@ -7,12 +7,16 @@
             </div>
         </template>
     </div>
+    <div>
+        <chart/>
+    </div>
 </template>
 
 <script setup>
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
-import { useUserStore } from '../../stores/user';
+import { useUserStore } from '@/stores/user';
+import chart from '@/components/products/chart.vue';
 const store = useUserStore()
 const datas = ref(null)
 onMounted(() => {

@@ -13,6 +13,7 @@
       </div>
       <div :class="{ checkLogin : !store.isLogin }">
         <RouterLink :to="{ name: 'profile' }" >프로필</RouterLink>
+        <RouterLink :to="{ name: 'signedProduct' }" >가입 상품</RouterLink>
         <Button class="btn" @click="store.logOut">로그아웃</Button>
       </div>
     </nav>

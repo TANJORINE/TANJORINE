@@ -5,7 +5,7 @@
             정기예금
             </button>
             <button class="btn types" @click="click" :disabled="!showtype">
-                정기적금
+            정기적금
             </button>
         </div>
         <div class="tablespace">
@@ -19,14 +19,11 @@
 import { ref, onMounted } from 'vue';
 import DepositeTable from '@/components/products/DepositeTable.vue';
 import SavingTable from '@/components/products/SavingTable.vue';
-const data = ref(null)
 const showtype = ref(true)
-
+console.log(showtype.value)
 const click = function () {
     showtype.value = !showtype.value
 }
-
-
 </script>
 
 <style scoped>

@@ -8,6 +8,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .utils  import *
 from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
 # Create your views here.
 
 # 전체 상품목록 가져오기
@@ -67,6 +68,7 @@ def detail(request, type, pk):
 @api_view(['GET'])
 def signedProd(request, email):
     user = get_user_model().objects.filter(email=email).values_list('products')
+    print(user)
     prod = list(user[0])[0].split(',')
     data = dict()
     i = 1
@@ -83,3 +85,7 @@ def signedProd(request, email):
             print(SavingProduct.objects.filter(fin_co_no=co_no, fin_prdt_cd=prod_cd))
         i += 1
     return Response(data)
+
+@api_view(['GET'])
+def selectOption(request):
+    pass
