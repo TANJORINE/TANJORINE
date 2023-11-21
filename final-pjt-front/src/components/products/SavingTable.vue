@@ -1,7 +1,8 @@
 <template>
         <vue-good-table
             :columns="columns"
-            :rows="rows"/>
+            :rows="rows"
+            v-on:row-click="goDetail"/>
 </template>
 
 <script setup>
@@ -20,7 +21,6 @@ onMounted(() => {
         datasetMakeRow(res.data.savingData)
     })
 })
-
 
 const columns = [
         { label: '공시제출월', field: 'dcls_month',},
@@ -45,26 +45,29 @@ const datasetMakeRow = function(data) {
 
     for (let i = 0; i < data.productsdata.length; i++ ) {
         const prodid = data.productsdata[i].id
-        let row_data = {
-            dcls_month: null,
-            kor_co_nm: null,
-            fin_prdt_nm: null,
-            intr_rate_type_nm: null,
-            rsrv_type_nm: null,
-            m6intr_rate: null,
-            m6intr_rate_max: null,
-            m12intr_rate: null,
-            m12intr_rate_max: null,
-            m24intr_rate: null,
-            m24intr_rate_max: null,
-            m36intr_rate: null,
-            m36intr_rate_max: null,
-        }
-        row_data.dcls_month = data.productsdata[i].dcls_month
-        row_data.kor_co_nm = data.productsdata[i].kor_co_nm
-        row_data.fin_prdt_nm = data.productsdata[i].fin_prdt_nm
+
         for(const k in data.optionsdata[prodid]) {
             if (data.optionsdata[prodid][k].length != 0){
+                let row_data = {
+                    id: null,
+                    dcls_month: null,
+                    kor_co_nm: null,
+                    fin_prdt_nm: null,
+                    intr_rate_type_nm: null,
+                    rsrv_type_nm: null,
+                    m6intr_rate: null,
+                    m6intr_rate_max: null,
+                    m12intr_rate: null,
+                    m12intr_rate_max: null,
+                    m24intr_rate: null,
+                    m24intr_rate_max: null,
+                    m36intr_rate: null,
+                    m36intr_rate_max: null,
+                }
+                row_data.id = prodid
+                row_data.dcls_month = data.productsdata[i].dcls_month
+                row_data.kor_co_nm = data.productsdata[i].kor_co_nm
+                row_data.fin_prdt_nm = data.productsdata[i].fin_prdt_nm
                 row_data = datasetAppendSingleRow(row_data, data.optionsdata[prodid][k])
                 data_set.push(row_data)
             }
@@ -72,12 +75,12 @@ const datasetMakeRow = function(data) {
     }
     rows.value = data_set
 }
+
 const datasetAppendSingleRow = function(row, datas){
     row.intr_rate_type_nm = datas[0].intr_rate_type_nm
     row.rsrv_type_nm = datas[0].rsrv_type_nm
     for (const data of datas) {
         if (data.save_trm === '6') {
-            console.log(1)
             row.m6intr_rate = data.intr_rate
             row.m6intr_rate_max = data.intr_rate2
         } else if (data.save_trm === '12') {
@@ -92,6 +95,10 @@ const datasetAppendSingleRow = function(row, datas){
         }
     }
     return row
+}
+
+const goDetail = function(e) {
+    console.log(e.row.id)
 }
 </script>
 

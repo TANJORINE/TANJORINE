@@ -3,9 +3,8 @@
         <vue-good-table
             :columns="columns"
             :rows="rows"
-            :sort-options="{
-                enabled: true,
-            }"/>
+            v-on:row-click="goDetail"
+            />
     </div>
 </template>
 
@@ -14,16 +13,18 @@ import 'vue-good-table-next/dist/vue-good-table-next.css'
 import { VueGoodTable } from 'vue-good-table-next';
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
 
 // 페이지 로딩시 데이터 가져오기
 onMounted(() => {
     axios({
         method:'get',
-        url: `http://127.0.0.1:8000/products/deposite/`,
+        url: `http://127.0.0.1:8000/products/deposit/`,
     })
     .then((res) => {
-        
-        datasetMakeRow(res.data.depositeData)
+        datasetMakeRow(res.data.depositData)
     })
 })
 
@@ -49,25 +50,28 @@ const datasetMakeRow = function(data) {
 
     for (let i = 0; i < data.productsdata.length; i++ ) {
         const prodid = data.productsdata[i].id
-        let row_data = {
-            dcls_month: null,
-            kor_co_nm: null,
-            fin_prdt_nm: null,
-            intr_rate_type_nm: null,
-            m6intr_rate: null,
-            m6intr_rate_max: null,
-            m12intr_rate: null,
-            m12intr_rate_max: null,
-            m24intr_rate: null,
-            m24intr_rate_max: null,
-            m36intr_rate: null,
-            m36intr_rate_max: null,
-        }
-        row_data.dcls_month = data.productsdata[i].dcls_month
-        row_data.kor_co_nm = data.productsdata[i].kor_co_nm
-        row_data.fin_prdt_nm = data.productsdata[i].fin_prdt_nm
+
         for(const k in data.optionsdata[prodid]) {
             if (data.optionsdata[prodid][k].length != 0){
+                let row_data = {
+                    id: null,
+                    dcls_month: null,
+                    kor_co_nm: null,
+                    fin_prdt_nm: null,
+                    intr_rate_type_nm: null,
+                    m6intr_rate: null,
+                    m6intr_rate_max: null,
+                    m12intr_rate: null,
+                    m12intr_rate_max: null,
+                    m24intr_rate: null,
+                    m24intr_rate_max: null,
+                    m36intr_rate: null,
+                    m36intr_rate_max: null,
+                }
+                row_data.id = prodid
+                row_data.dcls_month = data.productsdata[i].dcls_month
+                row_data.kor_co_nm = data.productsdata[i].kor_co_nm
+                row_data.fin_prdt_nm = data.productsdata[i].fin_prdt_nm
                 row_data = datasetAppendSingleRow(row_data, data.optionsdata[prodid][k])
                 data_set.push(row_data)
             }
@@ -93,6 +97,10 @@ const datasetAppendSingleRow = function(row, datas){
         }
     }
     return row
+}
+const goDetail = function(e) {
+    console.log(e.row.id)
+    router.push({name:'ProductDetail', params:{type:'D', id: e.row.id}})
 }
 </script>
 

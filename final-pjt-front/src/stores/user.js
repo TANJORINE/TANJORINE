@@ -6,6 +6,7 @@ export const useUserStore = defineStore('user', () => {
 
   const router = useRouter()
   const token = ref(null)
+  const userEmail = ref(null)
   const isLogin = computed(() => {
     if(token.value === null) return false
     else return true
@@ -35,10 +36,10 @@ export const useUserStore = defineStore('user', () => {
       data: loginData
     }).then((res) => {
       console.log('성공!')
-
       token.value = res.data.key
+      userEmail.value = loginData.email
       router.push({ name: 'home' })
-      console.log(token.value)
+      console.log(userEmail.value)
     }).catch(err => {
       console.log(err)
     })
@@ -56,5 +57,5 @@ export const useUserStore = defineStore('user', () => {
     })
   }
 
-  return { signUp, logIn, logOut, token, isLogin }
+  return { signUp, logIn, logOut, token, isLogin, userEmail }
 }, { persist: true })

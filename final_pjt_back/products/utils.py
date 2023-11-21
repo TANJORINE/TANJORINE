@@ -17,6 +17,8 @@ def deposite(grpNo):
     doptions = response['result']['optionList']
     if len(dprods) != 0:
         for prod in dprods:
+            if (DepositProduct.objects.filter(fin_co_no=prod['fin_co_no'], fin_prdt_cd=prod['fin_prdt_cd']).exists()):
+                continue
             proddata = DepositProduct(
                 dcls_month      = prod['dcls_month'],
                 fin_co_no       = prod['fin_co_no'],
@@ -63,6 +65,8 @@ def saving(grpNo):
     soptions = response['result']['optionList']
     if len(sprods) != 0:
         for prod in sprods:
+            if (SavingProduct.objects.filter(fin_co_no=prod['fin_co_no'], fin_prdt_cd=prod['fin_prdt_cd']).exists()):
+                continue            
             proddata = SavingProduct(
                 dcls_month      = prod['dcls_month'],
                 fin_co_no       = prod['fin_co_no'],
@@ -82,7 +86,7 @@ def saving(grpNo):
             )
             proddata.save()
 
-            for option in soptions:
+            for option in soptions:            
                 if proddata.fin_co_no == option['fin_co_no'] and proddata.fin_prdt_cd == option['fin_prdt_cd']:
                     data = SavingOption(
                         dcls_month        = option['dcls_month'],
