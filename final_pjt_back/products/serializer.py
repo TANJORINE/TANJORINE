@@ -8,7 +8,7 @@ class DepositProductSerializer(serializers.ModelSerializer):
 
 class SavingProductSerializer(serializers.ModelSerializer):
     class Meta:
-        model = DepositProduct
+        model = SavingProduct
         fields = '__all__'
 
 class DepositOptionSerializer(serializers.ModelSerializer):

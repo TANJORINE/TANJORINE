@@ -7,10 +7,10 @@
         <p>주 소 :{{ address }}</p>
         <p>자산 : {{ money }}</p>
         <p>연봉 : {{ salary }}</p>
-        <p>결혼 :{{ married }}</p>
+        <p>결혼 :{{ married ? '기혼' : '미혼' }}</p>
         <p>주거래은행 : {{ main_bank }}</p>
         <p>저축 성향 : {{ save_type }}</p>
-        <RouterLink :to="{ name: 'ProfileUpdate', props:data}">수정</RouterLink>
+        <RouterLink :to="{ name: 'profileUpdate', props:data}">수정</RouterLink>
     </div>  
 </template>
 
@@ -28,7 +28,7 @@ const phone = ref(null)
 const address = ref(null)
 const money = ref(null)
 const salary = ref(null)
-const married = ref(false)
+const married = ref(null)
 const main_bank = ref(null)
 const save_type = ref(null)
 onMounted(() => {

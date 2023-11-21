@@ -31,10 +31,6 @@
                 <input type="text" id="address" v-model="address">
             </div>
             <div>
-                <label for="products">상품가입 : </label>
-                <input type="text" id="products" v-model="products">
-            </div>
-            <div>
                 <label for="money">자산 : </label>
                 <input type="number" id="money" v-model="money">
             </div>
@@ -43,13 +39,14 @@
                 <input type="number" id="salary" v-model="salary">
             </div>
             <div>
+                <label for="">결혼여부 : </label>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="true">
-                    <label class="form-check-label" for="inlineRadio1">1</label>
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="false" v-model="married">
+                    <label class="form-check-label" for="inlineRadio1">미혼</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="false">
-                    <label class="form-check-label" for="inlineRadio2">2</label>
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="true" v-model="married">
+                    <label class="form-check-label" for="inlineRadio2">기혼</label>
                 </div>
             </div>
             <div>
@@ -80,7 +77,7 @@ const address = ref(null)
 const products = ref([])
 const money = ref(null)
 const salary = ref(null)
-const married = ref(false)
+const married = ref(null)
 const main_bank = ref(null)
 const save_type = ref(null)
 const signUp = function () {
@@ -99,7 +96,6 @@ const signUp = function () {
         "main_bank" : main_bank.value,
         "save_type" : save_type.value,
     }
-    console.log(userData)
     store.signUp(userData)
 }
 </script>

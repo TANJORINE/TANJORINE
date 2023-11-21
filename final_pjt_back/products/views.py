@@ -7,27 +7,10 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .utils  import *
+from django.contrib.auth import get_user_model
 # Create your views here.
 
-@api_view(['GET'])
-def data_load(request):
-    if request.method == 'GET':
-        savingProducts = SavingProduct.objects.all()
-        SavingOptions = SavingOption.objects.all()
-        depositProducts = DepositProduct.objects.all()
-        depositOptions = DepositOption.objects.all()
-        sp_serializer = SavingProductSerializer(savingProducts, many=True)
-        so_serializer = SavingOptionSerializer(SavingOptions, many=True)
-        dp_serializer = DepositProductSerializer(depositProducts, many=True)
-        do_serializer = DepositOptionSerializer(depositOptions, many=True)
-        data = {
-            'savingProducts': sp_serializer.data,
-            'savingOptions': so_serializer.data,
-            'depositProducts': dp_serializer.data,
-            'depositOptions': do_serializer.data
-        }
-        return Response(data)
-    
+# 전체 상품목록 가져오기
 @api_view(['GET'])
 def load(request):
     topFinGrpNos = ['020000', '030200', '030300', '050000', '060000']
@@ -39,16 +22,18 @@ def load(request):
     }
     return Response(data)
 
+# 예금 상품 가져오기
 @api_view(['GET'])
-def depositeLoad(request):
+def depositLoad(request):
     data = {
-        'depositeData':{
+        'depositData':{
                         'productsdata': DepositProductSerializer(DepositProduct.objects.all(), many=True).data,
                         'optionsdata': allofDeposite()
                     }
     }
     return Response(data)
 
+# 적금 상품 가져오기
 @api_view(['GET'])
 def savingLoad(request):
     data = {
@@ -59,3 +44,42 @@ def savingLoad(request):
     }
     return Response(data)
 
+# 단일 상품 세부정보 가져오기
+@api_view(['GET'])
+def detail(request, type, pk):
+    if type == 'D':
+        product = DepositProduct.objects.get(pk=pk)
+        options = product.option.all()
+        data = {
+            'product': DepositProductSerializer(product).data,
+            'options': DepositOptionSerializer(options, many = True).data
+        }
+    elif type == 'S':
+        product = SavingProduct.objects.get(pk=pk)
+        options = product.option.all()
+        data = {
+            'product': DepositProductSerializer(product).data,
+            'options': DepositOptionSerializer(options, many = True).data
+        }        
+    return Response(data)
+
+# 가입 상품 가져오기
+@api_view(['GET'])
+def signedProd(request, email):
+    user = get_user_model().objects.filter(email=email).values_list('products')
+    prod = list(user[0])[0].split(',')
+    data = dict()
+    i = 1
+    for detail in prod:
+        prodtype, co_no, prod_cd = detail.split('/$')
+        print(prodtype, co_no, prod_cd)
+        if prodtype == 'D':
+            proddata=DepositProduct.objects.get(fin_co_no=co_no, fin_prdt_cd=prod_cd)
+            data[i] = DepositProductSerializer(proddata).data
+            print(DepositProduct.objects.filter(fin_co_no=co_no, fin_prdt_cd=prod_cd))
+        if prodtype == 'S':
+            proddata=SavingProduct.objects.get(fin_co_no=co_no, fin_prdt_cd=prod_cd)
+            data[i] = SavingProductSerializer(proddata).data
+            print(SavingProduct.objects.filter(fin_co_no=co_no, fin_prdt_cd=prod_cd))
+        i += 1
+    return Response(data)

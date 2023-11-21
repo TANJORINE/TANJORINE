@@ -16,7 +16,6 @@
 </template>
 
 <script setup>
-import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import DepositeTable from '@/components/products/DepositeTable.vue';
 import SavingTable from '@/components/products/SavingTable.vue';

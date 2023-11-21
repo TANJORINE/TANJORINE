@@ -27,13 +27,14 @@
                 <input type="number" id="salary" v-model="salary">
             </div>
             <div>
+                <label for="">결혼여부 : </label>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="true">
-                    <label class="form-check-label" for="inlineRadio1">1</label>
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="false" v-model="married">
+                    <label class="form-check-label" for="inlineRadio1">미혼</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="false">
-                    <label class="form-check-label" for="inlineRadio2">2</label>
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="true" v-model="married">
+                    <label class="form-check-label" for="inlineRadio2">기혼</label>
                 </div>
             </div>
             <div>
@@ -108,7 +109,7 @@ const Update = function() {
       data: userData
     }).then((res) => {
         // 프로필 화면 표시용
-        router.push({ name: 'ProfileView' })
+        router.push({ name: 'profile' })
     })
 }
 </script>

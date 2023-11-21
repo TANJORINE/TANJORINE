@@ -12,7 +12,9 @@ import ProfileView from '@/views/accounts/ProfileView.vue';
 import ProfileUpdateView from '@/views/accounts/ProfileUpdateView.vue';
 
 // 금융 상품관련
-import ShowView from '@/views/products/ShowView.vue';
+import ProductView from '@/views/products/ProductView.vue';
+import ProductDetailView from '@/views/products/ProductDetailView.vue';
+import SignedProductView from '@/views/products/SignedProductView.vue';
 
 // 게시판
 import ArticleView from '@/views/community/ArticleView.vue'
@@ -24,6 +26,7 @@ import UpdateArticleView from '@/views/community/UpdateArticleView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    // 공통 기능
     {
       path: '/',
       name: 'home',
@@ -35,35 +38,49 @@ const router = createRouter({
       component: ExchangeRateView
     },
     {
-      path: '/singup',
-      name: 'SignUpView',
-      component: SignUpView
-    },
-    {
       path: '/bank',
       name: 'bankMap',
       component: BankMapView
     },
+    // 회원 관련
+    {
+      path: '/singup',
+      name: 'signUp',
+      component: SignUpView
+    },
     {
       path: '/login',
-      name: 'LoginView',
+      name: 'login',
       component: LoginView
     },
     {
       path: '/profile',
-      name: 'ProfileView',
+      name: 'profile',
       component: ProfileView
     },
     {
       path: '/profileUpdate',
-      name: 'ProfileUpdate',
+      name: 'profileUpdate',
       component: ProfileUpdateView,
     },
+    // 금융 상품 관련
     {
-      path: '/show',
-      name: 'show',
-      component: ShowView
+      path: '/products',
+      name: 'products',
+      component: ProductView
     },
+    {
+      path: '/productdetail/:type/:id',
+      name: 'productDetail',
+      component: ProductDetailView
+    },
+    {
+      path: '/signedproduct',
+      name: 'signedProduct',
+      component: SignedProductView
+    },
+
+    // 게시판 관련
     {
       path: '/articles',
       name: 'articles',
