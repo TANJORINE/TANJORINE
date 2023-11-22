@@ -8,16 +8,12 @@ from .models import Article, Comment, Category
 from .serializers import CommentSerializer, ArticleSerializer, ArticleListSerializer, CategorySerializer
 from rest_framework.response import Response
 from rest_framework import status
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+# from django.contrib.auth.admin import 
+from django.contrib.auth import get_user_model
 
 # Create your views here.
-@api_view(['GET'])
-def is_admin(request):
-    if request.user.is_staff:
-        return Response({'admin': 'Y'})
-    else:
-        return Response({'admin': 'N'})
-
 @api_view(['GET', 'POST'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticatedOrReadOnly])

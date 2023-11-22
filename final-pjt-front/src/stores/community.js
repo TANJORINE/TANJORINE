@@ -7,18 +7,6 @@ export const useCommunityStore = defineStore('community', () => {
   const articles = ref([])
   const comments = ref([])
   const categories = ref([])
-  const isAdmin = ref(null)
-
-  const checkAdmin = function() {
-    axios({
-      method: 'GET',
-      url: `${API_URL}/community/is_admin/`
-    })
-    .then((res) => {
-      console.log(res)
-      isAdmin.value = res.data.admin
-    })
-  }
 
   const getCategories = function() {
     axios({
@@ -60,5 +48,5 @@ export const useCommunityStore = defineStore('community', () => {
       console.log(err)
     })
   }
-  return { API_URL, articles, getArticles, comments, getComments, categories, getCategories, isAdmin, checkAdmin }
+  return { API_URL, articles, getArticles, comments, getComments, categories, getCategories }
 })

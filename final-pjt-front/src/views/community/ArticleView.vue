@@ -2,8 +2,8 @@
   <div>
     <h1>게시글 조회</h1>
     <!-- 관리자만 카테고리 생성 -->
-    {{ store.isAdmin }}
-    <div v-if="store.isAdmin === 'Y'">
+    <!-- {{ isStaff }} -->
+    <div v-if="isStaff">
       <div>
         <RouterLink :to="{ name: 'createCategory' }">[카테고리 생성]</RouterLink>
       </div>
@@ -28,10 +28,10 @@ const store = useCommunityStore()
 const userStore = useUserStore()
 
 const loginUser = ref(null)
+const isStaff = ref(false)
 
 onMounted(() => {
   store.getArticles()
-  store.checkAdmin()
 
   axios({
     method: 'GET',
@@ -42,6 +42,7 @@ onMounted(() => {
   })
   .then((res) => {
     loginUser.value = res.data.email
+    isStaff.value = res.data.is_staff
   })
   .catch((err) => {
     console.log(err)

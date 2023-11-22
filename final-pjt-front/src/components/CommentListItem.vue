@@ -23,7 +23,7 @@
     <div v-else>
       <p>내용 : {{ comment.content }}</p>
       <p v-if="comment.created_at !== comment.updated_at">
-      (수정됨)
+        (수정됨)
       </p>
     </div>
     <hr>
