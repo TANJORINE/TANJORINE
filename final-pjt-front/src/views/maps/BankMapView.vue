@@ -37,13 +37,13 @@
         </option>
       </select>
     </div> <!-- (시도 시군구) (은행) div -->
-    <button class="select-button" @click="search(siDo.name + ' ' + siGunGu + ' ' + bank)">검색</button>
+    <button class="select-button btn btn-secondary" @click="search(siDo.name + ' ' + siGunGu + ' ' + bank)">검색</button>
   </div> <!-- "select-bank" -->
   <div v-else id="search-bank">
     <input class="input-bank" type="text" v-model="inputBank">
-    <button class="search-button" @click="search(inputBank)">검색</button>
+    <button class="search-button btn btn-secondary" @click="search(inputBank)">검색</button>
   </div> <!-- "search-bank" -->
-  <div id="bankList"></div>
+  <div class="list-group list-group-flush" id="bankList"></div>
   </div> <!-- "left-container" -->
   <!-- <div class="box col-1">
 
@@ -54,8 +54,10 @@
       <div id="map-container">
         <div id="map"></div>
         <div id="placeInfoWindow"> <!-- placeInfo -->
-          <div id="placeInfo" class="bg_white">  <!-- openPlaceInfo -->
-          </div>
+
+            <div id="placeInfo" class="card">  <!-- openPlaceInfo -->
+            </div>
+
           <p id="closePlaceInfo" @click="closePlaceInfo"></p>
         </div>
       </div>
@@ -110,6 +112,10 @@ export default {
     },
 
     selectOrSearch(mthd) {
+      const bankList = document.getElementById("bankList")
+      while (bankList.firstChild) {
+        bankList.removeChild(bankList.firstChild)
+      }
       if (mthd === 'select') {
         this.findBankMethod = true
       } else if (mthd === 'search') {
@@ -189,10 +195,11 @@ export default {
         }
         const pTag = document.createElement("p")
         pTag.innerHTML = `
-          <strong>${place.place_name}</strong>
-          <p>📍 ${place.road_address_name} (${place.address_name})</p>
-          <p>📞 ${place.phone}</p>
-          <a href=${place.place_url}>카카오맵 이동하기</a>`
+          <strong style="display: flex; justify-content: center;">${place.place_name}</strong><hr style="margin: 5px 0 10px;">
+          <p style="font-size: 13px; margin-bottom: 0px;">📍 ${place.road_address_name}</p>
+          <p style="font-size: 11px; margin-bottom: 0px;">${place.address_name}</p>
+          <p style="font-size: 12px; margin-bottom: 0px;">📞 ${place.phone}</p>
+          <a href=${place.place_url} style="font-size: 11px">카카오맵</a>`
         infoDiv.appendChild(pTag)
 
       });
@@ -217,12 +224,12 @@ export default {
 
       // 새 목록 추가
       this.searchBank.forEach((place) => {
-        const pTag = document.createElement("p")
-        pTag.innerHTML = `<p>이름: ${place.place_name}</p><p>주소: ${place.address_name}</p><hr>`;
-        pTag.addEventListener("click", () => {
+        const divTag = document.createElement("div")
+        divTag.innerHTML = `<strong style="font-size:14px;">${place.place_name}</strong><div style="font-size:12px;">${place.address_name}</div><hr>`;
+        divTag.addEventListener("click", () => {
           this.clickPlace(place)
         })
-        bankList.appendChild(pTag)
+        bankList.appendChild(divTag)
       })
 
     },
@@ -269,10 +276,11 @@ export default {
       }
       const pTag = document.createElement("p")
       pTag.innerHTML = `
-          <strong>${place.place_name}</strong>
-          <p>📍 ${place.road_address_name} (${place.address_name})</p>
-          <p>📞 ${place.phone}</p>
-          <a href=${place.place_url}>카카오맵 이동하기</a>`
+        <strong style="display: flex; justify-content: center;">${place.place_name}</strong><hr style="margin: 5px 0 10px;">
+        <p style="font-size: 13px; margin-bottom: 0px;">📍 ${place.road_address_name}</p>
+        <p style="font-size: 11px; margin-bottom: 0px;">${place.address_name}</p>
+        <p style="font-size: 12px; margin-bottom: 0px;">📞 ${place.phone}</p>
+        <a href=${place.place_url} style="font-size: 11px">카카오맵</a>`
       infoDiv.appendChild(pTag)
     },
 
@@ -347,7 +355,9 @@ onMounted(() => {
 }
 #search-bank{
   display: flex;
-
+  height: 100px;
+  justify-content: space-evenly;
+  align-items: center;
   /* width: 300px; */
 }
 #sido{
@@ -368,12 +378,15 @@ onMounted(() => {
 }
 .search-button{
   /* height: 45px; */
-  height: 20px;
+  /* height: 20px; */
+  height: 40px;
 }
 .input-bank{
-  width: 100%;
+  width: 70%;
+  height: 40px;
   font-size: 13px;
 }
+
 
 
 
@@ -391,19 +404,21 @@ select{
   width: 200px;
 }
 .placeInfo {
+  display: flex;
+  justify-content: center;
   /* position:absolute; */
   top:0px;
   /* top:100px; */
   left:0;
   bottom:0;
   width:250px;
-  height: 250px;
+  height: 150px;
   /* height : x */
   margin:10px 0 30px 10px;
-  padding:5px;
+  padding:15px;
   overflow-y:auto;
   /* background:rgba(255, 255, 255, 0.7); */
-  background:rgba(167, 188, 243, 0.7);
+  /* background:rgba(167, 188, 243, 0.7); */
   /* font-size:12px; */
   border-radius: 10px;
   /* border: 1px black solid;   */
@@ -415,6 +430,9 @@ select{
 #closePlaceInfo{
   /* color: rgba(0, 0, 0, 0); */
   /* position: absolute; */
+}
+.infoPTag{
+  margin-bottom: 0px;
 }
 /* .bg_white {
   background:#fff;

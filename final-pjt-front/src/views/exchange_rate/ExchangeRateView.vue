@@ -8,18 +8,25 @@
     "tts":"306.42",  # 송금 보낼 때
     "deal_bas_r":"303.39",  # 매매기준율
     -->
+<div class="container">
     <h2 class="title">환율 계산기</h2>
+    <div class="content-box">
+
     <div class="select-countries">
         <div class="select-country">
-            <select v-model="country1" class="select-box">
+            <select v-model="country1" class="select-box form-select" aria-label="Large select example">
+            <!-- <select v-model="country1" class="select-box"> -->
                 <option value="" selected>선택1</option>
                 <option v-for="country1 in store.countries" :key="country1.cur_unit" :value="country1">
-                        {{ country1.cur_nm.split(' ')[0] }} - {{ country1.cur_unit }}
+                        {{ country1.cur_nm.split(' ')[0] }}({{ country1.cur_unit }})
                 </option>
             </select>
             <div class="country-box">
-                <input @change="changeCost1" @input="changeCost1" 
-                type="text" v-model.number="inputCost1">
+                <div class="input-group">
+                    <input @change="changeCost1" @input="changeCost1" 
+                    type="text" class="form-control" v-model.number="inputCost1">
+                    <span class="input-group-text">.00</span>
+                </div>
                 <div v-if="country1" class="result-cost">
                     <div v-if="country1 === country2">
                         {{ inputCost1 }} {{ currencyUnit1(country1.cur_nm) }}
@@ -33,15 +40,19 @@
             </div> <!-- country-box -->
         </div> <!-- "select-country" -->
         <div class="select-country">
-            <select v-model="country2" class="select-box">
+            <select v-model="country2" class="select-box form-select" aria-label="Large select example">
+            <!-- <select v-model="country2" class="select-box"> -->
                 <option value="" selected>선택2</option>
                 <option v-for="country2 in store.countries" :key="country2.cur_unit" :value="country2">
-                        {{ country2.cur_nm.split(' ')[0] }} - {{ country2.cur_unit }}
+                        {{ country2.cur_nm.split(' ')[0] }}({{ country2.cur_unit }})
                 </option>
             </select>
             <div class="country-box">
-                <input @change="changeCost2" @input="changeCost2" 
-                type="text" v-model.number="inputCost2">
+                <div class="input-group">
+                    <input @change="changeCost2" @input="changeCost2" 
+                    type="text" class="form-control" v-model.number="inputCost2">
+                    <span class="input-group-text">.00</span>
+                </div>
                 <div v-if="country2" class="result-cost">
                     <div v-if="country1 === country2">
                         {{ inputCost1 }} {{ currencyUnit2(country2.cur_nm) }}
@@ -54,7 +65,9 @@
             </div>  <!-- country-box -->
         </div> <!-- "select-country" --> 
     </div> <!-- "select-countryies" -->
-    <p>* 엔화, 인도네시아 루피아는 100 단위, 나머지는 모두 1 단위</p>
+    <p id="explanation">* 엔화, 인도네시아 루피아는 100 단위, 나머지는 모두 1 단위</p>
+</div> <!-- "content-box" -->
+</div> <!-- "container" -->
 </template>
 
 <script setup>
@@ -136,23 +149,36 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.content-box {
+    display: flex;
+    flex-direction: column;
+}
 .title{
     display: flex;
     justify-content: center;
 }
 .select-countries {
     display: flex;
+    /* position: relative; */
+    justify-content: center;
 }
 .select-country{
+    position: relative;
     display: flex;
     /* justify-content: space-around; */
     justify-content: space-evenly;
-    border: 1px solid gray;
+    border: 1px solid rgb(185, 185, 185);
+    border-radius: 5px;
     margin: 10px;
     padding: 10px;
     width: 450px;
     height: 85px;
     align-items: center;
+}
+#explanation{
+    display: flex;
+    justify-content: center
+    /* position: absolute; */
 }
 .country-box{
     /* display: flex; */
@@ -160,6 +186,7 @@ onMounted(() => {
 .select-box{
     width: 185px;
     height: 60px;
+    margin: 5px;
 }
 .result-cost{
     display: flex;
