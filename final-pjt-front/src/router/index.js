@@ -14,7 +14,6 @@ import ProfileUpdateView from '@/views/accounts/ProfileUpdateView.vue';
 // 금융 상품관련
 import ProductView from '@/views/products/ProductView.vue';
 import ProductDetailView from '@/views/products/ProductDetailView.vue';
-import SignedProductView from '@/views/products/SignedProductView.vue';
 
 // 게시판
 import ArticleView from '@/views/community/ArticleView.vue'
@@ -74,11 +73,6 @@ const router = createRouter({
       path: '/productdetail/:type/:id',
       name: 'productDetail',
       component: ProductDetailView
-    },
-    {
-      path: '/signedproduct',
-      name: 'signedProduct',
-      component: SignedProductView
     },
 
     // 게시판 관련

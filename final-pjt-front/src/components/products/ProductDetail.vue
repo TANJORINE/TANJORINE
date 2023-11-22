@@ -16,7 +16,6 @@ import { onMounted, ref } from 'vue';
 const prodData = defineProps({
     dataProd: Object
     })
-
 </script>
 
 <style scoped>

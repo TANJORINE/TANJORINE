@@ -33,20 +33,24 @@ def random_email():
 def deposit_list():
     print('Ddone')
     global financial_products
-    cur.execute('select fin_co_no, fin_prdt_cd from products_depositproduct')
+    cur.execute('SELECT id, fin_co_no, fin_prdt_cd from products_depositproduct')
     result = cur.fetchall()
 
     for row in result:
-        financial_products.append(f'D/${row[0]}/${row[1]}')
+        cur.execute(f'SELECT id FROM products_depositoption WHERE product_id = {row[0]}')
+        opresult = cur.fetchall()
+        financial_products.append(f'D/${row[1]}/${row[2]}/${random.choice(opresult)[0]}')
 
 def saving_list():
     print('Sdone')
     global financial_products
-    cur.execute('select fin_co_no, fin_prdt_cd from products_savingproduct')
+    cur.execute('select id, fin_co_no, fin_prdt_cd from products_savingproduct')
     result = cur.fetchall()
 
     for row in result:
-        financial_products.append(f'S/${row[0]}/${row[1]}')
+        cur.execute(f'SELECT id FROM products_savingoption WHERE product_id = {row[0]}')
+        opresult = cur.fetchall()        
+        financial_products.append(f'S/${row[1]}/${row[2]}/${random.choice(opresult)[0]}')
 
 def randon_birth():
     year = str(random.randint(1960, 2000))

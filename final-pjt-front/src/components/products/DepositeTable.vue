@@ -1,8 +1,9 @@
 <template>
     <div>
         <div>
-            <select name="" id="">
+            <select name="" id="" v-model="selectBank">
                 <option value="" selected>전체</option>
+                <option v-for="opt in selectOtps" :key="opt.fin_co_no" :value="opt.fin_co_no">{{ opt.kor_co_nm }}</option>
             </select>
             <select name="" id="" v-model="intr_rateType">
                 <option value="basein" selected>기본금리</option>
@@ -11,7 +12,7 @@
         </div>
         <vue-good-table
             :columns="typeColumn"
-            :rows="rows"
+            :rows="bankRow"
             v-on:row-click="goDetail"
             />
     </div>
@@ -25,7 +26,10 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 
 const router = useRouter()
-
+const selectOtps = ref({})
+const rows = ref([])
+const intr_rateType = ref('basein')
+const selectBank = ref('')
 // 페이지 로딩시 데이터 가져오기
 onMounted(() => {
     axios({
@@ -33,15 +37,12 @@ onMounted(() => {
         url: `http://127.0.0.1:8000/products/deposit/`,
     })
     .then((res) => {
+        console.log(res.data.depositData)
+        selectOtps.value = res.data.depositselect
         datasetMakeRow(res.data.depositData)
     })
 })
 
-const intr_rateType = ref('basein')
-const typeColumn = computed(() => {
-    if (intr_rateType.value === 'basein') return columns1
-    else return columns2
-})
 const columns1 = [
         { label: '공시제출월', field: 'dcls_month',},
         { label: '금융회사명', field: 'kor_co_nm',},
@@ -64,7 +65,6 @@ const columns2 = [
         { label: '36개월 최대 금리', field: 'm36intr_rate_max',},
       ]
 
-const rows = ref([])
 
 const datasetMakeRow = function(data) {
     let data_set = []
@@ -77,6 +77,7 @@ const datasetMakeRow = function(data) {
                 let row_data = {
                     id: null,
                     dcls_month: null,
+                    fin_co_no: null,
                     kor_co_nm: null,
                     fin_prdt_nm: null,
                     intr_rate_type_nm: null,
@@ -91,6 +92,7 @@ const datasetMakeRow = function(data) {
                 }
                 row_data.id = prodid
                 row_data.dcls_month = data.productsdata[i].dcls_month
+                row_data.fin_co_no = data.productsdata[i].fin_co_no
                 row_data.kor_co_nm = data.productsdata[i].kor_co_nm
                 row_data.fin_prdt_nm = data.productsdata[i].fin_prdt_nm
                 row_data = datasetAppendSingleRow(row_data, data.optionsdata[prodid][k])
@@ -100,6 +102,8 @@ const datasetMakeRow = function(data) {
     }
     rows.value = data_set
 }
+
+
 const datasetAppendSingleRow = function(row, datas){
     row.intr_rate_type_nm = datas[0].intr_rate_type_nm
     for (const data of datas) {
@@ -119,8 +123,19 @@ const datasetAppendSingleRow = function(row, datas){
     }
     return row
 }
+
+
+const typeColumn = computed(() => {
+    if (intr_rateType.value === 'basein') return columns1
+    else return columns2
+})
+
+const bankRow = computed(() => {
+    if (selectBank.value === '') return rows.value
+    else return rows.value.filter((row)=> selectBank.value===row.fin_co_no)
+})
+
 const goDetail = function(e) {
-    console.log(e.row.id)
     router.push({name:'productDetail', params:{type:'D', id: e.row.id}})
 }
 </script>

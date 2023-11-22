@@ -1,8 +1,9 @@
 <template>
     <div>
         <div>
-            <select name="" id="">
+            <select name="" id="" v-model="selectBank">
                 <option value="" selected>전체</option>
+                <option v-for="opt in selectOtps" :key="opt.fin_co_no" :value="opt.fin_co_no">{{ opt.kor_co_nm }}</option>
             </select>
             <select name="" id="" v-model="intr_rateType">
                 <option value="basein" selected>기본금리</option>
@@ -11,7 +12,7 @@
         </div>
         <vue-good-table
             :columns="typeColumn"
-            :rows="rows"
+            :rows="bankRow"
             v-on:row-click="goDetail"
             />
     </div>
@@ -20,17 +21,20 @@
 <script setup>
 import 'vue-good-table-next/dist/vue-good-table-next.css'
 import { VueGoodTable } from 'vue-good-table-next';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
-import { computed } from '@vue/reactivity';
-const data = ref([])
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
+const selectOtps = ref({})
+const selectBank = ref('')
 onMounted(() => {
     axios({
         method:'get',
         url: `http://127.0.0.1:8000/products/saving/`,
     })
     .then((res) => {
-        console.log(res.data.savingData)
+        selectOtps.value = res.data.savingselect
         datasetMakeRow(res.data.savingData)
     })
 })
@@ -78,6 +82,7 @@ const datasetMakeRow = function(data) {
                     id: null,
                     dcls_month: null,
                     kor_co_nm: null,
+                    fin_co_no: null,
                     fin_prdt_nm: null,
                     intr_rate_type_nm: null,
                     rsrv_type_nm: null,
@@ -93,6 +98,7 @@ const datasetMakeRow = function(data) {
                 row_data.id = prodid
                 row_data.dcls_month = data.productsdata[i].dcls_month
                 row_data.kor_co_nm = data.productsdata[i].kor_co_nm
+                row_data.fin_co_no = data.productsdata[i].fin_co_no
                 row_data.fin_prdt_nm = data.productsdata[i].fin_prdt_nm
                 row_data = datasetAppendSingleRow(row_data, data.optionsdata[prodid][k])
                 data_set.push(row_data)
@@ -123,8 +129,12 @@ const datasetAppendSingleRow = function(row, datas){
     return row
 }
 
+const bankRow = computed(() => {
+    if (selectBank.value === '') return rows.value
+    else return rows.value.filter((row)=> selectBank.value===row.fin_co_no)
+})
+
 const goDetail = function(e) {
-    console.log(e.row.id)
     router.push({name:'productDetail', params:{type:'S', id: e.row.id}})
 }
 </script>

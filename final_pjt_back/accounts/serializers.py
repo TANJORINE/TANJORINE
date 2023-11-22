@@ -12,7 +12,6 @@ class CustomRegisterSerializer(RegisterSerializer):
     birth = serializers.DateField(required=False)
     phone = serializers.CharField(max_length=20)
     address = serializers.CharField(max_length=100)
-    products = serializers.ListField(child=serializers.CharField(), required=False)
     money = serializers.IntegerField(required=False)
     salary = serializers.IntegerField(required=False)
     married = serializers.BooleanField(required=True)
@@ -29,7 +28,6 @@ class CustomRegisterSerializer(RegisterSerializer):
             'address': self.validated_data.get('address',''),
             'money': self.validated_data.get('money', ''),
             'salary': self.validated_data.get('salary', ''),
-            'products': self.validated_data.get('financial_products', ''),
             'married': self.validated_data.get('married', ''),
             'main_bank': self.validated_data.get('main_bank', ''),
             'save_type': self.validated_data.get('save_type', ''),
@@ -46,5 +44,5 @@ class CustomRegisterSerializer(RegisterSerializer):
 class CustomUserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ('email', 'username', 'birth', 'phone', 'address', 'money', 'salary', 'married', 'main_bank', 'save_type', 'is_staff')
+        fields = ('email', 'username', 'birth', 'phone', 'address', 'products','money', 'salary', 'married', 'main_bank', 'save_type', 'is_staff')
         read_only_fields = ('username', 'email', 'is_staff')

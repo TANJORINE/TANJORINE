@@ -74,7 +74,6 @@ const username = ref(null)
 const birth = ref(null)
 const phone = ref(null)
 const address = ref(null)
-const products = ref('')
 const money = ref(null)
 const salary = ref(null)
 const married = ref(null)
@@ -89,7 +88,7 @@ const signUp = function () {
         "birth"     : birth.value,
         "phone"     : phone.value,
         "address"   : address.value,
-        "products"  : products.value,
+        "products"  : 'NoProd',
         "money"     : money.value,
         "salary"    : salary.value,
         "married"   : married.value,

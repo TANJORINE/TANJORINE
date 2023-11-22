@@ -3,7 +3,6 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 export const useUserStore = defineStore('user', () => {
-
   const router = useRouter()
   const token = ref(null)
   const userEmail = ref(null)
@@ -39,7 +38,6 @@ export const useUserStore = defineStore('user', () => {
       token.value = res.data.key
       userEmail.value = loginData.email
       router.push({ name: 'home' })
-      console.log(userEmail.value)
     }).catch(err => {
       console.log(err)
     })

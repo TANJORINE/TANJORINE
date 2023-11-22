@@ -20,7 +20,6 @@ import { ref, onMounted } from 'vue';
 import DepositeTable from '@/components/products/DepositeTable.vue';
 import SavingTable from '@/components/products/SavingTable.vue';
 const showtype = ref(true)
-console.log(showtype.value)
 const click = function () {
     showtype.value = !showtype.value
 }

@@ -17,6 +17,7 @@ const user = useUserStore()
 const route = useRoute()
 const product = ref({})
 const options = ref({})
+
 onMounted(() => {
     axios({
         method:'get',
