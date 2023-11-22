@@ -1,6 +1,5 @@
 <template>
-    <div class="d-flex felx-direction-column">
-        
+    <div class="d-flex felx-direction-column">    
         <div v-for="option in dataOption">
             <hr>
             <p>{{ option.save_trm }} 개월 옵션</p>

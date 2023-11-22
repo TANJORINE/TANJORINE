@@ -8,4 +8,5 @@ urlpatterns = [
     path('saving/', views.savingLoad),
     path('detail/<str:type>/<int:pk>/', views.detail),
     path('signedProd/', views.signedProd),
+    path('signUpProd/', views.signUpProd)
 ]

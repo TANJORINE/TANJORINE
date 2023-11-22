@@ -28,7 +28,7 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
-import { ref, onMounted, watch, computed } from 'vue';
+import { ref, onMounted, onBeforeMount } from 'vue';
 import { useUserStore } from '@/stores/user'
 import { useProductStore } from '@/stores/product'
 import chart from '@/components/products/chart.vue'
@@ -49,7 +49,7 @@ const married = ref(null)
 const main_bank = ref(null)
 const save_type = ref(null)
 
-onMounted(() => {
+onBeforeMount(() => {
     axios({
       method: 'get',
       url: `http://127.0.0.1:8000/accounts/user/`,
@@ -59,7 +59,7 @@ onMounted(() => {
     }).then((res) => {
         // 프로필 수정 화면 표시용
         data.value = res.data
-        //
+
         username.value  = res.data.username
         birth.value     = res.data.birth
         phone.value     = res.data.phone
@@ -69,6 +69,7 @@ onMounted(() => {
         married.value   = res.data.married
         main_bank.value = res.data.main_bank
         save_type.value = res.data.save_type
+        prodstore.signedProductsInfo(res.data.products.split(',').map(d=> d.split('/$')))
     })
 })
 </script>

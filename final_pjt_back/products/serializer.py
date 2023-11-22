@@ -16,6 +16,7 @@ class DepositOptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = DepositOption
         fields = '__all__'
+        
 class SavingOptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = SavingOption

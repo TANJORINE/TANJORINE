@@ -4,7 +4,31 @@ import axios from 'axios'
 export const useProductStore = defineStore('product', () => {
     const userProd = ref({})
     const userOpt = ref({})
-    const chartInfo = ref(null)
+    const chartInfo = ref({
+        labels:[],
+        datasets:[
+            {
+                label: '기본 금리',
+                data: [],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    ],
+                borderColor: [
+                    'rgb(75, 192, 192)',
+                    ],
+            },
+            {
+                label: '최대 금리',
+                data: [],
+                backgroundColor: [
+                    'rgba(100, 199, 132, 0.7)',
+                    ],
+                borderColor: [
+                    'rgb(75, 192, 192)',
+                    ],
+            }
+        ],
+    })
     const signedProductsInfo = function(data) {
         axios({
                 method:'post',
@@ -12,16 +36,55 @@ export const useProductStore = defineStore('product', () => {
                 data: data
             })
             .then((res) => {
+                console.log(1)
                 userProd.value=res.data.products
                 userOpt.value=res.data.options
-                chartInfo.value = makeChart(userProd.value, userOpt.value)
-                return 1
+                makeChart(userProd.value, userOpt.value)
             })
             .catch((err) => {
                 console.log(err)
             })
     }
-
-
-    return { signedProductsInfo, userProd, userOpt, }
+    const makeChart = function(prods, opts) {
+        let labels = []
+        let datasets = [
+            {
+                label: '기본 금리',
+                data: [],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    ],
+                borderColor: [
+                    'rgb(75, 192, 192)',
+                    ],
+            },
+            {
+                label: '최대 금리',
+                data: [],
+                backgroundColor: [
+                    'rgba(100, 199, 132, 0.7)',
+                    ],
+                borderColor: [
+                    'rgb(75, 192, 192)',
+                    ],
+            }
+        ]
+        for (const prod in prods) {
+            console.log(1)
+            labels.push(prods[prod][0].fin_prdt_nm)
+            datasets[0].data.push(opts[prod].intr_rate)
+            datasets[1].data.push(opts[prod].intr_rate2)
+        }
+        chartInfo.value={
+            labels:labels,
+            datasets:datasets,
+        }
+    }
+    watch((userProd.value, userOpt.value), (newVal) => {
+        console.log(newVal)
+    })
+    watch(chartInfo, (newVal) => {
+        console.log(newVal)
+    })
+    return { signedProductsInfo, userProd, userOpt, chartInfo}
 })

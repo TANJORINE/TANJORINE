@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from .utils  import *
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from accounts.models import User
 # Create your views here.
 
 # 전체 상품목록 가져오기
@@ -61,8 +62,8 @@ def detail(request, type, pk):
         product = SavingProduct.objects.get(pk=pk)
         options = product.option.all()
         data = {
-            'product': DepositProductSerializer(product).data,
-            'options': DepositOptionSerializer(options, many = True).data
+            'product': SavingProductSerializer(product).data,
+            'options': SavingOptionSerializer(options, many = True).data
         }        
     return Response(data)
 
@@ -88,4 +89,24 @@ def signedProd(request):
         'products': products,
         'options': options,
     }
+    return Response(data)
+
+@api_view(['POST'])
+def signUpProd(request):
+    print(request.data)
+    userProd = get_user_model().objects.filter(email=request.data['user']).values_list('products')
+    data = {
+        'message': 'OK!'
+    }
+    print(userProd[0][0])
+    if request.data['code'] in userProd[0][0]:
+        data['result'] = 'Already'
+    else:
+        userData = get_user_model().objects.get(email=request.data['user'])
+        if userProd[0][0] == '':
+            userData.products += request.data['code']
+        else:
+            userData.products += ',' + request.data['code']
+        userData.save()
+        data['result'] = 'Done'
     return Response(data)
