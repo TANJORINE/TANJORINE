@@ -40,7 +40,7 @@ class ArticleSerializer(serializers.ModelSerializer):
     class CategorySerializer(serializers.ModelSerializer):
         class Meta:
             model = Category
-            fields = ('pk', 'name')
+            fields = ('pk', 'name', 'main_category')
 
     category = CategorySerializer(read_only=True)
 
@@ -63,7 +63,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
     class CategorySerializer(serializers.ModelSerializer):
         class Meta:
             model = Category
-            fields = ('pk', 'name')
+            fields = ('pk', 'name', 'main_category')
     
     category = CategorySerializer(read_only=True)
     class Meta:
@@ -75,4 +75,4 @@ class ArticleListSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('pk', 'name',)
+        fields = ('pk', 'name', 'main_category')

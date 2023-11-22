@@ -2,6 +2,11 @@
     <div>
         <h3>게시글 수정</h3>
         <form @submit.prevent="updateArticle">
+          <select v-model="newCate">
+            <option v-for="category in store.categories" :value="category">
+              <p>{{ category.name }}</p>
+            </option>
+          </select>
             <div>
                 <label for="title">제목:</label>
                 <!-- <input type="text" v-model.trim="title" id="title" v-model="articleTitle"> -->
@@ -35,6 +40,7 @@ const article = ref(null)
 const articleTitle = ref(null)
 const articleContent = ref(null)
 const loginUser = ref(null)
+const newCate = ref(null)
 
 const updateArticle = function() {
   if (article.value.user.email === loginUser.value && loginUser.value !== null) {
@@ -45,6 +51,7 @@ const updateArticle = function() {
           Authorization: `Token ${userStore.token}`
       },
       data: {
+        category: newCate.value.pk,
         title: title.value,
         content: content.value,
       },
@@ -62,6 +69,8 @@ const updateArticle = function() {
 }
 
 onMounted(() => {
+  store.getCategories()
+
   axios({
     method: 'GET',
     url: `${store.API_URL}/accounts/user/`,

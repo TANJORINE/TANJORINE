@@ -43,9 +43,10 @@ def article_detail(request, article_pk):
         article.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     elif request.method == 'PUT':
+        category = Category.objects.get(pk=request.data.get('category'))
         serializer = ArticleSerializer(article, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            serializer.save(category=category)
             return Response(serializer.data)
 
 
@@ -90,7 +91,7 @@ def comment_create(request, article_pk):
 
 @authentication_classes([TokenAuthentication])
 # @permission_classes([IsAdminOrReadOnly])
-@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+@api_view(['GET', 'POST'])
 def category_list(request):
     if request.method == 'GET':
         categories = Category.objects.all()
@@ -101,5 +102,17 @@ def category_list(request):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-    # elif request.method == 'PUT':
-    # elif request.method == 'DELETE':
+
+
+@api_view(['PUT', 'DELETE'])
+def category_management(request, category_pk):
+    category = get_object_or_404(Category, pk=category_pk)
+
+    if request.method == 'PUT':
+        serializer = CategorySerializer(category, data=request.data, partial=True)  # 
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+    elif request.method == 'DELETE':
+        category.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

@@ -3,8 +3,13 @@
         <div class="container">
             <div class="category-box">
                 <form @submit.prevent="createCategory">
-                    <label for="create-category">Category 종류:</label><p></p>
-                    <input type="text" name="create-category" id="create-category" v-model.trim="name"><p></p>
+                    <label for="create-category">Category 종류:</label>
+                    <br>
+                    <input type="text" name="create-category" id="create-category" v-model.trim="name">
+                    <br>
+                    <label for="mainCate">메인 카테고리</label>
+                    <input type="checkbox" name="mainCate" id="mainCate" v-model="mainCate">
+                    <br>
                     <input type="submit" value="카테고리 생성">
                 </form>
             </div>
@@ -32,7 +37,7 @@ const store = useCommunityStore()
 const userStore = useUserStore()
 const router = useRouter()
 const isStaff = ref(false)
-
+const mainCate = ref(false)
 
 // console.log(isStaff.value)
 const createCategory = function() {
@@ -42,6 +47,7 @@ const createCategory = function() {
             url: `${store.API_URL}/community/category/`,
             data: {
                 name: name.value,
+                main_category: mainCate.value
             }
         })
         .then((res) => {

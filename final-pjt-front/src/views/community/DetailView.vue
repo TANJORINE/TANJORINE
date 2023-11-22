@@ -7,7 +7,9 @@
     <!-- <p>{{ user }}</p> -->
 
     <div v-if="article">
-      <p>[ 카테고리 : {{ article.category.name }} ]</p>
+      <div v-if="article.category">
+        <p>[ 카테고리 : {{ article.category.name }} ]</p>
+      </div>
       <p>제목 : {{ article.title }}</p>
       <p>내용 : {{ article.content }}</p>
       <p>작성자 : {{ article.user.username }}</p>

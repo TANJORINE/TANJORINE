@@ -4,10 +4,13 @@ from django.conf import settings
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
+    main_category = models.BooleanField(default=False)
 
 
 class Article(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    # category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    # category = models.ForeignKey(Category, on_delete=models.SET_DEFAULT, default=1)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='articles')
     # like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_articles')
     title = models.CharField(max_length=50)

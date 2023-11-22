@@ -1,33 +1,73 @@
-<template>
-  <select v-model="siDo" @change="changeSido" name="sido" id="sido">
-    <option v-for="sido in store.siDo" :value="sido">
-      <p>{{ sido.name }}</p>
-    </option>
-  </select>
-  
-  <select v-model="siGunGu" name="sigungu" id="sigungu">
-    <option v-for="sigungu in store.siGunGu" :value="sigungu">
-      <p>{{ sigungu }}</p>
-    </option>
-  </select>
-  <select v-model="bank" name="bank" id="bank">
-      <option v-for="bank in store.banks" :value="bank">
-        <p>{{ bank }}</p>
-      </option>
-  </select>
-  <button @click="search(siDo.name + ' ' + siGunGu + ' ' + bank)">검색</button>
-  
-  <div id="container">
-    <div id="map"></div>
-    <!-- <div id="placesInfo" class="bg_white"> -->
-      <!-- <p>테스트</p> -->
-      <!-- <ul id="placesInfo"></ul> -->
-    <!-- </div> -->
+<template >
+  <div class="container">
+    <div class="row g-3">
+
+
+  <h2 class="title">내 주변 은행</h2>
+  <div id="left-container" class="box col-4 col-sm-12 col-md-6 col-lg-4">
+  <div id="search-bar">
+    <div @click="selectOrSearch('select')">지역 선택</div>
+    <div @click="selectOrSearch('search')">직접 검색</div>
   </div>
-    <div id="bankList"></div>
+  <div v-if="findBankMethod" id="select-bank">
+    <div> <!-- (시도 시군구) (은행) div -->
+      <div> <!-- 시도 시군구 div -->
+        <label for="sido"></label>
+        <select v-model="siDo" @change="changeSido" name="sido" id="sido">
+          <option value="" selected>시/도</option>
+          <option v-for="sido in store.siDo" :value="sido">
+            {{ sido.name }}
+          </option>
+        </select>
+        
+        <label for="sigungu"></label>
+        <select v-model="siGunGu" name="sigungu" id="sigungu">
+          <option value="" selected>시/군/구</option>
+          <option v-for="sigungu in store.siGunGu" :value="sigungu">
+            {{ sigungu }}
+          </option>
+        </select>
+      </div> <!-- 시도 시군구 div -->
+        
+      <label for="bank"></label>
+      <select v-model="bank" name="bank" id="bank">
+        <option value="" selected>은행</option>
+        <option v-for="bank in store.banks" :value="bank">
+          {{ bank }}
+        </option>
+      </select>
+    </div> <!-- (시도 시군구) (은행) div -->
+    <button class="select-button" @click="search(siDo.name + ' ' + siGunGu + ' ' + bank)">검색</button>
+  </div> <!-- "select-bank" -->
+  <div v-else id="search-bank">
+    <input class="input-bank" type="text" v-model="inputBank">
+    <button class="search-button" @click="search(inputBank)">검색</button>
+  </div> <!-- "search-bank" -->
+  <div id="bankList"></div>
+  </div> <!-- "left-container" -->
+  <!-- <div class="box col-1">
+
+  </div> -->
+    <div id="right-container" class="box col-8 col-sm-12 col-md-6 col-lg-8">
+
+
+      <div id="map-container">
+        <div id="map"></div>
+        <div id="placeInfoWindow"> <!-- placeInfo -->
+          <div id="placeInfo" class="bg_white">  <!-- openPlaceInfo -->
+          </div>
+          <p id="closePlaceInfo" @click="closePlaceInfo"></p>
+        </div>
+      </div>
+      <!-- <div id="bankList"></div> -->
+      </div> <!-- "right-container" -->
+    </div> <!-- "row" -->
+  </div> <!-- "container" -->
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
   data() {
     return {
@@ -36,10 +76,12 @@ export default {
       markers: [],
       searchBank: [],
       infowindow: null,
+      findBankMethod: true,  // select: true / search: false
     };
   },
 
   mounted() {
+    const inputBank = ref("")
     // 카카오맵 초기화
     if (window.kakao && window.kakao.maps) {
         this.loadMap()
@@ -67,7 +109,16 @@ export default {
         document.head.appendChild(scriptTag)   
     },
 
+    selectOrSearch(mthd) {
+      if (mthd === 'select') {
+        this.findBankMethod = true
+      } else if (mthd === 'search') {
+        this.findBankMethod = false
+      }
+    },
+
     search(keyword) {
+      console.log(keyword)
       // 기존 마커 제거
       this.markers.forEach((marker) => {
         marker.setMap(null);
@@ -110,60 +161,51 @@ export default {
     },
 
     displayMarker(place) {
-      // this.searchBank.forEach((place) => {
-        const marker = new kakao.maps.Marker({
-          map: this.map,
-          position: new kakao.maps.LatLng(place.y, place.x),
-        });
-        this.markers.push(marker);
+      const marker = new kakao.maps.Marker({
+        map: this.map,
+        position: new kakao.maps.LatLng(place.y, place.x),
+      });
+      this.markers.push(marker);
 
-        // 마커에 마우스 이벤트 등록
-        kakao.maps.event.addListener(marker, "mouseover", () => {
-          this.infowindow.setContent(`<div style="padding:5px;font-size:12px;">${place.place_name}</div>`);
-          this.infowindow.open(this.map, marker);
+      // 마커에 마우스 이벤트 등록
+      kakao.maps.event.addListener(marker, "mouseover", () => {
+        this.infowindow.setContent(`<div style="padding:5px;font-size:12px;">${place.place_name}</div>`);
+        this.infowindow.open(this.map, marker);       
+      })
+      
+      kakao.maps.event.addListener(marker, "click", () => {
+        this.map.setLevel(5)
+        this.map.panTo(new kakao.maps.LatLng(place.y, place.x))
+        
+        const infoDiv = document.getElementById("placeInfo")
+        infoDiv.classList.add("placeInfo")
+        const closeTag = document.getElementById("closePlaceInfo")
+        // closeTag.style.color = "rgba(0, 0, 0, 1)"
+        closeTag.textContent = "X"
+        if (infoDiv.firstChild) {
+          while (infoDiv.firstChild) {
+            infoDiv.removeChild(infoDiv.firstChild)
+          }
+        }
+        const pTag = document.createElement("p")
+        pTag.innerHTML = `
+          <strong>${place.place_name}</strong>
+          <p>📍 ${place.road_address_name} (${place.address_name})</p>
+          <p>📞 ${place.phone}</p>
+          <a href=${place.place_url}>카카오맵 이동하기</a>`
+        infoDiv.appendChild(pTag)
 
-          // const infoEl = document.getElementById("placeInfo")
-          // // console.log(infoEl)
-          // if (infoEl.firstChild) {
-          //   // while (infoEl.firstChild) {
-          //     infoEl.removeChild(infoEl.firstChild)
-          //   // }
-          // }
-          // const pTag = document.createElement("p")
-          // pTag.innerHTML = `<p>이름</p>`
-          // infoEl.appendChild(pTag)
+      });
+      
 
-        })
-
-        kakao.maps.event.addListener(marker, "click", () => {
-          this.map.setLevel(5)
-          this.map.panTo(new kakao.maps.LatLng(place.y, place.x))
-        });
-
-        kakao.maps.event.addListener(marker, "mouseout", () => {
-          this.infowindow.close();
-        });
-    // }) 
+      kakao.maps.event.addListener(marker, "mouseout", () => {
+        this.infowindow.close();
+      });
 
       this.map.panTo(new kakao.maps.LatLng(place.y, place.x));
     },
 
     displayBanks(place) {
-      /* 
-      [ place ]
-        address_name: "서울 종로구 혜화동 132-1"
-        category_group_code: "BK9"
-        category_group_name: "은행"
-        category_name: "금융,보험 > 금융서비스 > 은행 > 우리은행"
-        distance: ""
-        id: "20557417"
-        phone: "02-766-5321"
-        place_name: "우리은행 혜화동지점"
-        place_url: "http://place.map.kakao.com/20557417"
-        road_address_name: "서울 종로구 창경궁로 270"
-        x: "127.001082364298"
-        y: "37.5849595434228"
-      */
 
       // 기존 목록 제거
       const bankList = document.getElementById("bankList")
@@ -214,18 +256,41 @@ export default {
       console.log(this.markers)
 
 
-      // const infoEl = document.getElementById("placeInfo")
-      // console.log(infoEl)
-      // if (infoEl.firstChild) {
-      //   // while (infoEl.firstChild) {
-      //     infoEl.removeChild(infoEl.firstChild)
-      //   // }
-      // }
-      // const pTag = document.createElement("p")
-      // pTag.innerHTML = `<p>이름</p>`
-      // infoEl.appendChild(pTag)
+      const infoDiv = document.getElementById("placeInfo")
+      infoDiv.classList.add("placeInfo")
+      const closeTag = document.getElementById("closePlaceInfo")
+      // closeTag.style.color = "rgba(0, 0, 0, 1)"
+      closeTag.textContent = "X"
+      console.log(infoDiv)
+      if (infoDiv.firstChild) {
+        while (infoDiv.firstChild) {
+          infoDiv.removeChild(infoDiv.firstChild)
+        }
+      }
+      const pTag = document.createElement("p")
+      pTag.innerHTML = `
+          <strong>${place.place_name}</strong>
+          <p>📍 ${place.road_address_name} (${place.address_name})</p>
+          <p>📞 ${place.phone}</p>
+          <a href=${place.place_url}>카카오맵 이동하기</a>`
+      infoDiv.appendChild(pTag)
     },
 
+    closePlaceInfo() {
+      console.log("닫기")
+      const infoDiv = document.getElementById("placeInfo")
+      infoDiv.classList.remove("placeInfo")
+      if (infoDiv.firstChild) {
+        while (infoDiv.firstChild) {
+          infoDiv.removeChild(infoDiv.firstChild)
+        }
+      }
+      const closeTag = document.getElementById("closePlaceInfo")
+      // closeTag.style.color = "rgba(0, 0, 0, 0)"
+      closeTag.textContent = ""
+          // closeTag.innerHTML = ""
+          // close.innerHTML = "<img src="../../assets/image.jpg"></img>"
+    },
 
 
   },
@@ -237,7 +302,9 @@ import { useBankMapStore } from '@/stores/bankMap'
 import { ref, onMounted } from 'vue'
 
 const store = useBankMapStore()
-const siDo = ref(null)
+const siDo = ref('')
+const siGunGu = ref('')
+const bank = ref('')
 
 const changeSido = function() {
     store.getSiGunGu(siDo.value.code.slice(0, 2))
@@ -252,19 +319,81 @@ onMounted(() => {
 
 
 <style scoped>
-#container {
+.title{
+    display: flex;
+    justify-content: center;
+}
+#left-side{
+  width: 300px;
+  /* 부트스트랩으로 비율 조정하기! 1:3 (col-3, col-9)*/
+  /* height: 100%; */
+}
+#right-container{
+  
+}
+#search-bar{
+  display: flex;
+  justify-content: space-evenly;
+  /* width: 300px; */
+}
+#select-bank{
+  display: flex;
+  /* width: 300px; */
+  height: 100px;
+
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+#search-bank{
+  display: flex;
+
+  /* width: 300px; */
+}
+#sido{
+  width: 110px;
+  font-size: 13px;
+}
+#sigungu{
+  width: 90px;
+  font-size: 13px;
+}
+#bank{
+  width: 100%;
+  /* width: 200px; */
+  font-size: 13px;
+}
+.select-button{
+  height: 45px;
+}
+.search-button{
+  /* height: 45px; */
+  height: 20px;
+}
+.input-bank{
+  width: 100%;
+  font-size: 13px;
+}
+
+
+
+
+#map-container {
   position:relative;
+  display: flex;
 }
 #map {
   width: 100%;
+  /* width: 600px; */
   height: 400px;
 }
 select{
   width: 200px;
 }
-#placesInfo {
-  position:absolute;
+.placeInfo {
+  /* position:absolute; */
   top:0px;
+  /* top:100px; */
   left:0;
   bottom:0;
   width:250px;
@@ -273,10 +402,21 @@ select{
   margin:10px 0 30px 10px;
   padding:5px;
   overflow-y:auto;
-  background:rgba(255, 255, 255, 0.7);
-  z-index: 1;
-  font-size:12px;
+  /* background:rgba(255, 255, 255, 0.7); */
+  background:rgba(167, 188, 243, 0.7);
+  /* font-size:12px; */
   border-radius: 10px;
+  /* border: 1px black solid;   */
 }
-.bg_white {background:#fff;}
+#placeInfoWindow{
+  display: flex;
+  /* position: absolute; */
+}
+#closePlaceInfo{
+  /* color: rgba(0, 0, 0, 0); */
+  /* position: absolute; */
+}
+/* .bg_white {
+  background:#fff;
+} */
 </style>
