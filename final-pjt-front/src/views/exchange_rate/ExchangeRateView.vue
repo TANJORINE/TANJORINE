@@ -1,51 +1,60 @@
 <template>
-    <div>
-        <div class="first-country">
-            <select v-model="country1">
+    <!-- 
+    <select name="calcOption" id="calcOption">
+        <option value=""></option>
+    </select> 
+
+    "ttb":"300.35",  # 송금 받을 때
+    "tts":"306.42",  # 송금 보낼 때
+    "deal_bas_r":"303.39",  # 매매기준율
+    -->
+    <h2 class="title">환율 계산기</h2>
+    <div class="select-countries">
+        <div class="select-country">
+            <select v-model="country1" class="select-box">
+                <option value="" selected>선택1</option>
                 <option v-for="country1 in store.countries" :key="country1.cur_unit" :value="country1">
-                    <div>
                         {{ country1.cur_nm.split(' ')[0] }} - {{ country1.cur_unit }}
-                    </div>
                 </option>
             </select>
-            <input @change="changeCost1" @input="changeCost1" 
-            type="text" v-model.number="inputCost1">
-            <div v-if="country1">
-                <div v-if="country1 === country2">
-                    <p>{{ inputCost1 }} {{ currencyUnit1(country1.cur_nm) }}</p>
-                </div>
-                <div v-else>
-                    <p>{{ Math.round(inputCost1 * 100) / 100 }} {{ currencyUnit1(country1.cur_nm) }}</p>
-                </div>
-            </div>
-            <div v-else>
-                <p>0</p>
-            </div>
-        </div>
-        
-        <div class="second-country">
-            <select v-model="country2">
+            <div class="country-box">
+                <input @change="changeCost1" @input="changeCost1" 
+                type="text" v-model.number="inputCost1">
+                <div v-if="country1" class="result-cost">
+                    <div v-if="country1 === country2">
+                        {{ inputCost1 }} {{ currencyUnit1(country1.cur_nm) }}
+                    </div>
+                    <div v-else>
+                        {{ Math.round(inputCost1 * 100) / 100 }} {{ currencyUnit1(country1.cur_nm) }}
+                    </div>
+                </div> <!-- "result-cost" -->
+                <div v-else class="result-cost">0</div>
+            
+            </div> <!-- country-box -->
+        </div> <!-- "select-country" -->
+        <div class="select-country">
+            <select v-model="country2" class="select-box">
+                <option value="" selected>선택2</option>
                 <option v-for="country2 in store.countries" :key="country2.cur_unit" :value="country2">
-                    <div>
                         {{ country2.cur_nm.split(' ')[0] }} - {{ country2.cur_unit }}
-                    </div>
                 </option>
             </select>
-            <input @change="changeCost2" @input="changeCost2" 
-            type="text" v-model.number="inputCost2">
-            <div v-if="country2">
-                <div v-if="country1 === country2">
-                    <p>{{ inputCost1 }} {{ currencyUnit2(country2.cur_nm) }}</p>
-                </div>
-                <div v-else>
-                    <p>{{ Math.round(inputCost2 * 100) / 100 }} {{ currencyUnit2(country2.cur_nm) }}</p>
-                </div>
-            </div>
-            <div v-else>
-                <p>0</p>
-            </div>
-        </div>
-    </div>
+            <div class="country-box">
+                <input @change="changeCost2" @input="changeCost2" 
+                type="text" v-model.number="inputCost2">
+                <div v-if="country2" class="result-cost">
+                    <div v-if="country1 === country2">
+                        {{ inputCost1 }} {{ currencyUnit2(country2.cur_nm) }}
+                    </div>
+                    <div v-else>
+                        {{ Math.round(inputCost2 * 100) / 100 }} {{ currencyUnit2(country2.cur_nm) }}
+                    </div>
+                </div> <!-- "result-cost" -->
+                <div v-else class="result-cost">0</div>
+            </div>  <!-- country-box -->
+        </div> <!-- "select-country" --> 
+    </div> <!-- "select-countryies" -->
+    <p>* 엔화, 인도네시아 루피아는 100 단위, 나머지는 모두 1 단위</p>
 </template>
 
 <script setup>
@@ -53,8 +62,8 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useExchangeRateStore } from '@/stores/exchangeRate'
 
 const store = useExchangeRateStore()
-const country1 = ref(null)
-const country2 = ref(null)
+const country1 = ref('')
+const country2 = ref('')
 const inputCost1 = ref(0)
 const inputCost2 = ref(0)
 
@@ -127,18 +136,33 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.first-country{
-    border: 1px solid gray;
-    margin: 10px;
-    padding: 10px;
-    width: 205px;
-    height: 205px;
+.title{
+    display: flex;
+    justify-content: center;
 }
-.second-country {
+.select-countries {
+    display: flex;
+}
+.select-country{
+    display: flex;
+    /* justify-content: space-around; */
+    justify-content: space-evenly;
     border: 1px solid gray;
     margin: 10px;
     padding: 10px;
-    width: 205px;
-    height: 205px;
+    width: 450px;
+    height: 85px;
+    align-items: center;
+}
+.country-box{
+    /* display: flex; */
+}
+.select-box{
+    width: 185px;
+    height: 60px;
+}
+.result-cost{
+    display: flex;
+    justify-content: flex-end;
 }
 </style>

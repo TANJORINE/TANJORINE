@@ -12,8 +12,8 @@ export const useExchangeRateStore = defineStore('exchangeRate', () => {
         url: `${API_URL}/exchange_rate/`
     })
     .then((res) => {
-        // console.log(countries)
-        countries.value = res.data
+      countries.value = res.data
+      console.log(countries)
     })
     .catch((err) => {
         console.log(err)

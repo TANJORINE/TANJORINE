@@ -1,11 +1,16 @@
 <template>
   <div>
     <h1>게시글 조회</h1>
-    <!-- 관리자만 카테고리 생성 -->
-    <!-- {{ isStaff }} -->
-    <div v-if="isStaff">
+    <!-- <div id="mainCategories">
+      <div v-for="category in store.categories">
+        <div v-if="category.main_category">
+          {{ category.name }}
+        </div>
+      </div>
+    </div> -->
+    <div v-if="isStaff">  
       <div>
-        <RouterLink :to="{ name: 'createCategory' }">[카테고리 생성]</RouterLink>
+        <RouterLink :to="{ name: 'createCategory' }">[카테고리 관리]</RouterLink>
       </div>
     </div>
     <div v-if="loginUser">
@@ -32,7 +37,8 @@ const isStaff = ref(false)
 
 onMounted(() => {
   store.getArticles()
-
+  store.getCategories()
+  
   axios({
     method: 'GET',
     url: `${store.API_URL}/accounts/user/`,

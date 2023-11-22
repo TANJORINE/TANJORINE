@@ -9,4 +9,5 @@ urlpatterns = [
     path('comments/<int:comment_pk>/', views.comment_detail),
     path('articles/<int:article_pk>/comments/', views.comment_create),
     path('category/', views.category_list),
+    path('category_mng/<int:category_pk>/', views.category_management),
 ]
