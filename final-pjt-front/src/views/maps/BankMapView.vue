@@ -3,7 +3,6 @@
     <h2 class="page-title">내 주변 은행</h2>
     <div class="row g-2">
 
-
   <div id="left-container" class="box col-4 col-sm-12 col-md-6 col-lg-4">
     <div class="search-bank-box">
 
@@ -70,7 +69,6 @@
       <div id="map-container">
         <div id="map"></div>
       </div>
-      <!-- <div id="bankList"></div> -->
       </div> <!-- "right-container" -->
     </div> <!-- "row" -->
   </div> <!-- "container" -->
@@ -88,6 +86,7 @@ export default {
       searchBank: [],
       infowindow: null,
       findBankMethod: true,  // select: true / search: false
+      details: [],
     };
   },
 
@@ -195,25 +194,30 @@ export default {
         const infoDiv = document.getElementById("placeInfo")
         infoDiv.classList.add("placeInfo")
         const closeTag = document.getElementById("closePlaceInfo")
-        // closeTag.style.color = "rgba(0, 0, 0, 1)"
         closeTag.textContent = "X"
         if (infoDiv.firstChild) {
           while (infoDiv.firstChild) {
             infoDiv.removeChild(infoDiv.firstChild)
           }
         }
-        const pTag = document.createElement("p")
-        pTag.innerHTML = `
-          <strong style="display: flex; justify-content: center;">${place.place_name}</strong><hr style="margin: 5px 0 10px;">
-          <p style="font-size: 13px; margin-bottom: 0px;">📍 ${place.road_address_name}</p>
-          <p style="font-size: 11px; margin-bottom: 0px;">${place.address_name}</p>
-          <p style="font-size: 12px; margin-bottom: 0px;">📞 ${place.phone}</p>
-          <a href=${place.place_url} style="font-size: 11px">카카오맵</a>`
-        infoDiv.appendChild(pTag)
-
+        this.details.push({
+        'pk': place.id,
+        'name': place.place_name, 
+        'address': `📍 ${place.road_address_name}`, 
+        'subAddress': place.address_name, 
+        'phone': `📞 ${place.phone}`, 
+        'kakao': place.place_url,
+        })
+        // const divTag = document.createElement("div")
+        // divTag.innerHTML = `
+        //   <strong style="display: flex; justify-content: center;">${place.place_name}</strong><hr style="margin: 5px 0 10px;">
+        //   <p style="font-size: 13px; margin-bottom: 0px;">📍 ${place.road_address_name}</p>
+        //   <p style="font-size: 11px; margin-bottom: 0px;">${place.address_name}</p>
+        //   <p style="font-size: 12px; margin-bottom: 0px;">📞 ${place.phone}</p>
+        //   <a href=${place.place_url} style="font-size: 11px">카카오맵</a>`
+        // infoDiv.appendChild(divTag)
       });
       
-
       kakao.maps.event.addListener(marker, "mouseout", () => {
         this.infowindow.close();
       });
@@ -222,19 +226,16 @@ export default {
     },
 
     displayBanks(place) {
-
       // 기존 목록 제거
       const bankList = document.getElementById("bankList")
-      // bankList.innerHTML = '';
       while (bankList.firstChild) {
         bankList.removeChild(bankList.firstChild)
       }
-      // removeAllChildNods(bankList);
 
       // 새 목록 추가
       this.searchBank.forEach((place) => {
         const divTag = document.createElement("div")
-        divTag.innerHTML = `<strong style="font-size:14px;">${place.place_name}</strong><div style="font-size:12px;">${place.address_name}</div><hr>`;
+        divTag.innerHTML = `<strong style="font-size:15px;">${place.place_name}</strong><div style="font-size:13px;">${place.address_name}</div><hr>`;
         divTag.addEventListener("click", () => {
           this.clickPlace(place)
         })
@@ -275,7 +276,6 @@ export default {
       const infoDiv = document.getElementById("placeInfo")
       infoDiv.classList.add("placeInfo")
       const closeTag = document.getElementById("closePlaceInfo")
-      // closeTag.style.color = "rgba(0, 0, 0, 1)"
       closeTag.textContent = "X"
       console.log(infoDiv)
       if (infoDiv.firstChild) {
@@ -283,14 +283,24 @@ export default {
           infoDiv.removeChild(infoDiv.firstChild)
         }
       }
-      const pTag = document.createElement("p")
-      pTag.innerHTML = `
-        <strong style="display: flex; justify-content: center;">${place.place_name}</strong><hr style="margin: 5px 0 10px;">
-        <p style="font-size: 13px; margin-bottom: 0px;">📍 ${place.road_address_name}</p>
-        <p style="font-size: 11px; margin-bottom: 0px;">${place.address_name}</p>
-        <p style="font-size: 12px; margin-bottom: 0px;">📞 ${place.phone}</p>
-        <a href=${place.place_url} style="font-size: 11px">카카오맵</a>`
-      infoDiv.appendChild(pTag)
+      this.details.push({
+        'pk': place.id,
+        'name': place.place_name, 
+        'address': `📍 ${place.road_address_name}`, 
+        'subAddress': place.address_name, 
+        'phone': `📞 ${place.phone}`, 
+        'kakao': place.place_url,
+      })
+      // console.log(this.details)
+      // console.log(details)
+      // const divTag = document.createElement("div")
+      //   divTag.innerHTML = `
+      //     <strong style="display: flex; justify-content: center;">${place.place_name}</strong><hr style="margin: 5px 0 10px;">
+      //     <p style="font-size: 13px; margin-bottom: 0px;">📍 ${place.road_address_name}</p>
+      //     <p style="font-size: 11px; margin-bottom: 0px;">${place.address_name}</p>
+      //     <p style="font-size: 12px; margin-bottom: 0px;">📞 ${place.phone}</p>
+      //     <a href=${place.place_url} style="font-size: 11px">카카오맵</a>`
+      //   infoDiv.appendChild(divTag)
     },
 
     closePlaceInfo() {
@@ -303,13 +313,8 @@ export default {
         }
       }
       const closeTag = document.getElementById("closePlaceInfo")
-      // closeTag.style.color = "rgba(0, 0, 0, 0)"
       closeTag.textContent = ""
-          // closeTag.innerHTML = ""
-          // close.innerHTML = "<img src="../../assets/image.jpg"></img>"
     },
-
-
   },
 };
 
@@ -322,6 +327,8 @@ const store = useBankMapStore()
 const siDo = ref('')
 const siGunGu = ref('')
 const bank = ref('')
+
+// const details = ref([])
 
 const changeSido = function() {
     store.getSiGunGu(siDo.value.code.slice(0, 2))
@@ -343,7 +350,7 @@ onMounted(() => {
 }
    */
 .search-bank-box{
-  height: 200px;
+  height: 150px;
 }
 #search-bar{
   display: flex;
@@ -367,17 +374,20 @@ onMounted(() => {
   /* width: 300px; */
 }
 #sido{
-  width: 110px;
-  font-size: 13px;
+  width: 140px;
+  margin-right: 3px;
+  font-size: 15px;
 }
 #sigungu{
-  width: 90px;
-  font-size: 13px;
+  width: 120px;
+  margin-left: 3px;
+  font-size: 15px;
 }
 #bank{
   width: 100%;
+  margin-top: 5px;
   /* width: 200px; */
-  font-size: 13px;
+  font-size: 15px;
 }
 .select-button{
   height: 45px;
@@ -388,16 +398,18 @@ onMounted(() => {
   height: 40px;
 }
 .input-bank{
-  width: 70%;
+  /* width: 70%;
   height: 40px;
-  font-size: 13px;
+  font-size: 13px; */
+  width: 260px;
+  margin-right: 20px;
 }
 
 
 
 
 #detail-bank{
-  height: 200px;
+  height: 150px;
 }
 #map-container {
   position:relative;
@@ -411,7 +423,7 @@ onMounted(() => {
 select{
   width: 200px;
 }
-.placeInfo {
+.placeInfoTest {
   display: flex;
   justify-content: center;
   /* position:absolute; */
@@ -430,6 +442,19 @@ select{
   /* font-size:12px; */
   border-radius: 10px;
   /* border: 1px black solid;   */
+}
+.placeInfo {
+  display: flex;
+  justify-content: center;
+  top:0px;
+  left:0;
+  bottom:0;
+  width:250px;
+  height: 130px;
+  margin:10px 0 30px 10px;
+  padding: 0px 15px;
+  /* overflow-y:auto; */
+  border-radius: 10px;
 }
 #placeInfoWindow{
   display: flex;

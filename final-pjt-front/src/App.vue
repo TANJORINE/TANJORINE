@@ -59,4 +59,8 @@ body, html {
   justify-content: center;
   margin: 10px 0px 0px;
 }
+*{
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 400;
+}
 </style>
