@@ -77,4 +77,9 @@ body, html {
 .orange {
   background-color: #FFA33C !important;
 }
+
+*{
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 400;
+}
 </style>
