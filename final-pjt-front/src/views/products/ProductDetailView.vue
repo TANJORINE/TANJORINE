@@ -1,11 +1,13 @@
 <template>
-    <div>
-        <ProductDetail :data-prod="product"/>
-        <vue-good-table
-            :columns="typeCol"
-            :rows="rows"
-            @row-click="onRowClick"
-            />
+    <div class="box">
+        <div class="main ivory border border-warning border-3 m-3 p-3">
+            <ProductDetail :data-prod="product"/>
+            <vue-good-table
+                :columns="typeCol"
+                :rows="rows"
+                @row-click="onRowClick"
+                />
+        </div>
     </div>
 </template>
 
@@ -106,5 +108,12 @@ const onRowClick = function(params) {
 </script>
 
 <style scoped>
-
+.box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.main {
+    width: 80%;
+}
 </style>

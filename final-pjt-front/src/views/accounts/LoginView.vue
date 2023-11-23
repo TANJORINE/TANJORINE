@@ -1,16 +1,18 @@
 <template>
-    <div>
-        <h1>로그인</h1>
+    <div class="box">
+        <div class="text-box">
+            <h1>로그인</h1>
+        </div>
         <form @submit.prevent="logIn">
-            <div>
-                <label for="email">Email : </label>
-                <input type="text" id="email" v-model="email">
+            <div class="input-group mb-3 border border-warning">
+                <span class="input-group-text" id="basic-addon1">Email</span>
+                <input type="text" class="form-control" placeholder="Email" v-model="email">
             </div>
-            <div>
-                <label for="password">PassWord : </label>
-                <input type="password" id="password" v-model="password">
+            <div class="input-group mb-3 border border-warning">
+                <span class="input-group-text">PassWord</span>
+                <input type="password" class="form-control" placeholder="Password" v-model="password">
             </div>
-            <input type="submit">
+            <button class="btn btn-warning" type="submit">Log In!</button>
         </form>
     </div>
 </template>
@@ -31,5 +33,16 @@ const logIn = function() {
 </script>
 
 <style scoped>
-
+span {
+    width: 100px;
+}
+.box {
+    width: 40%;
+    min-width: 500px;
+    margin: 30px;
+}
+.text-box {
+    text-align: center;
+    margin: 20px;
+}
 </style>

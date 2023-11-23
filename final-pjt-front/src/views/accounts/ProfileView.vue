@@ -1,32 +1,45 @@
 <template>
-    <div class="row">   
-        <div class="col-3 m-5">
-            <h1>회원 정보</h1>
-            <p>실 명 : {{ username }}</p>
-            <p>생년월일 : {{ birth }}</p>
-            <p>휴대폰 : {{ phone }}</p>
-            <p>주 소 :{{ address }}</p>
-            <p>자산 : {{ money }}</p>
-            <p>연봉 : {{ salary }}</p>
-            <p>결혼 :{{ married ? '기혼' : '미혼' }}</p>
-            <p>주거래은행 : {{ main_bank }}</p>
-            <p>저축 성향 : {{ save_nm }}</p>
-            <RouterLink :to="{ name: 'profileUpdate', props:data}">수정</RouterLink>
-            <RouterLink :to="{ name: 'passwordChange'}">비밀번호 변경</RouterLink>
-        </div>
-        <div class="col-7 m-5">
-            <template v-for="prod in prodstore.userProd">
-                <div>
-                    {{ prod[0].kor_co_nm }} - {{ prod[0].fin_prdt_nm }}
+    <div class="container">
+        <div class="row">
+            <div class="col-3 m-1 mt-3 p-3 border border-warning border-3 d-flex flex-column ivory">
+                <h1><span class="badge bg-primary">회원 정보</span></h1>
+                <p>실 명 : {{ username }}</p>
+                <p>생년월일 : {{ birth }}</p>
+                <p>휴대폰 : {{ phone }}</p>
+                <p>주 소 :{{ address }}</p>
+                <p>자산 : {{ money }}</p>
+                <p>연봉 : {{ salary }}</p>
+                <p>결혼 :{{ married ? '기혼' : '미혼' }}</p>
+                <p>주거래은행 : {{ main_bank }}</p>
+                <p>저축 성향 : {{ save_nm }}</p>
+
+                <div class="d-flex flex-column mt-auto">
+                    <RouterLink class="btn btn-warning m-1" :to="{ name: 'profileUpdate', props:data}">수정</RouterLink>
+                    <RouterLink class="btn btn-warning m-1" :to="{ name: 'passwordChange'}">비밀번호 변경</RouterLink>
                 </div>
-            </template>
-            <div>
-                <chart/>
             </div>
-            <div>
-                <template v-for="data in algoData">
-                    <p>{{ data[0].kor_co_nm }} - {{ data[0].fin_prdt_nm }}</p>
-                </template>
+            <div class="col-8 m-1 mt-3 border border-warning border-3 d-flex flex-column ivory">
+                <div class="m-3">
+                    <h4><span class="badge bg-primary">가입 상품 목록</span></h4>
+                    <template v-for="prod in prodstore.userProd">
+                        <div>
+                            {{ prod[0].kor_co_nm }} - {{ prod[0].fin_prdt_nm }}
+                        </div>
+                    </template>
+                </div>
+                <div class="m-3">
+                    <h4><span class="badge bg-primary">가입 상품 금리 비교</span></h4>
+                    <div>
+                        <chart/>
+                    </div>
+                </div>
+                <div class="m-3">
+                    <h4><span class="badge bg-warning">추천 상품</span></h4>
+                    <template v-for="data in Object.keys(algoData)" :key="data">
+                        <p>{{ data + ' 번째 ' + algoData[data][0].kor_co_nm }} - <RouterLink :to="{name:'productDetail', params:{type:algoData[data][1], id: algoData[data][0].id}}">{{ algoData[data][0].fin_prdt_nm }}</RouterLink></p>
+                        
+                    </template>
+                </div>
             </div>
         </div>
     </div>
@@ -128,5 +141,8 @@ onBeforeMount(() => {
     .btn-box {
         text-decoration: none;
         color: black;
+    }
+    .ivory {
+        color: #ffffff;
     }
 </style>

@@ -1,18 +1,49 @@
 <template>
   <header>
-    <nav class="navbar navbar-expand-sm brown">
-      <RouterLink :to="{ name: 'home' }">홈</RouterLink> 
-      <RouterLink :to="{ name: 'exchangeRate' }">환율 계산기</RouterLink> 
-      <RouterLink :to="{ name: 'bankMap' }">은행 찾기</RouterLink>
-      <RouterLink :to="{ name: 'products'}">금융상품정보</RouterLink>
-      <RouterLink :to="{ name: 'articles' }">게시판</RouterLink>
-      <div :class="{ checkLogin : store.isLogin }">
-        <RouterLink :to="{ name: 'signUp' }" >회원 가입</RouterLink>
-        <RouterLink :to="{ name: 'login' }">로그인</RouterLink>
-      </div>
-      <div :class="{ checkLogin : !store.isLogin }">
-        <RouterLink :to="{ name: 'profile' }" >프로필</RouterLink>
-        <Button class="btn" @click="store.logOut">로그아웃</Button>
+    <nav class="navbar navbar-expand-md brown">
+      <div class="container-fluid d-flex align-items-center">
+        <div class="mx-5">
+          <a class="navbar-brand" href="#">
+            <img src="./assets/tangerine2.png" width="40" alt="">
+          </a>
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="#navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse brown collapse mx-2" id="navbarSupportedContent">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <RouterLink class="nav-link" :to="{ name: 'home' }">홈</RouterLink> 
+            </li>
+            <li class="nav-item ">
+              <RouterLink class="nav-link" :to="{ name: 'products'}">금융상품정보</RouterLink>
+            </li>
+            <li class="nav-item ">
+              <RouterLink class="nav-link" :to="{ name: 'exchangeRate' }">환율 계산기</RouterLink> 
+            </li>
+            <li class="nav-item ">
+              <RouterLink class="nav-link" :to="{ name: 'bankMap' }">은행 찾기</RouterLink>
+            </li>
+            <li class="nav-item ">
+              <RouterLink class="nav-link" :to="{ name: 'articles' }">게시판</RouterLink>
+            </li>   
+          </ul>
+        </div>
+        <div>
+          <div :class="{ checkLogin : store.isLogin }" class="m-3">
+            <div class="d-flex">
+              <RouterLink class="nav-link" :to="{ name: 'login' }">로그인</RouterLink>
+              <RouterLink class="nav-link" :to="{ name: 'signUp' }" >회원 가입</RouterLink>
+            </div>
+          </div>
+          <div :class="{ checkLogin : !store.isLogin }" class="m-3">
+            <p class="m-0">{{ store.userName }} 님 반갑습니다!</p>
+            <div class="d-flex m-0">
+              <RouterLink class="nav-link" :to="{ name: 'profile' }" >프로필</RouterLink>
+              <a  class="nav-link" @click="store.logOut">로그아웃</a>
+            </div>
+          </div>
+        </div>
       </div>
     </nav>
   </header>
@@ -29,35 +60,44 @@ const store = useUserStore()
 </script>
 
 <style scoped>
+.logbox {
+  min-width: 200px;
+}
 .checkLogin {
   display: none;
 }
-.navbar  a {
+nav {
+  height: 70px;
+  width: 100%;
+}
+ul {
+  width: 100%;
+}
+a, p {
   text-decoration: none;
   margin: 5px;
   color: #F6F1EE;
-  height: 50px;
+  font-weight: 700;
+  font-size: 1.2rem;
 }
-.viewSpace   {
-  width: 100%;
-  min-height: 100%;
-}
+
 </style>
 
 <style>
 body, html {
   width: 100%;
   height: 100%;
-  overflow: hidden;
 }
 #app {
   width: 100%;
   height: 100%;
 }
-.page-title{
+.viewSpace {
+  width: 100%;
+  height: calc(100% - 70px);
   display: flex;
   justify-content: center;
-  margin: 10px 0px 0px;
+  overflow-wrap: normal;
 }
 /* F6F1EE */
 
@@ -67,13 +107,14 @@ body, html {
 
 .congobrown {
   background-color: #4F4A45 !important;
-  
 }
-
 .brown {
   background-color: #6C5F5B !important;
 }
 
+.ivory {
+  background-color: #B3A492 !important;
+}
 .orange {
   background-color: #FFA33C !important;
 }
@@ -81,5 +122,9 @@ body, html {
 *{
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 400;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
     <div class="main">
         <div class="btnbox">
-            <button class="btn types" @click="click" :disabled="showtype">
+            <button class="btn types btn-warning m-1" @click="click" :disabled="showtype">
             정기예금
             </button>
-            <button class="btn types" @click="click" :disabled="!showtype">
+            <button class="btn types btn-warning m-1" @click="click" :disabled="!showtype">
             정기적금
             </button>
         </div>
@@ -35,7 +35,7 @@ const click = function () {
     background-color: #f0f0f0;
 }
 .main {
-    width: 100%;
+    width: 90%;
 }
 .tablespace {
     height: 300px;

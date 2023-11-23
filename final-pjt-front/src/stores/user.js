@@ -6,6 +6,7 @@ export const useUserStore = defineStore('user', () => {
   const router = useRouter()
   const token = ref(null)
   const userEmail = ref(null)
+  const userName = ref(null)
   const isLogin = computed(() => {
     if(token.value === null) return false
     else return true
@@ -36,7 +37,7 @@ export const useUserStore = defineStore('user', () => {
     }).then((res) => {
       console.log('성공!')
       token.value = res.data.key
-      userEmail.value = loginData.email
+      getUserName()
       router.push({ name: 'home' })
     }).catch(err => {
       console.log(err)
@@ -54,7 +55,19 @@ export const useUserStore = defineStore('user', () => {
       console.log(err)
     })
   }
+  const getUserName = function() {
+    axios({
+      method: 'get',
+      url: `http://127.0.0.1:8000/accounts/user/`,
+      headers: {
+          Authorization: `Token ${token.value}`
+      }
+    })
+    .then((res) => {
+      userName.value = res.data.username
+      userEmail.value = res.data.email
+    })
+  }
 
-
-  return { signUp, logIn, logOut, token, isLogin, userEmail }
+  return { signUp, logIn, logOut, token, isLogin, userEmail, userName }
 }, { persist: true })

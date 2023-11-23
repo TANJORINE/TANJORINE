@@ -1,16 +1,18 @@
 <template>
-    <div>
-        <h1>비밀번호 변경</h1>
+    <div class="box">
+        <div class="text-box">
+            <h1>비밀번호 변경</h1>
+        </div>        
         <form @submit.prevent="password_change">
-            <div>
-                <label for="password1">비밀번호 : </label>
-                <input type="password" id="password1" v-model="pw1">
+            <div class="input-group mb-3 border border-warning">
+                <span class="input-group-text">비밀번호</span>
+                <input type="password" class="form-control" placeholder="password" v-model="pw1">
+            </div>            
+            <div class="input-group mb-3 border border-warning">
+                <span class="input-group-text">비밀번호 재확인</span>
+                <input type="password" class="form-control" placeholder="Password" v-model="pw2">
             </div>
-            <div>
-                <label for="password2">비밀번호 재확인 : </label>
-                <input type="password" id="password2" v-model="pw2">
-            </div>
-            <input type="submit" value="변경">
+            <button class="btn btn-warning" type="submit">변경</button>            
         </form>
     </div>
 </template>
@@ -45,5 +47,16 @@ const password_change = function() {
 </script>
 
 <style scoped>
-
+span {
+    width: 130px;
+}
+.box {
+    width: 40%;
+    min-width: 500px;
+    margin: 30px;
+}
+.text-box {
+    text-align: center;
+    margin: 20px;
+}
 </style>

@@ -1,66 +1,70 @@
 <template>
-    <div>   
+    <div class="box">   
         <h1>회원 정보 수정</h1>
         <form @submit.prevent="Update">
-            <div>
-                <label for="username">이름 : </label>
-                <input type="text" id="username" v-model="username">
+            <div class="input-group mb-3">
+                <label for="username" class="input-group-text border-end-0 border-warning">이름</label>
+                <input type="text" class="form-control border border-warning" id="username" v-model="username">
             </div>
-            <div>
-                <label for="birth">생년월일 : </label>
-                <input type="date" id="birth" v-model="birth">
+            <div class="input-group mb-3">
+                <label for="birth" class="input-group-text border-end-0 border-warning">생일</label>
+                <input type="date" class="form-control border border-warning" id="birth" v-model="birth">
             </div>
-            <div>
-                <label for="phone">휴대폰 : </label>
-                <input type="text" id="phone" v-model="phone">
+            <div class="input-group mb-3">
+                <label for="phone" class="input-group-text border-end-0 border-warning">휴대폰</label>
+                <input type="text" class="form-control border border-warning" id="phone" v-model="phone">
             </div>
-            <div>
-                <label for="address">주소 : </label>
-                <input type="text" id="address" v-model="address">
+            <div class="input-group mb-3">
+                <label for="address" class="input-group-text border-end-0 border-warning">주소</label>
+                <input type="text" class="form-control border border-warning" id="address" v-model="address">
             </div>
-            <div>
-                <label for="money">자산 : </label>
-                <input type="number" id="money" v-model="money">
+            <div class="input-group mb-3">
+                <label for="money" class="input-group-text border-end-0 border-warning">자산</label>
+                <input type="number" class="form-control border border-warning" id="money" v-model="money">
             </div>
-            <div>
-                <label for="salary">연봉 : </label>
-                <input type="number" id="salary" v-model="salary">
+            <div class="input-group mb-3">
+                <label for="salary" class="input-group-text border-end-0 border-warning">연봉</label>
+                <input type="number" class="form-control border border-warning" id="salary" v-model="salary">
             </div>
-            <div>
-                <label for="">결혼여부 : </label>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="false" v-model="married">
-                    <label class="form-check-label" for="inlineRadio1">미혼</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="true" v-model="married">
-                    <label class="form-check-label" for="inlineRadio2">기혼</label>
-                </div>
+            <div class="input-group mb-3">
+                <label for="main_bank" class="input-group-text border-end-0 border-warning">주거래은행</label>
+                <input type="text" class="form-control border border-warning" id="main_bank" v-model="main_bank">
             </div>
-            <div>
-                <label for="main_bank">주거래은행 : </label>
-                <input type="text" id="main_bank" v-model="main_bank">
-            </div>
-            <div>
-                <label for="save_type">저축성향 : </label>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="type" id="save_type1" value="1" v-model="save_type">
-                    <label class="form-check-label" for="save_type1">예금우선</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="type" id="save_type2" value="2" v-model="save_type">
-                    <label class="form-check-label" for="save_type2">적금우선</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="type" id="save_type3" value="3" v-model="save_type">
-                    <label class="form-check-label" for="save_type3">소비우선</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="type" id="save_type4" value="4" v-model="save_type">
-                    <label class="form-check-label" for="save_type4">복합</label>
+            <div class="input-group mb-3">
+                <label for="" class="input-group-text border-end-0 border-warning">결혼 여부</label>
+                <div class="form-control border border-warning">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="married1" value="false" v-model="married">
+                        <label class="form-check-label" for="married1">미혼</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="married2" value="true" v-model="married">
+                        <label class="form-check-label" for="married2">기혼</label>
+                    </div>
                 </div>
             </div>
-            <input type="submit" value="수정">
+            <div class="input-group mb-3">
+                <label for="" class="input-group-text border-end-0 border-warning">저축 성향</label>
+                <div class="form-control border border-warning">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="type" id="save_type1" value="1" v-model="save_type">
+                        <label class="form-check-label" for="save_type1">예금우선</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="type" id="save_type2" value="2" v-model="save_type">
+                        <label class="form-check-label" for="save_type2">적금우선</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="type" id="save_type3" value="3" v-model="save_type">
+                        <label class="form-check-label" for="save_type3">소비우선</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="type" id="save_type4" value="4" v-model="save_type">
+                        <label class="form-check-label" for="save_type4">복합</label>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">변경!</button>
         </form>
     </div>  
 </template>
@@ -130,12 +134,12 @@ const Update = function() {
 </script>
 
 <style scoped>
-    form {
-        display: flex;
-        flex-direction: column;
-        width: 350px;
-    }
-    .line {
-        display: flex;
-    }
+label {
+    width: 100px;
+}
+.box {
+    width: 40%;
+    min-width: 500px;
+    margin: 30px;
+}
 </style>

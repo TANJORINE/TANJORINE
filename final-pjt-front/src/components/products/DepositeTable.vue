@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div>
-            <select name="" id="" v-model="selectBank">
+        <div class="selects">
+            <select class="form-select m-1 border border-primary" v-model="selectBank">
                 <option value="" selected>전체</option>
                 <option v-for="opt in selectOtps" :key="opt.fin_co_no" :value="opt.fin_co_no">{{ opt.kor_co_nm }}</option>
             </select>
-            <select name="" id="" v-model="intr_rateType">
+            <select class="form-select m-1 border border-primary" v-model="intr_rateType">
                 <option value="basein" selected>기본금리</option>
                 <option value="maxin">최대금리</option>
             </select>
@@ -141,5 +141,7 @@ const goDetail = function(e) {
 </script>
 
 <style scoped>
-
+.selects {
+    width: 300px;
+}
 </style>

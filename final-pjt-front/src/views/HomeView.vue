@@ -1,14 +1,31 @@
 <template>
-    <div id="carousel" class="carousel slide">
+    <div id="carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-inner">
-            <div class="orange carousel-item active">
-                1
+            <div class="orange carousel-item active d-flex align-items-center justify-content-evenly" >
+                <div class="d-flex flex-column align-items-center">
+                    <img src="../assets/profits.png" width="450" alt="" class="m-3">
+                    <h2>"아아...이건 [예금] 이라는거다.."</h2>
+                    <h4>"원금과 연 이자율을 보장해주지..."</h4>
+                </div>
+                <div class="d-flex flex-column align-items-center">
+                    <img src="../assets/piggy-bank.png" width="450" alt="" class="m-3">
+                    <h4>"조금씩 모아서 크게 돌려받고 싶나..?"</h4>
+                    <h2>"그럼 [적금]으로 가라.."</h2>
+                </div>
             </div>
-            <div class="brown carousel-item">
-                1
+            <div class="ivory carousel-item item-box d-flex align-items-center justify-content-evenly" >
+                <div class="d-flex flex-column align-items-center">
+                    <img src="../assets/forex.png" width="450" alt="" class="m-3">
+                    <h2>돈으로 돈을 사도</h2>
+                    <h4>'저렴'할 때 사야지..</h4>
+                </div>
             </div>
-            <div class="congobrown carousel-item ">
-                1
+            <div class="congobrown carousel-item item-box d-flex align-items-center justify-content-evenly" >
+                <div class="d-flex flex-column align-items-center">
+                    <img src="../assets/bank.png" width="450" alt="" class="m-3">
+                    <h2 class="text-info">원하는 은행</h2>
+                    <h4 class="text-info">어디에 있는지 알고 가자.</h4>
+                </div>
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
@@ -23,12 +40,12 @@
 </template>
 
 <script setup>
-
 </script>
 
 <style scoped>
 .carousel {
-    height: 600px;
+    height: 100%;
+    width: 100%;
 }
 .carousel-inner {
     height: 100%;
