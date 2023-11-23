@@ -1,20 +1,13 @@
 <template>
   <div class="container">
-    <!-- <div id="mainCategories">
-      <div v-for="category in store.categories">
-        <div v-if="category.main_category">
-          {{ category.name }}
-        </div>
-      </div>
-    </div> -->
     <div id="community-nav">
-      <div v-if="isStaff" class="community-nav-item btn btn-light">
+      <div v-if="isStaff" class="community-nav-item btn">
         <RouterLink class="nav-item-1" :to="{ name: 'createCategory' }">카테고리 관리</RouterLink>
       </div>
-      <div v-if="loginUser" class="community-nav-item btn btn-light">
+      <div v-if="loginUser" class="community-nav-item btn">
         <RouterLink class="nav-item-1" :to="{ name: 'create' }">글 작성</RouterLink>
       </div>
-      <select v-model="selectCate" class="community-nav-item">
+      <select v-model="selectCate" class="community-nav-item" style="border:0px;">
         <option selected>전체</option>
         <option v-for="category in store.categories" :value="category">
           <p>{{ category.name }}</p>
@@ -75,7 +68,9 @@ onMounted(() => {
 }
 .community-nav-item{
   margin: 5px;
-  font-size: 12px;
+  font-size: 13px;
+  border-radius:5px;
+  background-color: white;
 }
 .nav-item-1{
   text-decoration: none;

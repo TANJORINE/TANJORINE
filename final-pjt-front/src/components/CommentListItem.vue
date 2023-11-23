@@ -1,33 +1,37 @@
 <template>
-  <div v-if="Number(route.params.id) === comment.article.pk">
-    <p>작성자 : {{ comment.user.username }}</p>
-    <div v-if="comment.user.email === loginUser && loginUser !== null">
+<div v-if="Number(route.params.id) === comment.article.pk">
+  <div id="comment-box">
+    <div style="margin-right: 15px; width: 15%; font-weight: 600;">🧑‍💻 {{ comment.user.username }}</div>
+    <div v-if="comment.user.email === loginUser && loginUser !== null" style=" width: 85%;">
       <div v-if="showContent">
-        <p>내용 : {{ comment.content }}</p>
-        <p v-if="comment.created_at !== comment.updated_at">
-        (수정됨)
-        </p>
-        <button @click="clickUpdate">수정</button>
-        <button @click="deleteComment(comment.id)">삭제</button>
+        <div class="content-box">
+          <div>{{ comment.content }}</div>
+          <div v-if="comment.created_at !== comment.updated_at" style="font-size: 11.5px;">(수정됨)</div>
+          <button class="custom-btn btn btn-light brown" style="color:white; margin-left: 10px;" @click="clickUpdate">수정</button>
+          <button class="custom-btn btn border-brown" @click="deleteComment(comment.id)">삭제</button>
+        </div>
       </div>
       <div v-else>
         <form @submit.prevent="updateComment(comment.id)">
           <div>
-            <label for="content">내용:</label>
-            <textarea v-model.trim="content" id="content"></textarea>
+            <textarea class="form-control" v-model.trim="content" id="content"></textarea>
           </div>
-          <input type="submit" value="수정">
+          <div id="edit-button">
+            <input class="custom-btn btn btn-light brown" style="color:white;" type="submit" value="수정">
+          </div>
         </form>
       </div>
     </div>
-    <div v-else>
-      <p>내용 : {{ comment.content }}</p>
-      <p v-if="comment.created_at !== comment.updated_at">
-        (수정됨)
-      </p>
+    <div v-else style="width: 85%;">
+      <div class="content-box">
+        <div>{{ comment.content }}</div>
+        <div v-if="comment.created_at !== comment.updated_at" style="font-size: 11.5px;">(수정됨)</div>
+      </div>
     </div>
     <hr>
   </div>
+</div>
+
 </template>
 
 <script setup>
@@ -122,3 +126,26 @@ onMounted(() => {
 
 
 </script>
+
+<style scoped>
+#comment-box{
+  display: flex;
+  align-items: flex-start;
+}
+.content-box{
+  display: flex;
+  align-items: center;
+}
+.custom-btn{
+  margin: 0px 1px;
+  font-size: 12px;
+  border-radius:6px;
+  padding: 3px 5px;
+  text-decoration: none;
+  color: black;
+}
+#edit-button{
+  display: flex;
+  justify-content: end;
+}
+</style>

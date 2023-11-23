@@ -1,6 +1,5 @@
 <template >
   <div class="container">
-    <h2 class="page-title">내 주변 은행</h2>
     <div class="row g-2">
 
   <div id="left-container" class="box col-4 col-sm-12 col-md-6 col-lg-4">
@@ -42,11 +41,11 @@
             </option>
           </select>
         </div> <!-- (시도 시군구) (은행) div -->
-        <button class="select-button btn btn-secondary" @click="search(siDo.name + ' ' + siGunGu + ' ' + bank)">검색</button>
+        <button class="select-button btn btn-secondary brown" @click="search(siDo.name + ' ' + siGunGu + ' ' + bank)">검색</button>
       </div> <!-- "select-bank" -->
       <div v-else id="search-bank">
         <input class="input-bank" type="text" v-model="inputBank">
-        <button class="search-button btn btn-secondary" @click="search(inputBank)">검색</button>
+        <button class="search-button btn btn-secondary brown" @click="search(inputBank)">검색</button>
       </div> <!-- "search-bank" -->
     </div> <!-- "search-bank-box" -->
   <div class="list-group list-group-flush" id="bankList"></div>
@@ -58,11 +57,26 @@
 
       <div id="detail-bank">
         <div id="placeInfoWindow"> <!-- placeInfo -->
-  
-            <div id="placeInfo" class="card">  <!-- openPlaceInfo -->
+          <div v-if="details.length" v-for="detail in details">
+            <div id="placeInfo" class="card placeInfo">  <!-- openPlaceInfo -->
+              <div style="display: flex; font-size:15px; font-weight: 600; justify-content: center;">{{ detail.name }}</div>
+              <div class="detail-content">
+                <hr style="margin: 5px 0 10px;">
+                <div style="font-size: 13px;">{{ detail.address }}</div>
+                <div style="font-size: 11px; margin-left: 22px;">{{ detail.subAddress }}</div>
+                <div style="font-size: 12px;">{{ detail.phone }}</div>
+                <a :href="detail.kakao" style="font-size: 11px;">카카오맵</a>
+              </div>
             </div>
+          </div>
+
+          <div v-else class="font-brown" style="display: flex;">
+            <div>
+              마커 또는 목록을 클릭하면 상세 정보를 볼 수 있어요!
+            </div>
+          </div>
   
-          <p id="closePlaceInfo" @click="closePlaceInfo"></p>
+          <!-- <p id="closePlaceInfo" @click="closePlaceInfo"></p> -->
         </div>
 
       </div>
@@ -190,32 +204,22 @@ export default {
       kakao.maps.event.addListener(marker, "click", () => {
         this.map.setLevel(5)
         this.map.panTo(new kakao.maps.LatLng(place.y, place.x))
-        
-        const infoDiv = document.getElementById("placeInfo")
-        infoDiv.classList.add("placeInfo")
-        const closeTag = document.getElementById("closePlaceInfo")
-        closeTag.textContent = "X"
-        if (infoDiv.firstChild) {
-          while (infoDiv.firstChild) {
-            infoDiv.removeChild(infoDiv.firstChild)
-          }
-        }
-        this.details.push({
+
+        const placeDetail = {
         'pk': place.id,
         'name': place.place_name, 
         'address': `📍 ${place.road_address_name}`, 
         'subAddress': place.address_name, 
         'phone': `📞 ${place.phone}`, 
         'kakao': place.place_url,
-        })
-        // const divTag = document.createElement("div")
-        // divTag.innerHTML = `
-        //   <strong style="display: flex; justify-content: center;">${place.place_name}</strong><hr style="margin: 5px 0 10px;">
-        //   <p style="font-size: 13px; margin-bottom: 0px;">📍 ${place.road_address_name}</p>
-        //   <p style="font-size: 11px; margin-bottom: 0px;">${place.address_name}</p>
-        //   <p style="font-size: 12px; margin-bottom: 0px;">📞 ${place.phone}</p>
-        //   <a href=${place.place_url} style="font-size: 11px">카카오맵</a>`
-        // infoDiv.appendChild(divTag)
+        }
+
+        if (!this.details.find(info => info.pk === placeDetail.pk)) {
+          this.details.unshift(placeDetail)
+          if (this.details.length > 5) {
+            this.details.pop()
+          }
+        }
       });
       
       kakao.maps.event.addListener(marker, "mouseout", () => {
@@ -235,7 +239,15 @@ export default {
       // 새 목록 추가
       this.searchBank.forEach((place) => {
         const divTag = document.createElement("div")
-        divTag.innerHTML = `<strong style="font-size:15px;">${place.place_name}</strong><div style="font-size:13px;">${place.address_name}</div><hr>`;
+        divTag.innerHTML = `
+        <div style="display: flex;">
+        <div style="font-size: 23px;">📍</div>
+        <div style="width: 100%;">
+          <strong style="font-size:15px;">${place.place_name}</strong>
+          <div style="font-size:13px;">${place.address_name}</div><hr>
+        </div>
+        </div>
+        `;
         divTag.addEventListener("click", () => {
           this.clickPlace(place)
         })
@@ -272,48 +284,23 @@ export default {
       this.map.panTo(new kakao.maps.LatLng(place.y, place.x));
       console.log(this.markers)
 
-
-      const infoDiv = document.getElementById("placeInfo")
-      infoDiv.classList.add("placeInfo")
-      const closeTag = document.getElementById("closePlaceInfo")
-      closeTag.textContent = "X"
-      console.log(infoDiv)
-      if (infoDiv.firstChild) {
-        while (infoDiv.firstChild) {
-          infoDiv.removeChild(infoDiv.firstChild)
-        }
-      }
-      this.details.push({
+      const placeDetail = {
         'pk': place.id,
         'name': place.place_name, 
         'address': `📍 ${place.road_address_name}`, 
         'subAddress': place.address_name, 
         'phone': `📞 ${place.phone}`, 
         'kakao': place.place_url,
-      })
-      // console.log(this.details)
-      // console.log(details)
-      // const divTag = document.createElement("div")
-      //   divTag.innerHTML = `
-      //     <strong style="display: flex; justify-content: center;">${place.place_name}</strong><hr style="margin: 5px 0 10px;">
-      //     <p style="font-size: 13px; margin-bottom: 0px;">📍 ${place.road_address_name}</p>
-      //     <p style="font-size: 11px; margin-bottom: 0px;">${place.address_name}</p>
-      //     <p style="font-size: 12px; margin-bottom: 0px;">📞 ${place.phone}</p>
-      //     <a href=${place.place_url} style="font-size: 11px">카카오맵</a>`
-      //   infoDiv.appendChild(divTag)
-    },
+      }
+    
 
-    closePlaceInfo() {
-      console.log("닫기")
-      const infoDiv = document.getElementById("placeInfo")
-      infoDiv.classList.remove("placeInfo")
-      if (infoDiv.firstChild) {
-        while (infoDiv.firstChild) {
-          infoDiv.removeChild(infoDiv.firstChild)
+      if (!this.details.find(info => info.pk === placeDetail.pk)) {
+        this.details.unshift(placeDetail)
+        if (this.details.length > 5) {
+          this.details.pop()
         }
       }
-      const closeTag = document.getElementById("closePlaceInfo")
-      closeTag.textContent = ""
+
     },
   },
 };
@@ -332,6 +319,7 @@ const bank = ref('')
 
 const changeSido = function() {
     store.getSiGunGu(siDo.value.code.slice(0, 2))
+    console.log(details)
 }
 
 onMounted(() => {
@@ -343,14 +331,8 @@ onMounted(() => {
 
 
 <style scoped>
-/* #left-side{
-  width: 300px;
-}
-#right-container{
-}
-   */
 .search-bank-box{
-  height: 150px;
+  height: 160px;
 }
 #search-bar{
   display: flex;
@@ -404,12 +386,30 @@ onMounted(() => {
   width: 260px;
   margin-right: 20px;
 }
-
-
-
+/* #left-container{
+  border-radius: 5px;
+  box-shadow: 2px 2px 3px #6C5F5B;
+} */
+/* #right-container{
+  border-radius: 5px;
+  box-shadow: 2px 2px 3px #6C5F5B;
+} */
+#bankList{
+  border-radius: 15px;
+  margin: 0px 5px;
+  padding: 15px;
+  height: 550px;
+  overflow-y: scroll;
+  background-color: white;
+}
 
 #detail-bank{
-  height: 150px;
+  /* border-radius: 15px; */
+  height: 200px;
+  width: 100%;
+  overflow-x: scroll;
+  display: flex;
+  align-items: center;
 }
 #map-container {
   position:relative;
@@ -419,6 +419,7 @@ onMounted(() => {
   width: 100%;
   /* width: 600px; */
   height: 500px;
+  margin-top: 10px;
 }
 select{
   width: 200px;
@@ -431,7 +432,7 @@ select{
   /* top:100px; */
   left:0;
   bottom:0;
-  width:250px;
+  width: 250px;
   height: 150px;
   /* height : x */
   margin:10px 0 30px 10px;
@@ -450,11 +451,14 @@ select{
   left:0;
   bottom:0;
   width:250px;
-  height: 130px;
-  margin:10px 0 30px 10px;
-  padding: 0px 15px;
+  height: 150px;
+  margin:0px 3px;
+  padding: 0px 5px;
   /* overflow-y:auto; */
   border-radius: 10px;
+}
+.detail-content{
+  padding: 0px 15px;
 }
 #placeInfoWindow{
   display: flex;

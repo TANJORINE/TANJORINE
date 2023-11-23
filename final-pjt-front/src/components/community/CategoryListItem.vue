@@ -1,23 +1,20 @@
 <template>
 <div id="category">
-  <!-- <button>{{ category.name }}</button> -->
-  <!-- <div v-if="category.main_category"><div>메인 카테고리</div></div> -->
   <div>
     <div id="edit-category">
-      <div v-if="showEdit" id="edit-true">
+      <div v-if="showEdit" id="edit-true" style="height: 65px;">
         <div>
-          <label for="newName" class="cate-name">이름 변경</label>
+          <label for="newName" class="cate-name"><div class="font-brown" style="font-size: 15px;">이름 변경</div></label>
           <input v-model.trim="name" class="form-control" type="text" name="newName" id="newName">
-          <!-- <label for="mainCategory">메인 카테고리</label>
-            <input v-model="mainCategory" type="checkbox" name="mainCategory" id="mainCategory"> -->
           </div>
         </div>
-      <div v-else>
-        <div class="cate-name">{{ category.name }}</div>
+      <div v-else style="height: 65px;">
+        <div class="font-brown" style="font-size: 15px;">카테고리</div>
+        <div class="cate-name" style="font-size:18px; font-weight: 500;">{{ category.name }}</div>
       </div>
-      <div>
-        <button class="cate-edit-button btn btn-secondary" @click="editCate(category.pk)">{{ showEdit?'저장':'수정' }}</button>
-        <button class="cate-edit-button btn btn-outline-secondary" @click="deleteCate(category.pk)">삭제</button>
+      <div id="button-box">
+        <button class="cate-edit-button btn btn-secondary brown" @click="editCate(category.pk)">{{ showEdit?'저장':'수정' }}</button>
+        <button class="cate-edit-button btn btn-outline-secondary border-brown" @click="deleteCate(category.pk)">삭제</button>
       </div>
     </div>
     <hr>
@@ -41,19 +38,15 @@ const router = useRouter()
 
 const showEdit = ref(false)
 const isStaff = ref(false)
+  
+const props = defineProps({
+  category: Object,
+})
 
-// defineProps({
-  //   category: Object,
-  // })
-  
-  const props = defineProps({
-    category: Object,
-  })
-  
-  const category = ref(props.category)
-  console.log(category.value)
-  const name = ref(category.value.name)
-  const mainCategory = ref(category.value.main_category)
+const category = ref(props.category)
+console.log(category.value)
+const name = ref(category.value.name)
+const mainCategory = ref(category.value.main_category)
   
   
 const editCate = function(catePk) {
@@ -149,6 +142,10 @@ onMounted(() => {
 }
 #edit-true{
   display: block;
+}
+#button-box{
+  display: flex;
+  align-items: center;
 }
 .cate-edit-button {
   font-size: 12px;

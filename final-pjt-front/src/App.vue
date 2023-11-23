@@ -1,11 +1,13 @@
 <template>
   <header>
     <nav class="navbar navbar-expand-sm brown">
-      <RouterLink :to="{ name: 'home' }">홈</RouterLink> 
-      <RouterLink :to="{ name: 'exchangeRate' }">환율 계산기</RouterLink> 
-      <RouterLink :to="{ name: 'bankMap' }">은행 찾기</RouterLink>
-      <RouterLink :to="{ name: 'products'}">금융상품정보</RouterLink>
-      <RouterLink :to="{ name: 'articles' }">게시판</RouterLink>
+      <div>
+        <RouterLink :to="{ name: 'home' }">홈</RouterLink> 
+        <RouterLink :to="{ name: 'exchangeRate' }">환율 계산기</RouterLink> 
+        <RouterLink :to="{ name: 'bankMap' }">은행 찾기</RouterLink>
+        <RouterLink :to="{ name: 'products'}">금융상품정보</RouterLink>
+        <RouterLink :to="{ name: 'articles' }">게시판</RouterLink>
+      </div>
       <div :class="{ checkLogin : store.isLogin }">
         <RouterLink :to="{ name: 'signUp' }" >회원 가입</RouterLink>
         <RouterLink :to="{ name: 'login' }">로그인</RouterLink>
@@ -37,6 +39,11 @@ const store = useUserStore()
   margin: 5px;
   color: #F6F1EE;
   height: 50px;
+}
+.navbar button{
+  margin: 0px 5px;
+  padding: 0px;
+  color: #F6F1EE;
 }
 .viewSpace   {
   width: 100%;
@@ -76,6 +83,31 @@ body, html {
 
 .orange {
   background-color: #FFA33C !important;
+}
+
+.font-basicWhite {
+  color: #F6F1EE !important;
+}
+
+.font-congobrown {
+  color: #4F4A45 !important;
+  
+}
+
+.font-brown {
+  color: #6C5F5B !important;
+}
+
+.font-orange {
+  color: #FFA33C !important;
+}
+
+.border-brown {
+  border: 1px solid #6C5F5B !important;
+}
+
+.shadow-orange{
+  box-shadow: 1px 1px 5px #FFA33C !important;
 }
 
 *{
