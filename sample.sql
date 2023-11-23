@@ -4,7 +4,7 @@
 
 -- SELECT id, fin_co_no, fin_prdt_cd from products_depositproduct
 
-SELECT products FROM accounts_user
+SELECT * FROM accounts_user WHERE products LIKE ('%D/$0010389/$24%')
 
 UPDATE accounts_user SET products = '' WHERE email='k97115284@gmail.com'
 
@@ -13,3 +13,4 @@ SELECT * FROM products_depositproduct WHERE id = (SELECT product_id FROM product
 
 SELECT * FROM products_savingoption WHERE product_id = (SELECT product_id FROM products_savingoption WHERE id = '596')
 SELECT * FROM products_savingproduct WHERE id = (SELECT product_id FROM products_savingoption WHERE id = '596')
+

@@ -110,8 +110,18 @@ def signUpProd(request):
 
 @api_view(['POST'])
 def algorithm(request):
-    Algo(request.data)
+    prods = Algo(request.data)
+    infos = []
+    for prod in prods:
+        ptype, co_no, prdt_cd = prod[0].split('/$')
+        if ptype == 'D':
+            prdt = DepositProduct.objects.filter(fin_co_no = co_no, fin_prdt_cd = prdt_cd ).values()
+            infos.append(prdt)
+        else:
+            prdt = SavingProduct.objects.filter(fin_co_no = co_no, fin_prdt_cd = prdt_cd ).values()
+            infos.append(prdt)
     data = {
-        'message': 'OK!'
+        'message': 'OK!',
+        'prods': infos
     }
     return Response(data)

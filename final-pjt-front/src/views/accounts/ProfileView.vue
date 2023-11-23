@@ -24,7 +24,9 @@
                 <chart/>
             </div>
             <div>
-                정보...
+                <template v-for="data in algoData">
+                    <p>{{ data[0].kor_co_nm }} - {{ data[0].fin_prdt_nm }}</p>
+                </template>
             </div>
         </div>
     </div>
@@ -52,6 +54,7 @@ const salary = ref(null)
 const married = ref(null)
 const main_bank = ref(null)
 const save_type = ref(null)
+const algoData = ref([])
 const save_nm = computed(() => {
     if (save_type.value === 1) return '예금우선'
     else if (save_type.value === 2) return '적금우선'
@@ -94,11 +97,14 @@ const pageAlgoLoad = function() {
         salary: salary.value,
         money: money.value
     }
-    console.log(data)
     axios({
       method: 'POST',
       url: `http://127.0.0.1:8000/products/algo/`,
       data: data
+    })
+    .then((res) => {
+        console.log(res.data.prods)
+        algoData.value = res.data.prods
     })
 }
 

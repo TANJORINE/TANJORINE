@@ -134,19 +134,19 @@ def allofSaving():
         }
     return data
 
-def Algo(data):
+def Algo(info):
     age60 = [str(age) for age in range(1960,1965)]
     age50 = [str(age) for age in range(1965,1965)]
     age40 = [str(age) for age in range(1975,1985)]
     age30 = [str(age) for age in range(1985,1995)]
     age20 = [str(age) for age in range(1995,2001)]
 
-    email = data['email']
-    birth = data['birth']
-    isMarried = data['married']
-    saveType = data['save_type']
-    salary = data['salary']
-    money = data['money']
+    email = info['email']
+    birth = info['birth']
+    isMarried = info['married']
+    saveType = info['save_type']
+    salary = info['salary']
+    money = info['money']
     prods = [[prod[0], 0.0] for prod in IntegratedProduct.objects.all().values_list('code')]
     datas = []
     if birth in age20:
@@ -159,14 +159,32 @@ def Algo(data):
         datas = get_user_model().objects.filter(birth__range=['1960-01-01', '1984-12-31']).values()
     elif birth in age60:
         datas = get_user_model().objects.filter(birth__range=['1960-01-01', '1974-12-31']).values()
-    print(datas.count())
-    print(prods)
     for prod in prods:
         for data in datas:
             if prod[0] in data['products']:
                 if data['email'] == email:
                     prod[1] -= 9999999999
                 else:
-                    prod[1] += 1
-        print(prod)
+                    # 실제 로직.
+                    if data['save_type'] == saveType:
+                        prod[1] += 0.5
+                    else:
+                        prod[1] += 0.25
+                    
+                    if -0.1 <= (salary-data['salary'])/salary <= 0.1:
+                        prod[1] += 0.4
+                    else:
+                        prod[1] += 0.1
+
+                    if -0.1 <= (money-data['money'])/money <= 0.1:
+                        prod[1] += 0.4
+                    else:
+                        prod[1] += 0.1
+                    
+                    if data['married'] == isMarried:
+                        prod[1] += 0.1
+        prod[1] = round(prod[1], 5)
+    prods.sort(key = lambda x:x[1], reverse = True)
+
+    return prods[0:10]
     

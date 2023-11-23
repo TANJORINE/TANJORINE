@@ -1,8 +1,7 @@
 <template>
-  
   <header>
-    <nav class="navbar navbar-expand-sm bg-body-tertiary">
-      <RouterLink :to="{ name: 'home' }">Home</RouterLink> 
+    <nav class="navbar navbar-expand-sm brown">
+      <RouterLink :to="{ name: 'home' }">홈</RouterLink> 
       <RouterLink :to="{ name: 'exchangeRate' }">환율 계산기</RouterLink> 
       <RouterLink :to="{ name: 'bankMap' }">은행 찾기</RouterLink>
       <RouterLink :to="{ name: 'products'}">금융상품정보</RouterLink>
@@ -17,7 +16,7 @@
       </div>
     </nav>
   </header>
-  <div class="viewSpace">
+  <div class="viewSpace basicWhite">
     <RouterView />
   </div>
 </template>
@@ -36,10 +35,12 @@ const store = useUserStore()
 .navbar  a {
   text-decoration: none;
   margin: 5px;
-  color: black;
+  color: #F6F1EE;
+  height: 50px;
 }
 .viewSpace   {
   width: 100%;
+  min-height: 100%;
 }
 </style>
 
@@ -47,16 +48,33 @@ const store = useUserStore()
 body, html {
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 #app {
   width: 100%;
   height: 100%;
 }
-</style>
-<style>
 .page-title{
   display: flex;
   justify-content: center;
   margin: 10px 0px 0px;
+}
+/* F6F1EE */
+
+.basicWhite {
+  background-color: #F6F1EE !important;
+}
+
+.congobrown {
+  background-color: #4F4A45 !important;
+  
+}
+
+.brown {
+  background-color: #6C5F5B !important;
+}
+
+.orange {
+  background-color: #FFA33C !important;
 }
 </style>
