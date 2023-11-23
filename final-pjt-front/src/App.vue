@@ -54,3 +54,10 @@ body, html {
   height: 100%;
 }
 </style>
+<style>
+.page-title{
+  display: flex;
+  justify-content: center;
+  margin: 10px 0px 0px;
+}
+</style>

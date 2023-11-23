@@ -1,27 +1,33 @@
 <template>
+<div class="container">
+    <h2 class="page-title">카테고리 관리</h2>
     <div v-if="isStaff">
-        <div class="container">
-            <div class="category-box">
-                <form @submit.prevent="createCategory">
-                    <label for="create-category">Category 종류:</label>
-                    <br>
-                    <input type="text" name="create-category" id="create-category" v-model.trim="name">
-                    <br>
-                    <label for="mainCate">메인 카테고리</label>
-                    <input type="checkbox" name="mainCate" id="mainCate" v-model="mainCate">
-                    <br>
-                    <input type="submit" value="카테고리 생성">
-                </form>
-            </div>
+        <div id="category-box">
+            <form @submit.prevent="createCategory">
+                <label class="cate-page-title" for="create-category">카테고리 생성</label>
+                <br>
+                <div class="input-group mb-3" id="input-box">
+                    <input type="text" class="form-control" placeholder="카테고리 이름" name="create-category" id="create-category" v-model.trim="name" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">생성</button>
+                </div>
+                <!-- <input type="text" name="create-category" id="create-category" v-model.trim="name"> -->
+                <!-- <br> -->
+                <!-- <label for="mainCate">메인 카테고리</label>
+                <input type="checkbox" name="mainCate" id="mainCate" v-model="mainCate"> -->
+                <!-- <br> -->
+                <!-- <input type="submit" value="카테고리 생성"> -->
+            </form>
         </div>
         <div>
             <br>
+            <p class="cate-page-title">카테고리 목록</p>
             <CategoryList/>
         </div>
     </div>
     <div v-else>
         <h2>관리자 전용 페이지 입니다.</h2>
     </div>
+</div>
 </template>
 
 <script setup>
@@ -82,12 +88,17 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.container{
-    display: flex;
-    align-items: center;
+#input-box{
+    margin: 7px 0px;
+    width: 450px;
 }
-.category-box{
+#category-box{
+    padding: 7px;
     display: flex;
     flex-direction: column;
+}
+.cate-page-title{
+    font-size: 20px;
+    font-weight: 500;
 }
 </style>

@@ -1,25 +1,28 @@
 <template>
+<div id="category">
+  <!-- <button>{{ category.name }}</button> -->
+  <!-- <div v-if="category.main_category"><div>메인 카테고리</div></div> -->
   <div>
-    <!-- <button>{{ category.name }}</button> -->
-    <p v-if="category.main_category"><strong>메인 카테고리</strong></p>
-    <p>카테고리 이름 : {{ category.name }} </p>
-    <div v-if="showEdit">
-      <div>
-        <label for="newName">이름 변경 : </label>
-        <input v-model.trim="name" type="text" name="newName" id="newName">
-        <label for="mainCategory">메인 카테고리</label>
-        <input v-model="mainCategory" type="checkbox" name="mainCategory" id="mainCategory">
-        <br>
+    <div id="edit-category">
+      <div v-if="showEdit" id="edit-true">
+        <div>
+          <label for="newName" class="cate-name">이름 변경</label>
+          <input v-model.trim="name" class="form-control" type="text" name="newName" id="newName">
+          <!-- <label for="mainCategory">메인 카테고리</label>
+            <input v-model="mainCategory" type="checkbox" name="mainCategory" id="mainCategory"> -->
+          </div>
+        </div>
+      <div v-else>
+        <div class="cate-name">{{ category.name }}</div>
       </div>
-      <!-- <button @click="editCate">저장</button> -->
+      <div>
+        <button class="cate-edit-button btn btn-secondary" @click="editCate(category.pk)">{{ showEdit?'저장':'수정' }}</button>
+        <button class="cate-edit-button btn btn-outline-secondary" @click="deleteCate(category.pk)">삭제</button>
+      </div>
     </div>
-    <!-- <div v-if="!showEdit"> -->
-      <button @click="editCate(category.pk)">{{ showEdit?'저장':'수정' }}</button>
-      <!-- <button @click="editCate">수정</button> -->
-    <!-- </div> -->
-    <button @click="deleteCate(category.pk)">삭제</button>
     <hr>
   </div>
+</div>
 </template>
 
 <script setup>
@@ -129,3 +132,28 @@ onMounted(() => {
   })
 })
 </script>
+
+<style scoped>
+.cate-name{
+  /* width: 50%; */
+  font-size: 17px;
+}
+#category{
+  padding: 0px 30px;
+}
+#edit-category{
+  padding: 0px 20px;
+  display: flex;
+  justify-content: space-between;
+  margin: 5px;
+}
+#edit-true{
+  display: block;
+}
+.cate-edit-button {
+  font-size: 12px;
+  padding: 3px 5px;
+  margin: 2px;
+  border-radius: 7px;
+}
+</style>
