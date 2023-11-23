@@ -16,7 +16,6 @@ class UserManager(BaseUserManager):
         user.save(using=self.db)
         return user
 
-
     def create_user(self, username, email, password=None, **ex):
         ex.setdefault('is_active', True)
         ex.setdefault('is_staff', False)
@@ -38,7 +37,6 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         signup form.
         """
         from allauth.account.utils import user_email, user_field, user_username
-        # 기존 코드를 참고하여 새로운 필드들을 작성해줍니다.
         data = form.cleaned_data
         email = data.get("email")
         username = data.get("username")
@@ -89,15 +87,15 @@ class CustomAccountAdapter(DefaultAccountAdapter):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(unique=True)        # Email
-    username = models.CharField(max_length=30, unique=False)         # 이름
-    birth = models.DateField(blank=True, null=True)                        # 나이
+    email = models.EmailField(unique=True)                                  # Email
+    username = models.CharField(max_length=30, unique=False)                # 이름
+    birth = models.DateField(blank=True, null=True)                         # 나이
     phone = models.CharField(max_length=20)                                 # 전화번호
     address = models.CharField(max_length=100)                              # 주소
-    products = models.CharField(max_length=200, blank=True, default='')                      # 가입상품
+    products = models.CharField(max_length=200, blank=True, default='')     # 가입상품
     money = models.IntegerField(blank=True, null=True)                      # 자산
     salary = models.IntegerField(blank=True, null=True)                     # 연봉
-    married = models.BooleanField(blank=True, null=True)                    # 결혼여부
+    married = models.BooleanField(blank=True, null=True, default=False)                    # 결혼여부
     main_bank = models.CharField(max_length=20)                             # 주거래은행
     save_type = models.IntegerField(blank=True, null=True)                  # 저축 타입(1:, 2: , 3:, 4: ) 
     

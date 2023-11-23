@@ -73,7 +73,6 @@ def signedProd(request):
     products = {}
     options = {}
     for data in request.data:
-        print(data)
         if data[0] == 'D':
             prod = DepositProduct.objects.get(fin_co_no=data[1], fin_prdt_cd=data[2])
             products[prod.pk] = DepositProductSerializer(prod).data,
@@ -93,20 +92,26 @@ def signedProd(request):
 
 @api_view(['POST'])
 def signUpProd(request):
-    print(request.data)
     userProd = get_user_model().objects.filter(email=request.data['user']).values_list('products')
     data = {
         'message': 'OK!'
     }
-    print(userProd[0][0])
     if request.data['code'] in userProd[0][0]:
         data['result'] = 'Already'
     else:
         userData = get_user_model().objects.get(email=request.data['user'])
         if userProd[0][0] == '':
-            userData.products += request.data['code']
+            userData.products += request.data['code'] + str(request.data['cpt_cd'])
         else:
-            userData.products += ',' + request.data['code']
+            userData.products += ',' + request.data['code'] + str(request.data['cpt_cd'])
         userData.save()
         data['result'] = 'Done'
+    return Response(data)
+
+@api_view(['POST'])
+def algorithm(request):
+    Algo(request.data)
+    data = {
+        'message': 'OK!'
+    }
     return Response(data)

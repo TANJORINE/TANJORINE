@@ -55,7 +55,22 @@
             </div>
             <div>
                 <label for="save_type">저축성향 : </label>
-                <input type="number" id="save_type" v-model="save_type">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="type" id="save_type1" value="1" v-model="save_type">
+                    <label class="form-check-label" for="save_type1">예금우선</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="type" id="save_type2" value="2" v-model="save_type">
+                    <label class="form-check-label" for="save_type2">적금우선</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="type" id="save_type3" value="3" v-model="save_type">
+                    <label class="form-check-label" for="save_type3">소비우선</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="type" id="save_type4" value="4" v-model="save_type">
+                    <label class="form-check-label" for="save_type4">복합</label>
+                </div>
             </div>
             <input type="submit" value="SignUp">
         </form>

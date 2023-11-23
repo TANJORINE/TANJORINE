@@ -1,6 +1,7 @@
 from django.conf import settings
 from .models import *
 from .serializer import *
+from django.contrib.auth import get_user_model
 import requests as req
 
 def deposite(grpNo):
@@ -37,6 +38,8 @@ def deposite(grpNo):
                 fin_co_subm_day = prod['fin_co_subm_day']
             )
             proddata.save()
+            codedata = IntegratedProduct(code = f"D/${prod['fin_co_no']}/${prod['fin_prdt_cd']}")
+            codedata.save()
             for option in doptions:
                 if proddata.fin_co_no == option['fin_co_no'] and proddata.fin_prdt_cd == option['fin_prdt_cd']:
                     data = DepositOption(
@@ -85,7 +88,8 @@ def saving(grpNo):
                 fin_co_subm_day = prod['fin_co_subm_day']
             )
             proddata.save()
-
+            codedata = IntegratedProduct(code = f"S/${prod['fin_co_no']}/${prod['fin_prdt_cd']}")
+            codedata.save()
             for option in soptions:            
                 if proddata.fin_co_no == option['fin_co_no'] and proddata.fin_prdt_cd == option['fin_prdt_cd']:
                     data = SavingOption(
@@ -129,3 +133,40 @@ def allofSaving():
             'FM': SavingOptionSerializer(freemultiOptions, many=True).data,
         }
     return data
+
+def Algo(data):
+    age60 = [str(age) for age in range(1960,1965)]
+    age50 = [str(age) for age in range(1965,1965)]
+    age40 = [str(age) for age in range(1975,1985)]
+    age30 = [str(age) for age in range(1985,1995)]
+    age20 = [str(age) for age in range(1995,2001)]
+
+    email = data['email']
+    birth = data['birth']
+    isMarried = data['married']
+    saveType = data['save_type']
+    salary = data['salary']
+    money = data['money']
+    prods = [[prod[0], 0.0] for prod in IntegratedProduct.objects.all().values_list('code')]
+    datas = []
+    if birth in age20:
+        datas = get_user_model().objects.filter(birth__range=['1985-01-01', '2000-12-31']).values()
+    elif birth in age30:
+        datas = get_user_model().objects.filter(birth__range=['1975-01-01', '2000-12-31']).values()
+    elif birth in age40:
+        datas = get_user_model().objects.filter(birth__range=['1965-01-01', '1994-12-31']).values()
+    elif birth in age50:
+        datas = get_user_model().objects.filter(birth__range=['1960-01-01', '1984-12-31']).values()
+    elif birth in age60:
+        datas = get_user_model().objects.filter(birth__range=['1960-01-01', '1974-12-31']).values()
+    print(datas.count())
+    print(prods)
+    for prod in prods:
+        for data in datas:
+            if prod[0] in data['products']:
+                if data['email'] == email:
+                    prod[1] -= 9999999999
+                else:
+                    prod[1] += 1
+        print(prod)
+    

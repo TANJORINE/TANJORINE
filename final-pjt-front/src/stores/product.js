@@ -36,7 +36,6 @@ export const useProductStore = defineStore('product', () => {
                 data: data
             })
             .then((res) => {
-                console.log(1)
                 userProd.value=res.data.products
                 userOpt.value=res.data.options
                 makeChart(userProd.value, userOpt.value)
@@ -70,7 +69,6 @@ export const useProductStore = defineStore('product', () => {
             }
         ]
         for (const prod in prods) {
-            console.log(1)
             labels.push(prods[prod][0].fin_prdt_nm)
             datasets[0].data.push(opts[prod].intr_rate)
             datasets[1].data.push(opts[prod].intr_rate2)
@@ -80,11 +78,5 @@ export const useProductStore = defineStore('product', () => {
             datasets:datasets,
         }
     }
-    watch((userProd.value, userOpt.value), (newVal) => {
-        console.log(newVal)
-    })
-    watch(chartInfo, (newVal) => {
-        console.log(newVal)
-    })
     return { signedProductsInfo, userProd, userOpt, chartInfo}
 })

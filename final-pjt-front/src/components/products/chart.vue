@@ -13,7 +13,6 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 const prodStore = useProductStore()
 const { chartInfo, userProd, userOpt  } = storeToRefs(prodStore)
-console.log(chartInfo)
 const chartOptions= {
     responsive: true,
     maintainAspectRatio: false,

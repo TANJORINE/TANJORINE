@@ -10,8 +10,9 @@
             <p>연봉 : {{ salary }}</p>
             <p>결혼 :{{ married ? '기혼' : '미혼' }}</p>
             <p>주거래은행 : {{ main_bank }}</p>
-            <p>저축 성향 : {{ save_type }}</p>
+            <p>저축 성향 : {{ save_nm }}</p>
             <RouterLink :to="{ name: 'profileUpdate', props:data}">수정</RouterLink>
+            <RouterLink :to="{ name: 'passwordChange'}">비밀번호 변경</RouterLink>
         </div>
         <div class="col-7 m-5">
             <template v-for="prod in prodstore.userProd">
@@ -22,13 +23,16 @@
             <div>
                 <chart/>
             </div>
+            <div>
+                정보...
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
 import { RouterLink } from 'vue-router'
-import { ref, onMounted, onBeforeMount } from 'vue';
+import { ref, onMounted, onBeforeMount, computed } from 'vue';
 import { useUserStore } from '@/stores/user'
 import { useProductStore } from '@/stores/product'
 import chart from '@/components/products/chart.vue'
@@ -48,8 +52,14 @@ const salary = ref(null)
 const married = ref(null)
 const main_bank = ref(null)
 const save_type = ref(null)
+const save_nm = computed(() => {
+    if (save_type.value === 1) return '예금우선'
+    else if (save_type.value === 2) return '적금우선'
+    else if (save_type.value === 3) return '소비우선'
+    else if (save_type.value === 4) return '복합'
+})
 
-onBeforeMount(() => {
+const pageDataLoad = function() {
     axios({
       method: 'get',
       url: `http://127.0.0.1:8000/accounts/user/`,
@@ -70,8 +80,34 @@ onBeforeMount(() => {
         main_bank.value = res.data.main_bank
         save_type.value = res.data.save_type
         prodstore.signedProductsInfo(res.data.products.split(',').map(d=> d.split('/$')))
+        // 추천상품 받기
+        pageAlgoLoad()
     })
+}
+
+const pageAlgoLoad = function() {
+    const data = {
+        email: userstore.userEmail,
+        birth: birth.value.slice(0,4),
+        married: married.value,
+        save_type: save_type.value,
+        salary: salary.value,
+        money: money.value
+    }
+    console.log(data)
+    axios({
+      method: 'POST',
+      url: `http://127.0.0.1:8000/products/algo/`,
+      data: data
+    })
+}
+
+onBeforeMount(() => {
+    pageDataLoad()
+    
 })
+
+
 </script>
 
 <style scoped>

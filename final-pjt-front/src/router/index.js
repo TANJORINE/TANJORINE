@@ -10,6 +10,7 @@ import SignUpView from '@/views/accounts/SignUpView.vue';
 import LoginView from '@/views/accounts/LoginView.vue';
 import ProfileView from '@/views/accounts/ProfileView.vue';
 import ProfileUpdateView from '@/views/accounts/ProfileUpdateView.vue';
+import PasswordChangeView from '@/views/accounts/PasswordChangeView.vue';
 
 // 금융 상품관련
 import ProductView from '@/views/products/ProductView.vue';
@@ -63,6 +64,12 @@ const router = createRouter({
       name: 'profileUpdate',
       component: ProfileUpdateView,
     },
+    {
+      path: '/passwordChange',
+      name: 'passwordChange',
+      component: PasswordChangeView,
+    },
+
     // 금융 상품 관련
     {
       path: '/products',

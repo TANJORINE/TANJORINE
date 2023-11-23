@@ -59,3 +59,5 @@ class SavingOption(models.Model):
     intr_rate =         models.FloatField(null=True)               # 저축금리
     intr_rate2 =        models.FloatField(null=True)               # 최고우대금리
 
+class IntegratedProduct(models.Model):
+    code = models.CharField(max_length=30) # 타입 /$ 회사코드 /$ 상품코드

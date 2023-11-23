@@ -79,21 +79,25 @@ const makeRows = function (opts) {
 
 const onRowClick = function(params) {
     const row = params.row
-    console.log(product.value)
-    const check = confirm(`${row.rsrv_type_nm}개월 예치기간 옵션을 선택 하시겠습니까? \n ${row.intr_rate}% 기본 금리 / ${row.intr_rate2}% 최대 금리`)
+    const check = confirm(`${row.save_trm}개월 예치기간 옵션을 선택 하시겠습니까? \n ${row.intr_rate}% 기본 금리 / ${row.intr_rate2}% 최대 금리`)
     if (check) {
         const data = {
             user: user.userEmail,
-            code: `${route.params.type}/$${product.value.fin_co_no}/$${product.value.fin_prdt_cd
-}/$${row.id}`,
+            code: `${route.params.type}/$${product.value.fin_co_no}/$${product.value.fin_prdt_cd}/$`,
+            cpt_cd: row.id
         }
+        console.log(data)
         axios({
             method:'post',
             url: 'http://127.0.0.1:8000/products/signUpProd/',
             data: data,
         })
         .then((res) => {
-            console.log(res.data)
+            if (res.data.result === 'Done') {
+                alert('가입되었습니다!')
+            } else if (res.data.result === 'Already') {
+                alert('이미 가입한 상품입니다.')
+            }
         })
     } else {
         return

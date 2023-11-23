@@ -98,8 +98,9 @@ with open(save_dir, 'w', encoding="utf-8") as f:
             'phone': '',
             'address': '',
             'products': ','.join([random.choice(financial_products) for _ in range(random.randint(0, 5))]), # 금융 상품 리스트
-            'money': random.randrange(0, 100000000, 100000),    # 현재 가진 금액
-            'salary': random.randrange(0, 1500000000, 1000000), # 연봉
+            'money': random.randrange(0, 1500000000, 1000000),    # 현재 가진 금액
+            'salary': random.randrange(0, 100000000, 1000000), # 연봉
+            'married': random.choice([True, False]),
             'main_bank': "",
             'save_type': random.randint(1, 4),
             'is_active': True,
