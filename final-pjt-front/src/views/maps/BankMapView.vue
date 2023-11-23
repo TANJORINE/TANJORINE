@@ -1,48 +1,55 @@
 <template >
   <div class="container">
-    <div class="row g-3">
+    <h2 class="page-title">내 주변 은행</h2>
+    <div class="row g-2">
 
 
-  <h2 class="title">내 주변 은행</h2>
   <div id="left-container" class="box col-4 col-sm-12 col-md-6 col-lg-4">
-  <div id="search-bar">
-    <div @click="selectOrSearch('select')">지역 선택</div>
-    <div @click="selectOrSearch('search')">직접 검색</div>
-  </div>
-  <div v-if="findBankMethod" id="select-bank">
-    <div> <!-- (시도 시군구) (은행) div -->
-      <div> <!-- 시도 시군구 div -->
-        <label for="sido"></label>
-        <select v-model="siDo" @change="changeSido" name="sido" id="sido">
-          <option value="" selected>시/도</option>
-          <option v-for="sido in store.siDo" :value="sido">
-            {{ sido.name }}
-          </option>
-        </select>
-        
-        <label for="sigungu"></label>
-        <select v-model="siGunGu" name="sigungu" id="sigungu">
-          <option value="" selected>시/군/구</option>
-          <option v-for="sigungu in store.siGunGu" :value="sigungu">
-            {{ sigungu }}
-          </option>
-        </select>
-      </div> <!-- 시도 시군구 div -->
-        
-      <label for="bank"></label>
-      <select v-model="bank" name="bank" id="bank">
-        <option value="" selected>은행</option>
-        <option v-for="bank in store.banks" :value="bank">
-          {{ bank }}
-        </option>
-      </select>
-    </div> <!-- (시도 시군구) (은행) div -->
-    <button class="select-button btn btn-secondary" @click="search(siDo.name + ' ' + siGunGu + ' ' + bank)">검색</button>
-  </div> <!-- "select-bank" -->
-  <div v-else id="search-bank">
-    <input class="input-bank" type="text" v-model="inputBank">
-    <button class="search-button btn btn-secondary" @click="search(inputBank)">검색</button>
-  </div> <!-- "search-bank" -->
+    <div class="search-bank-box">
+
+      <ul class="nav nav-underline" id="search-bar">
+        <li class="nav-item" @click="selectOrSearch('select')">
+          <div class="nav-link" style="color: black;">지역 선택</div>
+        </li>
+        <li class="nav-item" @click="selectOrSearch('search')">
+          <div class="nav-link" style="color: black;">직접 검색</div>
+        </li>
+      </ul>
+      <div v-if="findBankMethod" id="select-bank">
+        <div> <!-- (시도 시군구) (은행) div -->
+          <div> <!-- 시도 시군구 div -->
+            <label for="sido"></label>
+            <select v-model="siDo" @change="changeSido" name="sido" id="sido">
+              <option value="" selected>시/도</option>
+              <option v-for="sido in store.siDo" :value="sido">
+                {{ sido.name }}
+              </option>
+            </select>
+            
+            <label for="sigungu"></label>
+            <select v-model="siGunGu" name="sigungu" id="sigungu">
+              <option value="" selected>시/군/구</option>
+              <option v-for="sigungu in store.siGunGu" :value="sigungu">
+                {{ sigungu }}
+              </option>
+            </select>
+          </div> <!-- 시도 시군구 div -->
+            
+          <label for="bank"></label>
+          <select v-model="bank" name="bank" id="bank">
+            <option value="" selected>은행</option>
+            <option v-for="bank in store.banks" :value="bank">
+              {{ bank }}
+            </option>
+          </select>
+        </div> <!-- (시도 시군구) (은행) div -->
+        <button class="select-button btn btn-secondary" @click="search(siDo.name + ' ' + siGunGu + ' ' + bank)">검색</button>
+      </div> <!-- "select-bank" -->
+      <div v-else id="search-bank">
+        <input class="input-bank" type="text" v-model="inputBank">
+        <button class="search-button btn btn-secondary" @click="search(inputBank)">검색</button>
+      </div> <!-- "search-bank" -->
+    </div> <!-- "search-bank-box" -->
   <div class="list-group list-group-flush" id="bankList"></div>
   </div> <!-- "left-container" -->
   <!-- <div class="box col-1">
@@ -50,16 +57,18 @@
   </div> -->
     <div id="right-container" class="box col-8 col-sm-12 col-md-6 col-lg-8">
 
-
-      <div id="map-container">
-        <div id="map"></div>
+      <div id="detail-bank">
         <div id="placeInfoWindow"> <!-- placeInfo -->
-
+  
             <div id="placeInfo" class="card">  <!-- openPlaceInfo -->
             </div>
-
+  
           <p id="closePlaceInfo" @click="closePlaceInfo"></p>
         </div>
+
+      </div>
+      <div id="map-container">
+        <div id="map"></div>
       </div>
       <!-- <div id="bankList"></div> -->
       </div> <!-- "right-container" -->
@@ -327,17 +336,14 @@ onMounted(() => {
 
 
 <style scoped>
-.title{
-    display: flex;
-    justify-content: center;
-}
-#left-side{
+/* #left-side{
   width: 300px;
-  /* 부트스트랩으로 비율 조정하기! 1:3 (col-3, col-9)*/
-  /* height: 100%; */
 }
 #right-container{
-  
+}
+   */
+.search-bank-box{
+  height: 200px;
 }
 #search-bar{
   display: flex;
@@ -390,7 +396,9 @@ onMounted(() => {
 
 
 
-
+#detail-bank{
+  height: 200px;
+}
 #map-container {
   position:relative;
   display: flex;
@@ -398,7 +406,7 @@ onMounted(() => {
 #map {
   width: 100%;
   /* width: 600px; */
-  height: 400px;
+  height: 500px;
 }
 select{
   width: 200px;

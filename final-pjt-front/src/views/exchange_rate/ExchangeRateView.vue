@@ -9,11 +9,12 @@
     "deal_bas_r":"303.39",  # 매매기준율
     -->
 <div class="container">
-    <h2 class="title">환율 계산기</h2>
+    <h2 class="page-title" style="margin-bottom: 10px;">환율 계산기</h2>
+    <div class="row g-2">
     <div class="content-box">
 
-    <div class="select-countries">
-        <div class="select-country">
+    <div class="select-countries box col-12 row g-2">
+        <div class="select-country box col-md-lg-6">
             <select v-model="country1" class="select-box form-select" aria-label="Large select example">
             <!-- <select v-model="country1" class="select-box"> -->
                 <option value="" selected>선택1</option>
@@ -39,7 +40,7 @@
             
             </div> <!-- country-box -->
         </div> <!-- "select-country" -->
-        <div class="select-country">
+        <div class="select-country box col-md-lg-6">
             <select v-model="country2" class="select-box form-select" aria-label="Large select example">
             <!-- <select v-model="country2" class="select-box"> -->
                 <option value="" selected>선택2</option>
@@ -65,8 +66,9 @@
             </div>  <!-- country-box -->
         </div> <!-- "select-country" --> 
     </div> <!-- "select-countryies" -->
-    <p id="explanation">* 엔화, 인도네시아 루피아는 100 단위, 나머지는 모두 1 단위</p>
+    <p class="box col-12" id="explanation">* 엔화, 인도네시아 루피아는 100 단위, 나머지는 모두 1 단위</p>
 </div> <!-- "content-box" -->
+</div>
 </div> <!-- "container" -->
 </template>
 
@@ -152,10 +154,6 @@ onMounted(() => {
 .content-box {
     display: flex;
     flex-direction: column;
-}
-.title{
-    display: flex;
-    justify-content: center;
 }
 .select-countries {
     display: flex;

@@ -1,26 +1,28 @@
 <template>
-  <div>
-    <h1>게시글 생성</h1>
+  <div class="container">
+    <h1 class="page-title">게시글 생성</h1>
     <form @submit.prevent="createArticle">
       <div>
-        <label for="category">카테고리:
-          <select v-model="category" name="category" id="category">
-          <!-- <select v-model="siDo" @change="changeSido" name="sido" id="sido"> -->
+        <label for="category"></label>
+          <select class="form-select form-select-sm" aria-label="Small select example" v-model="category" name="category" id="category">
+            <option value="" selected>카테고리 선택</option>
             <option v-for="category in store.categories" :value="category">
               <p>{{ category.name }}</p>
             </option>
           </select>
-        </label>
+        
       </div>
       <div>
-        <label for="title">제목:</label>
-        <input type="text" v-model.trim="title" id="title">
+        <label for="title">제목</label>
+        <input class="form-control" type="text" v-model.trim="title" id="title">
       </div>
       <div>
-        <label for="content">내용:</label>
-        <textarea v-model.trim="content" id="content"></textarea>
+        <label for="content">내용</label>
+        <textarea class="form-control" v-model.trim="content" id="content"></textarea>
       </div>
-      <input type="submit">
+      <div id="post-button">
+        <input class="btn btn-dark" style="color:white;" type="submit" value="등록">
+      </div>
     </form>
   </div>
 </template>
@@ -37,7 +39,7 @@ const content = ref(null)
 const store = useCommunityStore()
 const userStore = useUserStore()
 const router = useRouter()
-const category = ref(null)
+const category = ref('')
 
 console.log(userStore.token)
 
@@ -77,6 +79,25 @@ onMounted(() => {
 
 </script>
 
-<style>
-
+<style scoped>
+#category{
+  margin: 5px;
+  width: 200px;
+}
+#title{
+  margin: 5px;
+  width: 100%;
+}
+#content{
+  margin: 5px;
+  width: 100%;
+  height: 300px;
+}
+label{
+  margin: 5px;
+}
+#post-button{
+  display: flex;
+  justify-content: end;
+}
 </style>

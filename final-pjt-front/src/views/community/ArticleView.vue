@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <h1>게시글 조회</h1>
+  <div class="container">
     <!-- <div id="mainCategories">
       <div v-for="category in store.categories">
         <div v-if="category.main_category">
@@ -8,15 +7,24 @@
         </div>
       </div>
     </div> -->
-    <div v-if="isStaff">  
-      <div>
-        <RouterLink :to="{ name: 'createCategory' }">[카테고리 관리]</RouterLink>
+    <div id="community-nav">
+      <div v-if="isStaff" class="community-nav-item btn btn-light">
+        <RouterLink class="nav-item-1" :to="{ name: 'createCategory' }">카테고리 관리</RouterLink>
       </div>
+      <div v-if="loginUser" class="community-nav-item btn btn-light">
+        <RouterLink class="nav-item-1" :to="{ name: 'create' }">글 작성</RouterLink>
+      </div>
+      <select v-model="selectCate" class="community-nav-item">
+        <option selected>전체</option>
+        <option v-for="category in store.categories" :value="category">
+          <p>{{ category.name }}</p>
+        </option>
+      </select>
     </div>
-    <div v-if="loginUser">
-      <RouterLink :to="{ name: 'create' }">[글 작성]</RouterLink>
-    </div>
-    <ArticleList/>
+    <hr style="margin: 0 0 1rem;">
+    <ArticleList
+    :cate = selectCate
+    />
   </div>
 </template>
 
@@ -34,6 +42,9 @@ const userStore = useUserStore()
 
 const loginUser = ref(null)
 const isStaff = ref(false)
+
+const selectCate = ref("전체")
+
 
 onMounted(() => {
   store.getArticles()
@@ -56,6 +67,18 @@ onMounted(() => {
 })
 </script>
 
-<style>
-
+<style scoped>
+#community-nav{
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px;
+}
+.community-nav-item{
+  margin: 5px;
+  font-size: 12px;
+}
+.nav-item-1{
+  text-decoration: none;
+  color: black;
+}
 </style>

@@ -10,11 +10,21 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 // import 'vuetify/dist/vuetify.min.css'
 // import vuetify from './plugins/vuetify'
 
+import "vuetify/styles";
+import { createVuetify } from "vuetify";
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
+
 // table
 import VueGoodTablePlugin from 'vue-good-table-next';
 import 'vue-good-table-next/dist/vue-good-table-next.css'
 
 
+
+const vuetify = createVuetify({
+    components,
+    directives,
+});
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -22,7 +32,7 @@ pinia.use(piniaPluginPersistedstate);
 app.use(VueGoodTablePlugin);
 app.use(pinia);
 app.use(router);
-// app.use(Vuetify);
+app.use(vuetify);
 // Vue.use(Vuetify)
 app.mount('#app');
 // new Vue({
