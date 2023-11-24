@@ -20,8 +20,6 @@ class DepositProduct(models.Model):
 
 class DepositOption(models.Model):
     dcls_month =        models.CharField(max_length=30)            # 공시제출월
-    # fin_co_no       = models.CharField(max_length=30)             # 금융회사코드
-    # fin_prdt_cd     = models.CharField(max_length=30)             # 금융상품코드
     product =           models.ForeignKey(DepositProduct, on_delete=models.CASCADE, related_name='option')
     intr_rate_type =    models.CharField(max_length=30, null=True) # 저축금리유형
     intr_rate_type_nm = models.CharField(max_length=30, null=True) # 저축금리유형명
@@ -49,8 +47,6 @@ class SavingProduct(models.Model):
 class SavingOption(models.Model):
     dcls_month =        models.CharField(max_length=30)            # 공시제출월
     product =           models.ForeignKey(SavingProduct, on_delete=models.CASCADE, related_name='option')
-    # fin_co_no       = models.CharField(max_length=30)             # 금융회사코드
-    # fin_prdt_cd     = models.CharField(max_length=30)             # 금융상품코드
     intr_rate_type =    models.CharField(max_length=30, null=True) # 저축금리유형
     intr_rate_type_nm = models.CharField(max_length=30, null=True) # 저축금리유형명
     rsrv_type =         models.CharField(max_length=30, null=True) # 적립유형

@@ -92,18 +92,26 @@ def signedProd(request):
 
 @api_view(['POST'])
 def signUpProd(request):
+    print
     userProd = get_user_model().objects.filter(email=request.data['user']).values_list('products')
     data = {
         'message': 'OK!'
     }
-    if request.data['code'] in userProd[0][0]:
-        data['result'] = 'Already'
+
+    if userProd:
+        if request.data['code'] in userProd[0][0]:
+            data['result'] = 'Already'
+        else:
+            userData = get_user_model().objects.get(email=request.data['user'])
+            if userProd[0][0] == '':
+                userData.products += request.data['code'] + str(request.data['cpt_cd'])
+            else:
+                userData.products += ',' + request.data['code'] + str(request.data['cpt_cd'])
+            userData.save()
+            data['result'] = 'Done'
     else:
         userData = get_user_model().objects.get(email=request.data['user'])
-        if userProd[0][0] == '':
-            userData.products += request.data['code'] + str(request.data['cpt_cd'])
-        else:
-            userData.products += ',' + request.data['code'] + str(request.data['cpt_cd'])
+        userData.products += request.data['code'] + str(request.data['cpt_cd'])
         userData.save()
         data['result'] = 'Done'
     return Response(data)
