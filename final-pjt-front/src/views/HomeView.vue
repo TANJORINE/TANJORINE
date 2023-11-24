@@ -1,7 +1,7 @@
 <template>
     <div id="carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-inner">
-            <div class="neworange carousel-item active d-flex align-items-center justify-content-evenly" >
+            <div class="neworange carousel-item active d-flex align-items-center justify-content-evenly" @click.prevent="router.push({ name: 'products'})">
                 <div class="d-flex flex-column align-items-center">
                     <img src="../assets/profits.png" width="450" alt="" class="m-3">
                     <h2>"아아...이건 <span class="han-sans">[예금]</span> 이라는거다.."</h2>
@@ -13,14 +13,14 @@
                     <h2>"그럼 <span class="han-sans">[적금]</span>으로 가라.."</h2>
                 </div>
             </div>
-            <div class="ivory carousel-item item-box d-flex align-items-center justify-content-evenly" >
+            <div class="ivory carousel-item item-box d-flex align-items-center justify-content-evenly" @click.prevent="router.push({ name: 'exchangeRate' })">
                 <div class="d-flex flex-column align-items-center">
                     <img src="../assets/forex.png" width="450" alt="" class="m-3">
                     <h2>돈으로 돈을 사도</h2>
                     <h4><span class="han-sans">'저렴'</span>할 때 사야지..</h4>
                 </div>
             </div>
-            <div class="congobrown carousel-item item-box d-flex align-items-center justify-content-evenly" >
+            <div class="congobrown carousel-item item-box d-flex align-items-center justify-content-evenly" @click.prevent="router.push({ name: 'bankMap' })">
                 <div class="d-flex flex-column align-items-center">
                     <img src="../assets/bank.png" width="450" alt="" class="m-3">
                     <h2 class="text-info han-sans">원하는 은행</h2>
@@ -40,6 +40,9 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
 </script>
 
 <style scoped>

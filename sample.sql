@@ -7,6 +7,7 @@
 SELECT * FROM accounts_user WHERE products LIKE ('%D/$0010389/$24%')
 
 UPDATE accounts_user SET products = '' WHERE email='k97115284@gmail.com'
+UPDATE accounts_user SET is_staff=1, is_superuser=1 WHERE email='k97115284@gmail.com'
 
 SELECT product_id FROM products_depositoption WHERE id = '516'
 SELECT * FROM products_depositproduct WHERE id = (SELECT product_id FROM products_depositoption WHERE id = '560')
