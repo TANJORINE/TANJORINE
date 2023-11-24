@@ -44,7 +44,7 @@
         <button class="select-button btn btn-secondary brown" @click="search(siDo.name + ' ' + siGunGu + ' ' + bank)">검색</button>
       </div> <!-- "select-bank" -->
       <div v-else id="search-bank">
-        <input class="input-bank" type="text" v-model="inputBank">
+        <input class="input-bank" @keyup.enter="search(inputBank)" type="text" v-model="inputBank">
         <button class="search-button btn btn-secondary brown" @click="search(inputBank)">검색</button>
       </div> <!-- "search-bank" -->
     </div> <!-- "search-bank-box" -->
@@ -315,7 +315,6 @@ const siDo = ref('')
 const siGunGu = ref('')
 const bank = ref('')
 
-// const details = ref([])
 
 const changeSido = function() {
     store.getSiGunGu(siDo.value.code.slice(0, 2))
@@ -331,17 +330,18 @@ onMounted(() => {
 
 
 <style scoped>
+.container{
+  padding: 50px;
+}
 .search-bank-box{
   height: 160px;
 }
 #search-bar{
   display: flex;
   justify-content: space-evenly;
-  /* width: 300px; */
 }
 #select-bank{
   display: flex;
-  /* width: 300px; */
   height: 100px;
 
   flex-direction: row;
@@ -353,7 +353,6 @@ onMounted(() => {
   height: 100px;
   justify-content: space-evenly;
   align-items: center;
-  /* width: 300px; */
 }
 #sido{
   width: 140px;
@@ -368,44 +367,29 @@ onMounted(() => {
 #bank{
   width: 100%;
   margin-top: 5px;
-  /* width: 200px; */
   font-size: 15px;
 }
 .select-button{
   height: 45px;
 }
 .search-button{
-  /* height: 45px; */
-  /* height: 20px; */
   height: 40px;
 }
 .input-bank{
-  /* width: 70%;
-  height: 40px;
-  font-size: 13px; */
   width: 260px;
   margin-right: 20px;
 }
-/* #left-container{
-  border-radius: 5px;
-  box-shadow: 2px 2px 3px #6C5F5B;
-} */
-/* #right-container{
-  border-radius: 5px;
-  box-shadow: 2px 2px 3px #6C5F5B;
-} */
 #bankList{
   border-radius: 15px;
   margin: 0px 5px;
   padding: 15px;
-  height: 550px;
+  height: 600px;
   overflow-y: scroll;
   background-color: white;
 }
 
 #detail-bank{
-  /* border-radius: 15px; */
-  height: 200px;
+  height: 160px;
   width: 100%;
   overflow-x: scroll;
   display: flex;
@@ -417,33 +401,14 @@ onMounted(() => {
 }
 #map {
   width: 100%;
-  /* width: 600px; */
-  height: 500px;
-  margin-top: 10px;
+  height: 600px;
+  border-radius: 10px;
+  /* margin-top: 10px; */
 }
 select{
   width: 200px;
 }
-.placeInfoTest {
-  display: flex;
-  justify-content: center;
-  /* position:absolute; */
-  top:0px;
-  /* top:100px; */
-  left:0;
-  bottom:0;
-  width: 250px;
-  height: 150px;
-  /* height : x */
-  margin:10px 0 30px 10px;
-  padding:15px;
-  overflow-y:auto;
-  /* background:rgba(255, 255, 255, 0.7); */
-  /* background:rgba(167, 188, 243, 0.7); */
-  /* font-size:12px; */
-  border-radius: 10px;
-  /* border: 1px black solid;   */
-}
+
 .placeInfo {
   display: flex;
   justify-content: center;
@@ -454,7 +419,6 @@ select{
   height: 150px;
   margin:0px 3px;
   padding: 0px 5px;
-  /* overflow-y:auto; */
   border-radius: 10px;
 }
 .detail-content{
@@ -462,16 +426,7 @@ select{
 }
 #placeInfoWindow{
   display: flex;
-  /* position: absolute; */
-}
-#closePlaceInfo{
-  /* color: rgba(0, 0, 0, 0); */
-  /* position: absolute; */
-}
-.infoPTag{
+}.infoPTag{
   margin-bottom: 0px;
 }
-/* .bg_white {
-  background:#fff;
-} */
 </style>

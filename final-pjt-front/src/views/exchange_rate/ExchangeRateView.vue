@@ -6,10 +6,9 @@
     <div class="select-countries box col-12 row g-2">
         <div class="select-country box col-md-lg-6">
             <select v-model="country1" class="select-box form-select" aria-label="Large select example">
-            <!-- <select v-model="country1" class="select-box"> -->
                 <option value="" selected>선택1</option>
                 <option v-for="country1 in store.countries" :key="country1.cur_unit" :value="country1">
-                        {{ country1.cur_nm.split(' ')[0] }}({{ country1.cur_unit }})
+                    {{ country1.cur_nm.split(' ')[0] }}({{ country1.cur_unit }})
                 </option>
             </select>
             <div class="country-box">
@@ -32,7 +31,6 @@
         </div> <!-- "select-country" -->
         <div class="select-country box col-md-lg-6">
             <select v-model="country2" class="select-box form-select" aria-label="Large select example">
-            <!-- <select v-model="country2" class="select-box"> -->
                 <option value="" selected>선택2</option>
                 <option v-for="country2 in store.countries" :key="country2.cur_unit" :value="country2">
                         {{ country2.cur_nm.split(' ')[0] }}({{ country2.cur_unit }})
@@ -81,7 +79,6 @@ const changeCost1 = function() {
         inputCost2.value = inputCost1.value*country1.value.deal_bas_r.replace(',', '')/country2.value.deal_bas_r.replace(',', '')
     }
     inputCost2.value = Math.round(inputCost2.value * 100) / 100
-
 }
 
 
@@ -144,6 +141,7 @@ onMounted(() => {
 .content-box {
     display: flex;
     flex-direction: column;
+    margin-top: 50px;
 }
 .select-countries {
     display: flex;
@@ -167,9 +165,6 @@ onMounted(() => {
     display: flex;
     justify-content: center
     /* position: absolute; */
-}
-.country-box{
-    /* display: flex; */
 }
 .select-box{
     width: 185px;

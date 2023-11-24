@@ -1,7 +1,7 @@
 <template>
 <div v-if="Number(route.params.id) === comment.article.pk">
   <div id="comment-box">
-    <div style="margin-right: 15px; width: 15%; font-weight: 600;">🧑‍💻 {{ comment.user.username }}</div>
+    <div style="margin-right: 15px; width: 15%; font-weight: 600;">🙍‍♂️ {{ comment.user.username }}</div>
     <div v-if="comment.user.email === loginUser && loginUser !== null" style=" width: 85%;">
       <div v-if="showContent">
         <div class="content-box">

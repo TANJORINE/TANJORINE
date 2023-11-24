@@ -31,11 +31,11 @@
       <p class="date-and-author font-brown">작성일 : {{ article.created_at.slice(0, 10) }} | 작성자 : {{ article.user.username }}</p>
       <hr>
     </div>
-    <div v-else>
+    <!-- <div v-else>
       <div v-if="!Object.values(store.articles).filter((item) => item.category.name === cate.name).length">
         작성된 게시글이 없습니다.
       </div>
-    </div>
+    </div> -->
   </div>
   </div>
 </template>

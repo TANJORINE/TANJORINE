@@ -118,6 +118,9 @@ body, html {
 .orange {
   background-color: #FFA33C !important;
 }
+.neworange{
+  background-color: #ffd19c !important;
+}
 
 .font-basicWhite {
   color: #F6F1EE !important;
@@ -147,6 +150,11 @@ body, html {
 *{
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 400;
+}
+
+.han-sans{
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 50px;
 }
 
 ::-webkit-scrollbar {

@@ -19,7 +19,7 @@
       <div id="title">{{ article.title }}</div>
       <hr class="brown" style="height: 5px;">
       <div id="user-and-date">
-        <div style="margin-right: 15px;">🧑‍💻 {{ article.user.username }}</div>
+        <div style="margin-right: 15px;">🙍‍♂️ {{ article.user.username }}</div>
         <div>🕘 {{ article.created_at.slice(0, 10) + " (" + article.created_at.slice(11,19) + ")"}}</div>
       </div>
       <div id="article-content">{{ article.content }}</div>

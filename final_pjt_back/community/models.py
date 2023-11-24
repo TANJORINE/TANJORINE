@@ -4,7 +4,7 @@ from django.conf import settings
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
-    main_category = models.BooleanField(default=False)
+    # main_category = models.BooleanField(default=False)
 
 
 class Article(models.Model):
