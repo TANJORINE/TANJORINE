@@ -119,6 +119,31 @@ body, html {
   background-color: #FFA33C !important;
 }
 
+.font-basicWhite {
+  color: #F6F1EE !important;
+}
+
+.font-congobrown {
+  color: #4F4A45 !important;
+  
+}
+
+.font-brown {
+  color: #6C5F5B !important;
+}
+
+.font-orange {
+  color: #FFA33C !important;
+}
+
+.border-brown {
+  border: 1px solid #6C5F5B !important;
+}
+
+.shadow-orange{
+  box-shadow: 1px 1px 5px #FFA33C !important;
+}
+
 *{
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 400;

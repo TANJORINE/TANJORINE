@@ -1,15 +1,5 @@
 <template>
-    <!-- 
-    <select name="calcOption" id="calcOption">
-        <option value=""></option>
-    </select> 
-
-    "ttb":"300.35",  # 송금 받을 때
-    "tts":"306.42",  # 송금 보낼 때
-    "deal_bas_r":"303.39",  # 매매기준율
-    -->
 <div class="container">
-    <h2 class="page-title" style="margin-bottom: 10px;">환율 계산기</h2>
     <div class="row g-2">
     <div class="content-box">
 

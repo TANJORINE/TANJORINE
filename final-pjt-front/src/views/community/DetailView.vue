@@ -1,51 +1,49 @@
 <template>
-  <div>
-    <h1>게시글 상세</h1>
-    <RouterLink :to="{ name: 'articles' }">
-        <p>게시글 목록</p>
-      </RouterLink>
-    <!-- <p>{{ user }}</p> -->
-
+  <div class="container">
     <div v-if="article">
-      <div v-if="article.category">
-        <p>[ 카테고리 : {{ article.category.name }} ]</p>
+    <div id="button-box">
+      <RouterLink class="custom-btn btn" :to="{ name: 'articles' }">목록</RouterLink>
+      <!-- article.value.user.email => 변수 만들어 쓰니까 새로고침 해야 뜸 -->
+      <div v-if="article.user.email === loginUser && loginUser !== null">
+        <RouterLink :to="{ name: 'update', params: {id: article.id} }">
+          <button class="custom-btn btn" style="margin-right: 3px;">수정</button>
+        </RouterLink>
+        <button class="custom-btn btn" @click="deleteArticle">삭제</button>
       </div>
-      <p>제목 : {{ article.title }}</p>
-      <p>내용 : {{ article.content }}</p>
-      <p>작성자 : {{ article.user.username }}</p>
-      <p>작성일 : {{ article.created_at.slice(0, 10) + " " + article.created_at.slice(11,19)}}</p>
-      <p>수정일 : {{ article.updated_at.slice(0, 10) + " " + article.updated_at.slice(11,19)}}</p>
+    </div>
+
+      <div style="margin: 30px 0px 20px;">
+        <div class="font-brown" style="font-size: 12px;">카테고리</div>
+        <div class="font-brown" style="font-weight: 500;">{{ article.category.name }}</div>
+      </div>
+      <div id="title">{{ article.title }}</div>
+      <hr class="brown" style="height: 5px;">
+      <div id="user-and-date">
+        <div style="margin-right: 15px;">🧑‍💻 {{ article.user.username }}</div>
+        <div>🕘 {{ article.created_at.slice(0, 10) + " (" + article.created_at.slice(11,19) + ")"}}</div>
+      </div>
+      <div id="article-content">{{ article.content }}</div>
     
 
-    <!-- article.value.user.email => 변수 만들어 쓰니까 새로고침 해야 뜸 -->
-    <div v-if="article.user.email === loginUser && loginUser !== null">
-      <RouterLink :to="{ name: 'update', params: {id: article.id} }">
-        <button>수정</button>
-      </RouterLink>
-      <button @click="deleteArticle">삭제</button>
-    </div>
-      <hr>
-      <h2>댓글 [{{ article.comment_count }}]</h2>
-      <br>
-      <div v-if="loginUser">
-
-        <h3>작성하기</h3>
-        <form @submit.prevent="createComment">
-          <div>
-            <label for="content">내용:</label>
-            <textarea v-model.trim="content" id="content"></textarea>
-          </div>
-          <input type="submit">
-        </form>
+      <div id="comment-box">
+        <div style="display: flex; align-items: flex-end; font-size: 19px; font-weight: 500;">댓글 <div style="font-size: 14px;"> ({{ article.comment_count }})</div></div>
+        <br>
+        <div v-if="loginUser">
+          <form @submit.prevent="createComment">
+            <div id="write-comment">
+              <label for="content"></label>
+              <textarea class="form-control" placeholder="댓글을 입력해주세요." v-model.trim="content" id="content"></textarea>
+              <input class="btn btn-dark brown border-brown" style="color:white; margin-left: 5px;" type="submit" value="등록">
+            </div>
+          </form>
+        </div>
+        <div v-else>
+          <p>로그인 후 이용해주세요.</p>
+        </div>
+        <CommentList/>
       </div>
-      <div v-else>
-        <p>로그인 후 이용해주세요.</p>
-
-      </div>
-      <CommentList/>
-
     </div>
-  </div>
+  </div> <!-- "container" -->
 </template>
 
 <script setup>
@@ -135,6 +133,48 @@ onMounted(() => {
 })
 </script>
 
-<style>
+<style scoped>
+#button-box{
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.custom-btn{
+  margin: 10px 0px;
+  font-size: 13px;
+  border-radius:5px;
+  background-color: white;
 
+  text-decoration: none;
+  color: black;
+}
+#title{
+  font-size: 30px;
+  font-weight: 800;
+  text-decoration: none;
+  color: black;
+}
+#user-and-date{
+  display: flex;
+  margin-bottom: 20px;
+}
+#article-content{
+  border-radius: 8px;
+  /* margin: 20px 0px; */
+  background-color: white;
+  padding: 15px;
+  font-size: 16px;
+  margin: 5px 2px;
+  height: 300px;
+  overflow-y: scroll;
+}
+#comment-box{
+  /* border-radius: 8px; */
+  margin: 20px 0px;
+  padding: 15px;
+}
+#write-comment{
+  display: flex;
+  justify-content: end;
+}
 </style>

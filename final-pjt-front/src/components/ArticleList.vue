@@ -1,47 +1,34 @@
 <template>
   <div>
-    <!-- <ArticleListItem 
-      v-for="article in store.articles"
-      :key="article.id"
-      :articles="store.articles"
-      :article="article"
-      :cate="selectCate"
-    /> -->
-
-    <!-- <div v-for="article in store.articles" :value="article.category.pk">
-
-      {{ article }}
-    </div>
-
-    <div v-for="category in store.categories">
-      {{category}}
-    </div> -->
-
-    <!-- {{ store.article }} -->
-
     <div v-for="article in store.articles">
       <div v-if="cate === '전체'">
       <div v-if="article">
-        <p class="article-num">No. {{ article.id }}</p>
-        <RouterLink class="title" :to="{ name: 'detail', params: { id: article.id } }">
+        <div id="num-and-cate">
+          <div class="article-num font-brown">No. {{ article.id }}</div>
+          <div class="article-num font-brown">{{ article.category.name }}</div>
+        </div>
+        <RouterLink class="title font-congobrown" :to="{ name: 'detail', params: { id: article.id } }">
           {{ article.title }}
         </RouterLink>
         <p class="content">{{ article.content.length>20?article.content.slice(0, 20) + '...':article.content }}</p>
-        <p class="date-and-author">작성일 : {{ article.created_at.slice(0, 10) }} | 작성자 : {{ article.user.username }}</p>
+        <p class="date-and-author font-brown">작성일 : {{ article.created_at.slice(0, 10) }} | 작성자 : {{ article.user.username }}</p>
         <hr>
       </div>
       <div v-else>
         작성된 게시글이 없습니다.
       </div>
-    </div>
+    </div>  
 
     <div v-else-if="cate.name === article.category.name">
-      <p class="article-num">No. {{ article.id }}</p>
-      <RouterLink class="title" :to="{ name: 'detail', params: { id: article.id } }">
+      <div id="num-and-cate">
+        <div class="article-num font-brown">No. {{ article.id }}</div>
+        <div class="article-num font-brown">{{ article.category.name }}</div>
+      </div>
+      <RouterLink class="title font-congobrown" :to="{ name: 'detail', params: { id: article.id } }">
         {{ article.title }}
       </RouterLink>
       <p class="content">{{ article.content.length>20?article.content.slice(0, 20) + '...':article.content }}</p>
-      <p class="date-and-author">작성일 : {{ article.created_at.slice(0, 10) }} | 작성자 : {{ article.user.username }}</p>
+      <p class="date-and-author font-brown">작성일 : {{ article.created_at.slice(0, 10) }} | 작성자 : {{ article.user.username }}</p>
       <hr>
     </div>
     <div v-else>
@@ -55,7 +42,6 @@
 
 <script setup>
 import { useCommunityStore } from '@/stores/community';
-// import ArticleListItem from '@/components/ArticleListItem.vue'
 import { onMounted } from 'vue';
 
 const store = useCommunityStore()
@@ -70,25 +56,28 @@ onMounted(() => {
 </script>
 
 <style scoped>
+#num-and-cate{
+  display: flex;
+  justify-content: space-between;
+}
 .article-num{
-  font-size: 12px;
+  font-size: 12.5px;
   color: gray;
   margin: 10px 0px;
 }
 .title{
-  font-size: 20px;
-  /* margin: 0px; */
-  font-weight: 1000;
+  font-size: 21px;
+  font-weight: 800;
   text-decoration: none;
   color: black;
 }
 .content{
   font-size: 15px;
-  margin: 0px;
+  margin: 5px 2px;
 }
 .date-and-author{
   text-align: end;
-  font-size: 12px;
+  font-size: 13.5px;
   color: gray;
   margin: 0px;
 }

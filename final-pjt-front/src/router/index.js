@@ -22,7 +22,6 @@ import DetailView from '@/views/community/DetailView.vue'
 import CreateView from '@/views/community/CreateView.vue'
 import UpdateArticleView from '@/views/community/UpdateArticleView.vue'
 import CreateCategoryView from '@/views/community/CreateCategoryView.vue'
-import CategoryDetailView from '@/views/community/CategoryDetailView.vue'
 
 
 const router = createRouter({
@@ -109,11 +108,6 @@ const router = createRouter({
       name: 'createCategory',
       component: CreateCategoryView
     },
-    {
-      path: '/category/:pk',
-      name: 'category',
-      component: CategoryDetailView
-    }
   ]
 })
 

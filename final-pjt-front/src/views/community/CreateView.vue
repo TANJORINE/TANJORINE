@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <h1 class="page-title">게시글 생성</h1>
     <form @submit.prevent="createArticle">
       <div>
         <label for="category"></label>
@@ -13,15 +12,15 @@
         
       </div>
       <div>
-        <label for="title">제목</label>
+        <label for="title" class="font-brown" style="font-size:17px; font-weight: 500;">제목</label>
         <input class="form-control" type="text" v-model.trim="title" id="title">
       </div>
       <div>
-        <label for="content">내용</label>
+        <label for="content" class="font-brown" style="font-size:17px; font-weight: 500;">내용</label>
         <textarea class="form-control" v-model.trim="content" id="content"></textarea>
       </div>
       <div id="post-button">
-        <input class="btn btn-dark" style="color:white;" type="submit" value="등록">
+        <input class="btn btn-dark brown border-brown" style="color:white;" type="submit" value="등록">
       </div>
     </form>
   </div>

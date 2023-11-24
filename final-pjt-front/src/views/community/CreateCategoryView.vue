@@ -10,18 +10,12 @@
                     <input type="text" class="form-control" placeholder="카테고리 이름" name="create-category" id="create-category" v-model.trim="name" aria-describedby="button-addon2">
                     <button class="btn btn-outline-secondary" type="submit" id="button-addon2">생성</button>
                 </div>
-                <!-- <input type="text" name="create-category" id="create-category" v-model.trim="name"> -->
-                <!-- <br> -->
-                <!-- <label for="mainCate">메인 카테고리</label>
-                <input type="checkbox" name="mainCate" id="mainCate" v-model="mainCate"> -->
-                <!-- <br> -->
-                <!-- <input type="submit" value="카테고리 생성"> -->
             </form>
-        </div>
-        <div>
             <br>
             <p class="cate-page-title">카테고리 목록</p>
             <CategoryList/>
+        </div>
+        <div>
         </div>
     </div>
     <div v-else>
@@ -58,7 +52,6 @@ const createCategory = function() {
         })
         .then((res) => {
             router.go()
-        // router.push({ name: 'articles' })
         console.log(res)
         })
         .catch((err) => {
@@ -98,7 +91,9 @@ onMounted(() => {
     flex-direction: column;
 }
 .cate-page-title{
+    margin-top: 10px;
+    font-weight: 600;
     font-size: 20px;
-    font-weight: 500;
 }
+
 </style>
